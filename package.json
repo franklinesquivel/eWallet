@@ -1,0 +1,27 @@
+{
+  "name": "eWallet",
+  "version": "1.0.0",
+  "description": "Aplicación Front-End que ayudará a diferentes usuarios a llevar un récord histórico de sus ingresos y sus gastos.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franklinesquivel/eWallet.git"
+  },
+  "keywords": [],
+  "author": "Franklin Esquivel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/franklinesquivel/eWallet/issues"
+  },
+  "homepage": "https://github.com/franklinesquivel/eWallet#readme",
+  "devDependencies": {
+    "express": "^4.15.4",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.12.1",
+    "open": "0.0.5",
+    "path": "^0.12.7"
+  }
+}

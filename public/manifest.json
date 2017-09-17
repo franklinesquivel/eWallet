@@ -1,0 +1,13 @@
+{
+    "short_name": "eWallet",
+    "name": "eWallet: Sistema de gestión de gastos.",
+    "theme_color": "#2196F3",
+    "icons": [
+        {
+            "src": "/favicon.png",
+            "type": "image/ico",
+            "sizes": "48x48"
+        }
+    ],
+    "start_url": "index.html"
+}
