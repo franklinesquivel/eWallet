@@ -1765,8 +1765,8 @@ input[type=search].valid:not(.browser-default),
 input[type=search].valid:not(.browser-default):focus,
 textarea.materialize-textarea.valid,
 textarea.materialize-textarea.valid:focus {
-  border-bottom: 1px solid color("green", "base");
-  box-shadow: 0 1px 0 0 color("green", "base"); }
+  border-bottom: 1px solid #388E3C;
+  box-shadow: 0 1px 0 0 #388E3C; }
 
 input.invalid:not([type]), input.invalid:not([type]):focus,
 input[type=text].invalid:not(.browser-default),
@@ -1793,8 +1793,8 @@ input[type=search].invalid:not(.browser-default),
 input[type=search].invalid:not(.browser-default):focus,
 textarea.materialize-textarea.invalid,
 textarea.materialize-textarea.invalid:focus {
-  border-bottom: 1px solid color("red", "base");
-  box-shadow: 0 1px 0 0 color("red", "base"); }
+  border-bottom: 1px solid #C62828;
+  box-shadow: 0 1px 0 0 #C62828; }
 
 input:not([type]).valid + label:after,
 input:not([type]):focus.valid + label:after,
@@ -1823,7 +1823,7 @@ input[type=search]:not(.browser-default):focus.valid + label:after,
 textarea.materialize-textarea.valid + label:after,
 textarea.materialize-textarea:focus.valid + label:after {
   content: attr(data-success);
-  color: color("green", "base");
+  color: #388E3C;
   opacity: 1;
   transform: translateY(9px); }
 
@@ -1854,7 +1854,7 @@ input[type=search]:not(.browser-default):focus.invalid + label:after,
 textarea.materialize-textarea.invalid + label:after,
 textarea.materialize-textarea:focus.invalid + label:after {
   content: attr(data-error);
-  color: color("red", "base");
+  color: #C62828;
   opacity: 1;
   transform: translateY(9px); }
 
