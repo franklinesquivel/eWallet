@@ -49,8 +49,18 @@
 
 	CustomInput.prototype.validateInput = function(toogle, msg = undefined){
 		toogle ? this.element.classList.add('invalid') : this.element.classList.remove('invalid');
-		// toogle ? txt.classList.remove('valid') : txt.classList.add('valid');
-		msg !== undefined && toogle ? console.log(msg) : "";
+		// !toogle ? this.element.classList.add('valid') : this.element.classList.remove('valid');
+		msg !== undefined && toogle ? this.insertMsg(msg) : "";
+	}
+
+	CustomInput.prototype.insertMsg = function(msg, toogle = 1){
+		if (this.element.nextElementSibling === null) {
+			let div = document.createElement('div');
+			div.classList.add(`msg`, `${toogle ? 'error' : 'success'}`);
+			div.setAttribute('id', `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`);
+			div.innerHTML = msg;
+			this.element.parentNode.appendChild(div);
+		}
 	}
 
 	Object.defineProperty(HTMLInputElement.prototype, "custom", {
@@ -68,14 +78,18 @@
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
 	document.addEventListener('DOMContentLoaded', () => {
 		input_selector.forEach(i => {
+			let jLabel;
 			document.querySelectorAll(i).forEach(j => {
 				j.addEventListener('focus', () => {
-					j.previousElementSibling.classList.add("active");
+					let elCond = j.nextElementSibling !== null && j.nextElementSibling.tagName === "LABEL";
+					console.log();
+					jLabel = elCond ? j.nextElementSibling : j.previousElementSibling;
+					jLabel.classList.add("active");
 				})
 
 				j.addEventListener('blur', () => {
 					if (j.value.length === 0 && j.getAttribute('placeholder') === null) {
-						j.previousElementSibling.classList.remove("active");
+						jLabel.classList.remove("active");
 					}
 				})
 			})
@@ -111,10 +125,10 @@
 				}
 			},
 			"success": function(){
-				alert('Válido');
+				// alert('Válido');
 			},
 			"invalid": function(){
-				alert('Inválido');
+				// alert('Inválido');
 			}
 		})
 	})
@@ -122,8 +136,9 @@
 	window.updateTextFields = () => {
 		input_selector.forEach(i => {
 			document.querySelectorAll(i).forEach(j => {
+				let jLabel = j.nextElementSibling === undefined || j.nextElementSibling === null ? j.previousElementSibling : j.nextElementSibling;
 				if (j.value.length !== 0 || j.getAttribute('placeholder') !== null) {
-					j.previousElementSibling.classList.add("active");
+					jLabel.classList.add("active");
 				}
 			})
 		});
