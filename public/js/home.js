@@ -5,7 +5,7 @@
 			return false;
 		}
 
-		document.querySelector('#btnRegister').addEventListener('click', function(){
+		eWallet.on(document, 'click', '#btnRegister', function(){
 			frmRegister.eWallet.validate({
 				"rules": {
 					"txtName": {
@@ -34,10 +34,27 @@
 					}
 				},
 				"success": function(){
-					console.log('Yei');
+					eWallet.register({
+						name: txtName.value,
+						lastName: txtLast.value,
+						email: txtEmail.value,
+						password: txtPass.value,
+						// address: txt
+						securityQuestion: {
+							question: "¿Yei?",
+							answer: "Yei"
+						},
+						dui: txtDui.value,
+						nit: txtNit.value,
+						phone: txtTel.value,
+						birthdate: txtDate.value
+					}, function(r){
+						
+					});
+					// console.log('Yei');
 				},
 				"invalid": function(){
-					console.log('Error!');
+					// console.log('Error!');
 				}
 			})
 		})
