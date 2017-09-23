@@ -53,6 +53,30 @@ class Slider {
 	}
 }
 
+class Modal {
+	constructor(element) {
+		this.element = element;
+		this.back = eWallet.find('#_background', 1);
+	}
+
+	open(){
+		console.log('o');
+		if (this.back === null) {
+			eWallet.genPopOutBackground();
+			this.back = eWallet.find('#_background', 1);
+		}
+
+		this.back.classList.add('active');
+		this.element.classList.add('open');
+	}
+
+	close(){
+		console.log('c');
+		this.back.classList.remove('active');
+		this.element.classList.remove('open');
+	}
+}
+
 eWallet.updateTextFields = () => {
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
 	input_selector.forEach(i => {
@@ -198,6 +222,45 @@ eWallet.newSlider = function(element, time = 3000){
 		})
 		i == 0 ? btn.classList.add('selected') : "";
 	})
+};
+
+eWallet.genPopOutBackground = function(){
+	let background = eWallet.create('div', '', {id: '_background'});
+	eWallet.find('body', 1).eWallet.append(background);
+}
+
+eWallet.modal = function(selector){
+	let element = eWallet.find(selector);
+	
+	if (element.length > 1){
+		console.error('eWallet Error: Se quiere instaciar más de un elemento como modal, favor hacerlo individual');
+		return;
+	}
+
+	element = element[0];
+	const _id = element.getAttribute('id'),
+		trigger = _id !== null ? eWallet.find(`.modal-trigger[modal=${_id}]`, 1) : null;
+
+	if (eWallet.find('#_background').length == 0) eWallet.genPopOutBackground();
+
+	if (!element instanceof HTMLDivElement) {
+		console.error('eWallet Error: El parámetro no es un elemento válido para instaciar un modal!');
+		return;
+	}
+
+	!element.classList.contains('modal') ? element.classList.add('modal') : "";
+
+	const ModalObj = new Modal(element);
+	if (_id !== null && trigger !== undefined)
+		trigger.addEventListener('click', function(){ModalObj.open()});
+
+	window.addEventListener('keydown', function(e){
+	    if ( e.keyCode == 27 && ModalObj.element.classList.contains('open')) {
+	        ModalObj.close();
+	    }
+	})
+
+	return ModalObj;
 };
 
 (function(){

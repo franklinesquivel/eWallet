@@ -1,3 +1,4 @@
+var mdl;
 (function(){
 	document.addEventListener('DOMContentLoaded', function(){
 		frmRegister.onsubmit = function(){
@@ -57,5 +58,7 @@
 				}
 			})
 		})
+
+		mdl = eWallet.modal('.modal');
 	})
 })()
