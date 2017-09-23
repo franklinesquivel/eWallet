@@ -1,6 +1,5 @@
 (function(){
 	document.addEventListener('DOMContentLoaded', function(){
-
 		frmRegister.onsubmit = function(){
 			return false;
 		}

@@ -12,8 +12,46 @@
 
 		//Soporte de LocalStorage
 		eWallet.dataFlag = !(typeof Storage === undefined);
+
 	}
 })(window);
+
+class Slider {
+	constructor(element, btns, time) {
+		this.element = element;
+		this.btns = btns;
+		this.time = time;
+		this.cFlag = true;
+		this.counter = 1;
+
+		this.slide = this.slide.bind(this);
+		this.rmvClass = this.rmvClass.bind(this);
+		this.slideHandler = this.slideHandler.bind(this);
+		this.init = this.init.bind(this);
+	}
+
+	slide(x){
+		this.element.style.transform = "translateX(-" + ( x * (100 / this.btns.length) ) + "%)";
+	}
+
+	rmvClass(x){
+		for (var j = 0; j < this.btns.length; j++) {
+            this.btns[j].classList.remove("selected");
+        }
+        this.btns[x].classList.add("selected");
+	}
+
+	slideHandler(){
+		this.cFlag = this.counter == 0 ? true : this.counter == (this.btns.length - 1) ? false : this.cFlag;
+        this.slide(this.counter);
+        this.rmvClass(this.counter);
+        this.counter += this.cFlag ? 1 : -1;
+	}
+
+	init(){
+		this.interval = setInterval(this.slideHandler, this.time);
+	}
+}
 
 eWallet.updateTextFields = () => {
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
@@ -118,13 +156,57 @@ eWallet.login = function(credentials){
 	}
 };
 
+eWallet.slider = function(selector){
+	const elements = document.querySelectorAll(selector);
+	// console.log(elements);
+	if (elements.length > 0) {
+		elements.forEach(element => {
+			if (!element instanceof HTMLDivElement){
+				console.error("eWallet Error: El elemento no es válido para instanciar un slider!");
+				return;
+			}else if(element.children.length == 0){
+				console.error("eWallet Error: El slider que se quiere instanciar no posee imágenes para mostrar!");
+				return;
+			}else{
+				eWallet.newSlider(element);
+			}
+		})
+	}
+};
+
+eWallet.newSlider = function(element, time = 3000){
+	let slides = element.children,
+		btn_cont = eWallet.create('div', eWallet.create('ul', '', {class: 'btns_list'}), {class: 'btns'}),
+		btns_element = [];
+
+	element.style.width = (element.childElementCount * 100) + "%";
+
+	for (var i = 0; i < slides.length; i++) {
+		element.children[i].style.width = (100 / element.childElementCount) + "%";
+		btns_element.push(eWallet.create('li', '', {class: 'btns_item'}))
+		btn_cont.firstElementChild.eWallet.append(btns_element[i]);
+	}
+
+	element.parentNode.eWallet.append(btn_cont);
+	const SliderObj = new Slider(element, btns_element, time);
+	SliderObj.init();
+	btns_element.forEach((btn, i) => {
+		btn.addEventListener('click', function(){
+			SliderObj.rmvClass(i);
+			SliderObj.slide(i);
+			SliderObj.counter = i;
+		})
+		i == 0 ? btn.classList.add('selected') : "";
+	})
+};
+
 (function(){
 	//----------------------------------------------------------------------------------//
 	//																					//
 	//						**** eWallet DOM Methods ****								//
 	//																					//			
-	//	 						- Version: 1.1											//
-	//	 						- author: Franklin Esquivel								//
+	//	 					- Version: 1.1												//
+	//	 					- author: Franklin Esquivel									//
 	//																					//
 	//----------------------------------------------------------------------------------//
 	const CustomForm = function(element) {
@@ -308,6 +390,7 @@ eWallet.login = function(credentials){
 		});
 
 		eWallet.updateTextFields();
+		eWallet.slider('.slider');
 	})
 	//							END Material Inputs Plugin								//
 	//----------------------------------------------------------------------------------//
