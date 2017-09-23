@@ -6,50 +6,178 @@
 	<title>eWallet: Sistema de gestión de gastos.</title>
 	<link rel="manifest" href="/manifest.json">
 	<link rel="stylesheet" href="styles/css/index.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 	<script src="js/init.js"></script>
 </head>
 <body>
-
-	<div class="header">eWallet
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque ullam sed natus, animi, culpa vel accusamus labore iusto consectetur voluptas obcaecati nihil veritatis saepe impedit delectus. Illum consequatur non sed.</p>
-	</div>
 	
-	<div class="container row">
-		<form class="frmRegister" name="frmRegister" autocomplete="off">
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtName">Nombres</label>
-				<input type="text" id="txtName" class="txtRegister" name="txtName">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtLast">Apellidos</label>
-				<input type="text" id="txtLast" class="txtRegister" name="txtLast">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtEmail">Email</label>
-				<input type="text" id="txtEmail" class="txtRegister" name="txtEmail">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtPass">Contraseña</label>
-				<input type="password" id="txtPass" class="txtRegister" name="txtPass">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtDui">DUI</label>
-				<input type="text" id="txtDui" class="txtRegister" name="txtDui">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtNit">NIT</label>
-				<input type="text" id="txtNit" class="txtRegister" name="txtNit">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtTel">Número telefónico</label>
-				<input type="text" id="txtTel" class="txtRegister" name="txtTel">
-			</div>
-			<div class="input-field col s12 m6 l6 offset-l3">
-				<label for="txtDate">Fecha de nacimiento</label>
-				<input type="date" id="txtDate" class="txtRegister" name="txtDate">
-			</div>
-		</form>
-	</div>
+	<main></main>
 
+	<div class="container-bodys">
+		<div class="body-initial"> <!-- Home -->
+			
+			<nav class="navbar-header">
+				<div class="row navbar-principal">
+					<div class="image-icon">
+						<img src="favicon.ico" alt="">
+					</div>
+					<div class="menu-responsive" id="btnOpenlist">
+						<i class="material-icons">menu</i>
+					</div>
+				</div>
+				<div class="row navbar-options">
+					<div class="col l3 button arrow-frmRegister">
+						Registrarse
+					</div>
+					<div class="col l3 button offset-l1" id="btnLogSession">
+						Iniciar Sesión
+					</div>
+				</div>
+			</nav>
+			
+			<div class="content-cover">
+				<div class="content-slider">
+					<img src="../../images/portada.jpg" alt="">	
+				</div>
+			</div>
+			
+			<div class="wraper">
+				<div class="section-information">
+					<h1 class="title-company">eWallet!</h1>
+					<p>Ante el crecimiento de la inflación de la economía mundial, el dinero se ha vuelto tan líquido que muchas veces no sabemos no sabemos cuando y donde lo gastamos, lo cuál nos hace desordenados con nuestro dinero. eWallet es una aplicación que ofrece organizar tus gastos, según tú los ingrese, disfruta y organizate!</p>
+				</div>
+				<div class="row section-review col s12">
+					<div class="section-mision col l5 m6 s12 offset-l1">
+						<div>
+							<i class="material-icons md-50 color">show_chart</i>
+						</div>
+						<h2>Visión</h2>
+						<p>Crecer a nivel nacional e internacional con nuestro sistema de control de bolsa.</p>
+					</div>
+					<div class="section-vision col l5 m6 s12">
+						<div>
+							<i class="material-icons md-50 color">assignment</i>
+						</div>
+						<h2>Misión</h2>
+						<p>Ofrecer de un sistema robusto internamente pero fácil de manejar, interactivo y agradable al usuario, siempre no dejando de lado la seguridad de sus transacciones e ingresos.</p>
+					</div>
+				</div>
+				<div class="content-footer">
+					<div class="row section company-data">
+						<div class="info col l4 m4 s12">
+							<ul>
+								<li><span class="title">Teléfono:</span><span class="result"> 2525-2525</span></li>
+								<li><span class="title">Ubicación:</span> <span class="result"> San Salvador</span></li>
+								<li><span class="title">Email:</span><span class="result"> eWallet282@gmail.com</span></li>
+							</ul>
+						</div>
+						<div class="btn-top col l4 m4 s12">
+						</div>
+						<div class="col l4 m4 s12">
+											
+						</div>
+					</div>
+					<div class="section copyrigth">
+						© 2017 Yei, Inc.
+					</div>
+				</div>
+			</div>
+		</div> <!-- Fin Home -->
+
+		<div class="body-second"> <!-- Formulario Registro -->
+			<div class="header">eWallet
+				<p>Registrate ahora y disfruta de todos los servicios que te ofrecemos totalmente gratis, se parte de esta gran comunidad.</p>
+			</div>
+			<div class="container row">
+				<form class="frmRegister" name="frmRegister" autocomplete="off">
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtName">Nombres</label>
+						<input type="text" id="txtName" class="txtRegister" name="txtName">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtLast">Apellidos</label>
+						<input type="text" id="txtLast" class="txtRegister" name="txtLast">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtEmail">Email</label>
+						<input type="text" id="txtEmail" class="txtRegister" name="txtEmail">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtPass">Contraseña</label>
+						<input type="password" id="txtPass" class="txtRegister" name="txtPass">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtDui">DUI</label>
+						<input type="text" id="txtDui" class="txtRegister" name="txtDui">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtNit">NIT</label>
+						<input type="text" id="txtNit" class="txtRegister" name="txtNit">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtTel">Número telefónico</label>
+						<input type="text" id="txtTel" class="txtRegister" name="txtTel">
+					</div>
+					<div class="input-field col s12 m6 l6 offset-l3">
+						<label for="txtDate">Fecha de nacimiento</label>
+						<input type="date" id="txtDate" class="txtRegister" name="txtDate">
+					</div>
+				</form>
+			</div>
+
+			<di class="row">
+				<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3">
+					<div class="arrow-home button">
+						HOME
+					</div>
+				</div>
+			</di>
+			
+		</div> <!-- Fin Formulario Registro -->
+	</div>
 </body>
+<script>
+
+	var frmRegister = 0;
+	window.addEventListener("scroll", function(){viewMenu();});
+
+	function viewMenu(){
+		if(!frmRegister){
+			document.querySelector(".content-cover").style.top = window.pageYOffset * .5 + "px";
+			if(window.pageYOffset >= (document.querySelector(".wraper").offsetTop - 85)){
+				document.querySelector(".navbar-header").classList.add("scroll-active");
+			}else{
+				document.querySelector(".navbar-header").classList.remove("scroll-active");
+			}
+		}
+	}
+
+	document.querySelector('main').appendChild(document.querySelector('.container-bodys'));//Carga Inicial
+	document.querySelector('.arrow-home.button').addEventListener("click", function(){switchForms(0);});//Quitar frmRegister
+	document.querySelector('.arrow-frmRegister.button').addEventListener('click', function(){switchForms(1)});//Agrega frmRegister
+	
+	function switchForms(quitFrmRegister){
+		if(quitFrmRegister){//Se agrega el formulario de registro
+			document.querySelector('.container-bodys').style.marginLeft = "-100%";
+			document.querySelector('main').style.height = "1100px"
+			frmRegister = 1;
+		}else{//Se quita el formulario de registro
+			document.querySelector('.container-bodys').style.marginLeft = "0%";
+			document.querySelector('main').style.height = "auto";
+			frmRegister = 0;
+			viewMenu();
+		}
+	}
+
+	document.querySelector('#btnOpenlist').addEventListener('click', function(){
+		document.querySelector('.navbar-options').classList.add('active');
+
+		document.querySelector('.navbar-options.active .button.arrow-frmRegister').addEventListener('click', function(){
+			document.querySelector('.navbar-options.active .button.arrow-frmRegister').parentNode.classList.remove('active');
+		});
+	});
+
+	
+</script>
 </html>
