@@ -1,0 +1,47 @@
+.sliderCont
+    width: 100%
+    height: 65vh
+    overflow: hidden
+    position: relative
+    -webkit-box-shadow: 10px 10px 30px -4px rgba(0, 0, 0, 0.75)
+    -moz-box-shadow: 10px 10px 30px -4px rgba(0, 0, 0, 0.75)
+    box-shadow: 10px 10px 30px -4px rgba(0, 0, 0, 0.75)
+    &.fullscreen
+        height: 100vh
+        img
+            height: 100vh
+    .slider
+        position: absolute
+        height: 100%
+        transition: transform 1s ease
+        .slide
+            height: 100%
+            float: right
+            img
+                width: 100%
+                height: 65vh
+    div.btns
+        position: absolute
+        bottom: 0
+        left: 50%
+        transform: translate(-50% ,-100%)
+        li
+            display: block
+            width: 30px
+            height: 30px
+            border: 3px solid $primary-color
+            display: inline-block
+            border-radius: 50%
+            transition: background .2s ease, transform .4s ease
+            cursor: pointer
+            &:hover
+                border-color: $primary-color-light
+                background: $primary-color-dark
+                transform: scale(.8)
+            &.selected
+                transform: scale(.8)
+                border: none
+                background: $primary-color-dark
+                &:hover
+                    transform: scale(1)
+
