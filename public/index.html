@@ -11,26 +11,30 @@
 	<script src="js/init.js"></script>
 </head>
 <body>
+
+	<div class="container-arrow">
+		<div class="arrow-home button">
+			<div class="icon"><i class="material-icons">keyboard_arrow_right</i></div>
+			<!-- <div class="option-name" id="Home">Registrarse</div> -->
+		</div>
+		<div class="arrow-register button">
+			<div class="icon"><i class="material-icons">keyboard_arrow_left</i></div>
+			<!-- <div class="option-name" id="frmRegister">Home</div> -->
+		</div>
+	</div>
 	
 	<main></main>
 
 	<div class="container-bodys">
 		<div class="body-initial"> <!-- Home -->
-			
 			<nav class="navbar-header">
 				<div class="row navbar-principal">
 					<div class="image-icon">
 						<img src="favicon.ico" alt="">
 					</div>
-					<div class="menu-responsive" id="btnOpenlist">
-						<i class="material-icons">menu</i>
-					</div>
 				</div>
 				<div class="row navbar-options">
-					<div class="col l3 button arrow-frmRegister">
-						Registrarse
-					</div>
-					<div class="col l3 button offset-l1" id="btnLogSession">
+					<div class="col l4 m6 s10 button offset-l7 offset-m5 offset-s1" id="btnLogSession">
 						Iniciar Sesión
 					</div>
 				</div>
@@ -38,18 +42,17 @@
 			
 			<div class="content-cover">
 				<div class="sliderCont fullscreen">
-					<!-- <img src="../../images/portada.jpg" alt="">	 -->
 					<div class="slider">
-						<img src="../../images/portada.jpg"">
+						<img src="../../images/portada_1.jpg">
 					</div>
 					<div class="slider">
-						<img src="../../images/portada.jpg"">
+						<img src="../../images/portada_1.jpg">
 					</div>
 					<div class="slider">
-						<img src="../../images/portada.jpg"">
+						<img src="../../images/portada_2.jpg">
 					</div>
 					<div class="slider">
-						<img src="../../images/portada.jpg"">
+						<img src="../../images/portada_3.jpg">
 					</div>
 				</div>
 			</div>
@@ -77,17 +80,36 @@
 				</div>
 				<div class="content-footer">
 					<div class="row section company-data">
-						<div class="info col l4 m4 s12">
+						<div class="info col l5 m5 s12 offset-l1 offset-m1">
+							<h2>Nuestra Información</h2>
 							<ul>
 								<li><span class="title">Teléfono:</span><span class="result"> 2525-2525</span></li>
 								<li><span class="title">Ubicación:</span> <span class="result"> San Salvador</span></li>
 								<li><span class="title">Email:</span><span class="result"> eWallet282@gmail.com</span></li>
 							</ul>
 						</div>
-						<div class="btn-top col l4 m4 s12">
-						</div>
-						<div class="col l4 m4 s12">
-											
+						<div class="container-developers col l5 m5 s12 offset-l1 offset-m1">
+							<h2>Desarrolladores</h2>
+							<div class="list-developers">
+								<div>
+									<div class="photo">
+										<img src="images/developer_1.jpg" alt="">
+									</div>
+									<div class="name">
+										<span>Franklin Esquivel</span>
+									</div>
+								</div>
+								<div>
+									<div class="row-developer">
+										<div class="photo">
+											<img src="images/developer_2.jpg" alt="">
+										</div>
+										<div class="name">
+											<span>Leonardo López</span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="section copyrigth">
@@ -137,15 +159,6 @@
 					</div>
 				</form>
 			</div>
-
-			<di class="row">
-				<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3">
-					<div class="arrow-home button">
-						HOME
-					</div>
-				</div>
-			</di>
-			
 		</div> <!-- Fin Formulario Registro -->
 	</div>
 </body>
@@ -156,18 +169,28 @@
 
 	function viewMenu(){
 		if(!frmRegister){
-			document.querySelector(".content-cover").style.top = window.pageYOffset * .5 + "px";
-			if(window.pageYOffset >= (document.querySelector(".wraper").offsetTop - 85)){
-				document.querySelector(".navbar-header").classList.add("scroll-active");
-			}else{
-				document.querySelector(".navbar-header").classList.remove("scroll-active");
+			if(window.pageYOffset > 0){
+				// document.querySelector(".content-cover").style.top = window.pageYOffset * .4 + "px";
+				if(window.pageYOffset >= (document.querySelector(".wraper").offsetTop - 85)){
+					document.querySelector(".navbar-header").classList.add("scroll-active");
+				}else{
+					document.querySelector(".navbar-header").classList.remove("scroll-active");
+				}
 			}
 		}
 	}
 
 	document.querySelector('main').appendChild(document.querySelector('.container-bodys'));//Carga Inicial
-	document.querySelector('.arrow-home.button').addEventListener("click", function(){switchForms(0);});//Quitar frmRegister
-	document.querySelector('.arrow-frmRegister.button').addEventListener('click', function(){switchForms(1)});//Agrega frmRegister
+	
+	document.querySelector('.arrow-register').addEventListener("click", function(){
+		document.querySelector('.container-arrow').classList.remove("active");
+		switchForms(0);
+	});//Quitar frmRegister
+	document.querySelector('.arrow-home').addEventListener('click', function(){
+		document.querySelector('.container-arrow').classList.add("active");	
+		console.log("Yei");
+		switchForms(1)}
+	);//Agrega frmRegister
 	
 	function switchForms(quitFrmRegister){
 		if(quitFrmRegister){//Se agrega el formulario de registro
@@ -181,15 +204,5 @@
 			viewMenu();
 		}
 	}
-
-	document.querySelector('#btnOpenlist').addEventListener('click', function(){
-		document.querySelector('.navbar-options').classList.add('active');
-
-		document.querySelector('.navbar-options.active .button.arrow-frmRegister').addEventListener('click', function(){
-			document.querySelector('.navbar-options.active .button.arrow-frmRegister').parentNode.classList.remove('active');
-		});
-	});
-
-	
 </script>
 </html>
