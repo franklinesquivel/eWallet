@@ -39,15 +39,16 @@
 	&:hover
 		cursor: pointer
 .container-arrow
-	width: 200px
+	width: 140px
 	top: 50vh
 	display: flex
 	position: fixed
 	margin: auto
 	right: 0
-	margin-right: -100px
+	margin-right: -70px
+	z-index: 999
 	div
-		width: calc(200px/2)
+		width: calc(140px/2)
 		text-align: center
 		display: flex
 		justify-content: center
@@ -76,15 +77,21 @@
 				-webkit-transform: skewX(15deg)
 				transform: skewX(15deg)
 				z-index: 1
-			&:hover
-				&:after
-					width: 100%
-					left: 0
-					left: -10%
-					width: 120%
+			// &:hover
+			// 	&:after
+			// 		width: 100%
+			// 		left: 0
+			// 		left: -10%
+			// 		width: 120%
 .container-arrow.active
 	left: 0
-	margin-left: -100px
+	margin-left: -70px
+	@media only screen and (max-width: $small-screen-up)
+		display: none
+.btnArrowHome
+	display: none
+	@media only screen and (max-width: $small-screen-up)
+		display: block
 .container-bodys
 	width: 200%
 	display: flex
@@ -173,7 +180,10 @@
 					margin-top: 25px
 					text-align: justify
 			.section-review
-				padding-top: 50px
+				// padding-top: 50px
+				@media only screen and (max-width: $small-screen-up)
+					div:nth-child(2)
+						margin-top: 25px 
 				div
 					div
 						display: flex

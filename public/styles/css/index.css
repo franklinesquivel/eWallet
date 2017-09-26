@@ -2725,7 +2725,7 @@ textarea {
     cursor: pointer; }
 
 .container-arrow {
-  width: 200px;
+  width: 140px;
   top: 50vh;
   display: -webkit-box;
   display: -webkit-flex;
@@ -2734,9 +2734,10 @@ textarea {
   position: fixed;
   margin: auto;
   right: 0;
-  margin-right: -100px; }
+  margin-right: -70px;
+  z-index: 999; }
   .container-arrow div {
-    width: calc(200px/2);
+    width: calc(140px/2);
     text-align: center;
     display: -webkit-box;
     display: -webkit-flex;
@@ -2782,15 +2783,19 @@ textarea {
         -ms-transform: skewX(15deg);
         transform: skewX(15deg);
         z-index: 1; }
-      .container-arrow div.button:hover:after {
-        width: 100%;
-        left: 0;
-        left: -10%;
-        width: 120%; }
 
 .container-arrow.active {
   left: 0;
-  margin-left: -100px; }
+  margin-left: -70px; }
+  @media only screen and (max-width: 601px) {
+    .container-arrow.active {
+      display: none; } }
+
+.btnArrowHome {
+  display: none; }
+  @media only screen and (max-width: 601px) {
+    .btnArrowHome {
+      display: block; } }
 
 .container-bodys {
   width: 200%;
@@ -2903,24 +2908,25 @@ textarea {
         .container-bodys .body-initial .wraper .section-information p {
           margin-top: 25px;
           text-align: justify; }
-      .container-bodys .body-initial .wraper .section-review {
-        padding-top: 50px; }
-        .container-bodys .body-initial .wraper .section-review div div {
-          display: -webkit-box;
-          display: -webkit-flex;
-          display: -ms-flexbox;
-          display: flex;
-          -webkit-box-pack: center;
-          -webkit-justify-content: center;
-          -ms-flex-pack: center;
-          justify-content: center;
-          height: auto; }
-        .container-bodys .body-initial .wraper .section-review div h2 {
-          text-align: center;
-          color: #ff4081; }
-        .container-bodys .body-initial .wraper .section-review div p {
-          text-align: justify;
-          margin-top: 15px; }
+      @media only screen and (max-width: 601px) {
+        .container-bodys .body-initial .wraper .section-review div:nth-child(2) {
+          margin-top: 25px; } }
+      .container-bodys .body-initial .wraper .section-review div div {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        height: auto; }
+      .container-bodys .body-initial .wraper .section-review div h2 {
+        text-align: center;
+        color: #ff4081; }
+      .container-bodys .body-initial .wraper .section-review div p {
+        text-align: justify;
+        margin-top: 15px; }
       .container-bodys .body-initial .wraper .content-footer {
         width: 100%;
         heigth: auto;

@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="row navbar-options">
-					<div class="col l4 m6 s10 button offset-l7 offset-m5 offset-s1" id="btnLogSession">
+					<div class="col l4 m6 s12 button offset-l7 offset-m5" id="btnLogSession">
 						Iniciar Sesión
 					</div>
 				</div>
@@ -60,7 +60,7 @@
 			<div class="wraper">
 				<div class="section-information">
 					<h1 class="title-company">eWallet!</h1>
-					<p>Ante el crecimiento de la inflación de la economía mundial, el dinero se ha vuelto tan líquido que muchas veces no sabemos no sabemos cuando y donde lo gastamos, lo cuál nos hace desordenados con nuestro dinero. eWallet es una aplicación que ofrece organizar tus gastos, según tú los ingrese, disfruta y organizate!</p>
+					<p>Es una plataforma web que nace bajo la consecuencia de la inflación de la economía mundial. Ante esa problemática surge otra, el ser humano no mira literalmente sus ingresos, prácticamente son efímeros, entonces, cuando este se sienta a hacer cuentas, muchas veces no cuadran. eWallet es el sitio donde puedes apuntar tus ingresos y gastos, y evitar de esa manera que tus estados de resultados no cuadren.</p>
 				</div>
 				<div class="row section-review col s12">
 					<div class="section-mision col l5 m6 s12 offset-l1">
@@ -68,7 +68,7 @@
 							<i class="material-icons md-50 color">show_chart</i>
 						</div>
 						<h2>Visión</h2>
-						<p>Crecer a nivel nacional e internacional con nuestro sistema de control de bolsa.</p>
+						<p>Convertirnos en la plataforma web número 1 en el rubro de control de finanzas. Dar cofianza siempre al usuario y proporcionarle un entorno inteligente en todo sus sentidos.</p>
 					</div>
 					<div class="section-vision col l5 m6 s12">
 						<div>
@@ -158,6 +158,13 @@
 						<input type="date" id="txtDate" class="txtRegister" name="txtDate">
 					</div>
 				</form>
+				<di class="row">
+					<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3 btnArrowHome">
+						<div class="arrow-register2 button">
+							HOME
+						</div>
+					</div>
+				</di>
 			</div>
 		</div> <!-- Fin Formulario Registro -->
 	</div>
@@ -188,10 +195,13 @@
 	});//Quitar frmRegister
 	document.querySelector('.arrow-home').addEventListener('click', function(){
 		document.querySelector('.container-arrow').classList.add("active");	
-		console.log("Yei");
 		switchForms(1)}
 	);//Agrega frmRegister
-	
+	document.querySelector('.arrow-register2').addEventListener("click", function(){
+		document.querySelector('.container-arrow').classList.remove("active");
+		switchForms(0);
+	});//Quitar frmRegister
+
 	function switchForms(quitFrmRegister){
 		if(quitFrmRegister){//Se agrega el formulario de registro
 			document.querySelector('.container-bodys').style.marginLeft = "-100%";
