@@ -4,8 +4,8 @@ $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
 
 $secondary-color: #1D2671 !default;
-$success-color: color("green", "base") !default;
-$error-color: color("red", "base") !default;
+$success-color: color("green", "darken-2") !default;
+$error-color: color("red", "darken-3") !default;
 $link-color: color("light-blue", "darken-1") !default;
 
 // Text Inputs + Textarea
