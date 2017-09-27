@@ -72,17 +72,16 @@ class EncryptDecrypt {
         	let AscciCaracter, lengthCaracter, verifyNumber, verifyLetter, randSpace;
 
             AscciCaracter = pass[i].charCodeAt(0);
-            lengthCaracter = pass[i].charCodeAt(0).length;
+            lengthCaracter = (pass[i].charCodeAt(0).toString()).length;
             verifyNumber = this.VerifyNumber(pass[i]);
             verifyLetter = this.VerifyLetter(pass[i]);
             randSpace = Math.floor((Math.random() * 4) + 0);
-
             if (verifyNumber != -1) {
-            	encrypted += `${AscciCaracter}${verifyNumber}${0 ? lengthCaracter : ""}${this.space[randSpace]}`
+            	encrypted += `${AscciCaracter}${verifyNumber}${lengthCaracter}${this.space[randSpace]}`
             }else if(verifyLetter != -1){
-                encrypted += `${verifyLetter}${0 ? lengthCaracter : ""}${this.space[randSpace]}`;
+                encrypted += `${AscciCaracter}${verifyLetter}${lengthCaracter}${this.space[randSpace]}`;
             }else{
-                encrypted += `${AscciCaracter}${0 ? lengthCaracter : ""}${this.space[randSpace]}`;
+                encrypted += `${AscciCaracter}${lengthCaracter}${this.space[randSpace]}`;
             }
         }
 
