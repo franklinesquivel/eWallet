@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<div class="modal" id="modal1"></div>
+	<!-- <div class="modal" id="modal1"></div> -->
 	
 	<main></main>
 
@@ -50,7 +50,7 @@
 							<img src="../../images/portada_1.jpg">
 						</div>
 						<div class="slide">
-							<img src="../../images/portada_1.jpg">
+							<img src="../../images/portada.jpg">
 						</div>
 						<div class="slide">
 							<img src="../../images/portada_2.jpg">
@@ -173,6 +173,19 @@
 			</div>
 		</div> <!-- Fin Formulario Registro -->
 	</div>
+
+	
+	<div class="modal" id="modal1">
+		<div class="modal-wraper">
+			<div class="content">
+			</div>
+			<div class="footer">
+				<a href="#" class="close">Cerrar</a>
+			</div>
+		</div>
+	</div>
+	
+	
 </body>
 <script>
 
@@ -219,5 +232,11 @@
 			viewMenu();
 		}
 	}
+	document.querySelector("#btnLogSession").addEventListener('click', function(){
+		eWallet.modal('#modal1').open();
+	});
+	document.querySelector('#modal1 .close').addEventListener('click', function(){
+		eWallet.modal('#modal1').close();
+	});
 </script>
 </html>
