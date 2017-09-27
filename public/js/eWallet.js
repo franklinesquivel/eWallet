@@ -16,6 +16,99 @@
 	}
 })(window);
 
+//----------------------------------------------------------------------------------//
+//																					//
+//						**** eWallet Encryptation ****								//
+//																					//			
+//	 					- Version: 1.1												//
+//	 					- author: Leo López											//
+//	 					- adaptation: Frank Esquivel								//
+//																					//
+//----------------------------------------------------------------------------------//
+
+class EncryptDecrypt {
+	constructor(){
+		this.numbers = ["e", "l", "a", "y", "A", "L", "F", "R","o", "p"];
+		this.letters = ["a", "b", "c", "d","e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D","E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+		this.space = ["-", "*", "/", "!", "?"];
+
+		// this.VerifyNumber = this.VerifyNumber.bind(this);
+		// this.VerifyLetter = this.VerifyLetter.bind(this);
+		// this.VerifySpace = this.VerifySpace.bind(this);
+		// this.Encrypt = this.Encrypt.bind(this);
+		// this.Decrypt = this.Decrypt.bind(this);
+	}
+
+	VerifyNumber(char){
+	    for (let i = 0; i < this.numbers.length; i++) {
+	        if (char == i) {
+	            return this.numbers[i];
+	        }
+	    }
+	    return -1;
+	}
+	VerifyLetter(char){
+	    for (let i = 0; i < this.letters.length; i++) {
+	        if (char == this.letters[i]) {
+	            return i;
+	        }
+	    }
+	    return -1;
+	}
+
+	VerifySpace(char){
+	    for (let i = 0; i < this.space.length; i++) {
+	        if (char == this.space[i]) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
+	Encrypt(pass){
+        let encrypted = "";
+
+        for (let i=0; i < pass.length; i++) {
+        	let AscciCaracter, lengthCaracter, verifyNumber, verifyLetter, randSpace;
+
+            AscciCaracter = pass[i].charCodeAt(0);
+            lengthCaracter = pass[i].charCodeAt(0).length;
+            verifyNumber = this.VerifyNumber(pass[i]);
+            verifyLetter = this.VerifyLetter(pass[i]);
+            randSpace = Math.floor((Math.random() * 4) + 0);
+
+            if (verifyNumber != -1) {
+                encrypted += AscciCaracter + verifyNumber + (0 ? lengthCaracter : "") + this.space[randSpace];
+            }else if(verifyLetter != -1){
+                encrypted += AscciCaracter + verifyLetter + (0 ? lengthCaracter : "") + this.space[randSpace];
+            }else{
+                encrypted += AscciCaracter + (0 ? lengthCaracter : "") + this.space[randSpace];
+            }
+        }
+
+        return encrypted;
+    }
+
+    Decrypt(pass){
+        let decrypted = "", word = "";
+
+        for (let i = 0; i < pass.length; i++) {
+
+            if (this.VerifySpace(pass[i])) {
+            	let lengthWord, AscciCaracter;
+                lengthWord = word.substr(-1);
+                AscciCaracter = word.substr(0, lengthWord);
+                decrypted += String.fromCharCode(AscciCaracter);
+                word = "";
+            }else{
+                word += pass[i];
+            }
+        }
+
+        return decrypted;
+    }
+}
+
 class Slider {
 	constructor(element, btns, time) {
 		this.element = element;
@@ -52,6 +145,8 @@ class Slider {
 		this.interval = setInterval(this.slideHandler, this.time);
 	}
 }
+
+eWallet.EncryptDecrypt = new EncryptDecrypt();
 
 class Modal {
 	constructor(element) {
