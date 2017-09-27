@@ -78,11 +78,11 @@ class EncryptDecrypt {
             randSpace = Math.floor((Math.random() * 4) + 0);
 
             if (verifyNumber != -1) {
-                encrypted += AscciCaracter + verifyNumber + (0 ? lengthCaracter : "") + this.space[randSpace];
+            	encrypted += `${AscciCaracter}${verifyNumber}${0 ? lengthCaracter : ""}${this.space[randSpace]}`
             }else if(verifyLetter != -1){
-                encrypted += AscciCaracter + verifyLetter + (0 ? lengthCaracter : "") + this.space[randSpace];
+                encrypted += `${verifyLetter}${0 ? lengthCaracter : ""}${this.space[randSpace]}`;
             }else{
-                encrypted += AscciCaracter + (0 ? lengthCaracter : "") + this.space[randSpace];
+                encrypted += `${AscciCaracter}${0 ? lengthCaracter : ""}${this.space[randSpace]}`;
             }
         }
 
