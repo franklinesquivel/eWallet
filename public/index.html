@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<!-- <div class="modal" id="modal1"></div> -->
+	<!-- <div class="modal" id="mdlLogin"></div> -->
 	
 	<main></main>
 
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="row navbar-options">
-					<div class="col l4 m6 s12 button offset-l7 offset-m5 modal-trigger" modal="modal1" id="btnLogSession">
+					<div class="col l4 m6 s12 button offset-l7 offset-m5 modal-trigger" modal="mdlLogin" id="btnLogSession">
 						Iniciar Sesión
 					</div>
 				</div>
@@ -175,14 +175,20 @@
 	</div>
 
 	
-	<div class="modal" id="modal1">
+	<div class="modal" id="mdlLogin">
 		<div class="content">
-			<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod soluta excepturi perferendis, ipsa officia maiores accusamus doloribus porro tempore veniam libero voluptatum sunt repellat facere at suscipit repudiandae accusantium quo.</div>
-			<div>Odio, eos molestiae, dolorum ea commodi quis quisquam autem quasi cumque obcaecati aliquam cupiditate reiciendis aliquid ullam delectus laborum! Quasi architecto tempora nam veniam neque officiis atque omnis dolorum suscipit!</div>
-			<div>Sapiente placeat, voluptatem, impedit labore provident veniam natus ipsa doloribus iusto modi, fugit nobis. Consectetur harum neque soluta animi culpa voluptatibus necessitatibus ratione rem nobis sapiente! Tempore eligendi incidunt cumque.</div><div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod soluta excepturi perferendis, ipsa officia maiores accusamus doloribus porro tempore veniam libero voluptatum sunt repellat facere at suscipit repudiandae accusantium quo.</div>
+			<form name="frmLogin" class="row">
+				<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+					<label for="txtEmail">Correo Electrónico</label>
+					<input type="text" id="txtEmail">
+				</div>
+				<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+					<label for="txtPassword">Correo Electrónico</label>
+					<input type="password" id="txtPassword">
+				</div>
+			</form>
 		</div>
 		<div class="footer fixed-foo">
-			<a class="modal-btn agreed">Aceptar</a>
 			<a class="modal-btn close" mdl-action="close">Cerrar</a>
 		</div>
 	</div>

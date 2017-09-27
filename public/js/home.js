@@ -103,8 +103,8 @@
 			}
 		}
 
-		document.querySelector('#modal1 .close').addEventListener('click', function(){
-			eWallet.modal('#modal1').close();
+		document.querySelector('#mdlLogin .close').addEventListener('click', function(){
+			eWallet.modal('#mdlLogin').close();
 		});
 	})
 })()
