@@ -155,7 +155,6 @@ class Modal {
 	}
 
 	open(){
-		console.log('o');
 		if (this.back === null) {
 			eWallet.genPopOutBackground();
 			this.back = eWallet.find('#_background', 1);
@@ -166,7 +165,6 @@ class Modal {
 	}
 
 	close(){
-		console.log('c');
 		this.back.classList.remove('active');
 		this.element.classList.remove('open');
 	}
@@ -334,7 +332,7 @@ eWallet.modal = function(selector){
 
 	element = element[0];
 	const _id = element.getAttribute('id'),
-		trigger = _id !== null ? eWallet.find(`.modal-trigger[modal=${_id}]`, 1) : null;
+		triggers = _id !== null ? eWallet.find(`.modal-trigger[modal=${_id}]`) : null;
 
 	if (eWallet.find('#_background').length == 0) eWallet.genPopOutBackground();
 
@@ -346,13 +344,20 @@ eWallet.modal = function(selector){
 	!element.classList.contains('modal') ? element.classList.add('modal') : "";
 
 	const ModalObj = new Modal(element);
-	if (_id !== null && trigger !== undefined)
-		trigger.addEventListener('click', function(){ModalObj.open()});
+	if (_id !== null && triggers.length !== 0){
+		triggers.forEach(trigger => trigger.addEventListener('click', function(){ModalObj.open()}));
+	}
 
 	window.addEventListener('keydown', function(e){
 	    if ( e.keyCode == 27 && ModalObj.element.classList.contains('open')) {
 	        ModalObj.close();
 	    }
+	})
+
+	eWallet.find("#_background", 1).addEventListener('click', function(e){
+		if (e.target === eWallet.find("#_background", 1) && ModalObj.element.classList.contains('open')) {
+	        ModalObj.close();
+		}
 	})
 
 	return ModalObj;

@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="row navbar-options">
-					<div class="col l4 m6 s12 button offset-l7 offset-m5" id="btnLogSession">
+					<div class="col l4 m6 s12 button offset-l7 offset-m5 modal-trigger" modal="modal1" id="btnLogSession">
 						Iniciar Sesión
 					</div>
 				</div>
@@ -176,67 +176,15 @@
 
 	
 	<div class="modal" id="modal1">
-		<div class="modal-wraper">
-			<div class="content">
-			</div>
-			<div class="footer">
-				<a href="#" class="close">Cerrar</a>
-			</div>
+		<div class="content">
+			<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod soluta excepturi perferendis, ipsa officia maiores accusamus doloribus porro tempore veniam libero voluptatum sunt repellat facere at suscipit repudiandae accusantium quo.</div>
+			<div>Odio, eos molestiae, dolorum ea commodi quis quisquam autem quasi cumque obcaecati aliquam cupiditate reiciendis aliquid ullam delectus laborum! Quasi architecto tempora nam veniam neque officiis atque omnis dolorum suscipit!</div>
+			<div>Sapiente placeat, voluptatem, impedit labore provident veniam natus ipsa doloribus iusto modi, fugit nobis. Consectetur harum neque soluta animi culpa voluptatibus necessitatibus ratione rem nobis sapiente! Tempore eligendi incidunt cumque.</div><div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod soluta excepturi perferendis, ipsa officia maiores accusamus doloribus porro tempore veniam libero voluptatum sunt repellat facere at suscipit repudiandae accusantium quo.</div>
+		</div>
+		<div class="footer fixed-foo">
+			<a class="modal-btn agreed">Aceptar</a>
+			<a class="modal-btn close" mdl-action="close">Cerrar</a>
 		</div>
 	</div>
-	
-	
 </body>
-<script>
-
-	var frmRegister = 0;
-	window.addEventListener("scroll", function(){viewMenu();});
-
-	function viewMenu(){
-		if(!frmRegister){
-			if(window.pageYOffset > 0){
-				// document.querySelector(".content-cover").style.top = window.pageYOffset * .4 + "px";
-				if(window.pageYOffset >= (document.querySelector(".wraper").offsetTop - 85)){
-					document.querySelector(".navbar-header").classList.add("scroll-active");
-				}else{
-					document.querySelector(".navbar-header").classList.remove("scroll-active");
-				}
-			}
-		}
-	}
-
-	document.querySelector('main').appendChild(document.querySelector('.container-bodys'));//Carga Inicial
-	
-	document.querySelector('.arrow-register').addEventListener("click", function(){
-		document.querySelector('.container-arrow').classList.remove("active");
-		switchForms(0);
-	});//Quitar frmRegister
-	document.querySelector('.arrow-home').addEventListener('click', function(){
-		document.querySelector('.container-arrow').classList.add("active");	
-		switchForms(1)}
-	);//Agrega frmRegister
-	document.querySelector('.arrow-register2').addEventListener("click", function(){
-		document.querySelector('.container-arrow').classList.remove("active");
-		switchForms(0);
-	});//Quitar frmRegister
-
-	function switchForms(quitFrmRegister){
-		if(quitFrmRegister){//Se agrega el formulario de registro
-			document.querySelector('.container-bodys').style.marginLeft = "-100%";
-			document.querySelector('main').style.height = "1100px"
-			frmRegister = 1;
-		}else{//Se quita el formulario de registro
-			document.querySelector('.container-bodys').style.marginLeft = "0%";
-			document.querySelector('main').style.height = "auto";
-			frmRegister = 0;
-			viewMenu();
-		}
-	}
-	document.querySelector("#btnLogSession").addEventListener('click', function(){
-		eWallet.modal('#modal1').open();
-	});
-	document.querySelector('#modal1 .close').addEventListener('click', function(){
-		eWallet.modal('#modal1').close();
-	});
-</script>
 </html>
