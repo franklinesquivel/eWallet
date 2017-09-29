@@ -5,7 +5,7 @@ var mdl;
 			return false;
 		}
 
-		eWallet.on(document, 'click', '#btnRegister', function(){
+		eWallet.on(document, 'click', '.arrow-register', function(){
 			frmRegister.eWallet.validate({
 				"rules": {
 					"txtName": {

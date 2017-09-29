@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="row navbar-options">
-					<div class="col l4 m6 s12 button offset-l7 offset-m5" id="btnLogSession">
+					<div class="col l4 m6 s12 button offset-l7 offset-m5 skew-fill" id="btnLogSession">
 						Iniciar Sesión
 					</div>
 				</div>
@@ -47,16 +47,16 @@
 				<div class="sliderCont fullscreen">
 					<div class="slider">
 						<div class="slide">
-							<img src="../../images/portada_1.jpg">
+							<img src="images/portada_1.jpg">
 						</div>
 						<div class="slide">
-							<img src="../../images/portada.jpg">
+							<img src="images/portada.jpg">
 						</div>
 						<div class="slide">
-							<img src="../../images/portada_2.jpg">
+							<img src="images/portada_2.jpg">
 						</div>
 						<div class="slide">
-							<img src="../../images/portada_3.jpg">
+							<img src="images/portada_3.jpg">
 						</div>
 					</div>
 				</div>
@@ -163,13 +163,13 @@
 						<input type="date" id="txtDate" class="txtRegister" name="txtDate">
 					</div>
 				</form>
-				<di class="row">
+				<div class="row">
 					<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3 btnArrowHome">
-						<div class="arrow-register2 button">
+						<div class="arrow-register2 button left-right">
 							HOME
 						</div>
 					</div>
-				</di>
+				</div>
 			</div>
 		</div> <!-- Fin Formulario Registro -->
 	</div>
@@ -189,11 +189,11 @@
 </body>
 <script>
 
-	var frmRegister = 0;
+	var scrollNav = 0;
 	window.addEventListener("scroll", function(){viewMenu();});
 
 	function viewMenu(){
-		if(!frmRegister){
+		if(!scrollNav){
 			if(window.pageYOffset > 0){
 				// document.querySelector(".content-cover").style.top = window.pageYOffset * .4 + "px";
 				if(window.pageYOffset >= (document.querySelector(".wraper").offsetTop - 85)){
@@ -208,27 +208,27 @@
 	document.querySelector('main').appendChild(document.querySelector('.container-bodys'));//Carga Inicial
 	
 	document.querySelector('.arrow-register').addEventListener("click", function(){
-		document.querySelector('.container-arrow').classList.remove("active");
-		switchForms(0);
+		//document.querySelector('.container-arrow').classList.remove("active");
+		//switchForms(0);
 	});//Quitar frmRegister
 	document.querySelector('.arrow-home').addEventListener('click', function(){
 		document.querySelector('.container-arrow').classList.add("active");	
 		switchForms(1)}
 	);//Agrega frmRegister
-	document.querySelector('.arrow-register2').addEventListener("click", function(){
-		document.querySelector('.container-arrow').classList.remove("active");
-		switchForms(0);
-	});//Quitar frmRegister
+	//document.querySelector('.arrow-register2').addEventListener("click", function(){
+	//	document.querySelector('.container-arrow').classList.remove("active");
+	//	switchForms(0);
+	//});//Quitar frmRegister
 
 	function switchForms(quitFrmRegister){
 		if(quitFrmRegister){//Se agrega el formulario de registro
 			document.querySelector('.container-bodys').style.marginLeft = "-100%";
 			document.querySelector('main').style.height = "1100px"
-			frmRegister = 1;
+			scrollNav = 1;
 		}else{//Se quita el formulario de registro
 			document.querySelector('.container-bodys').style.marginLeft = "0%";
 			document.querySelector('main').style.height = "auto";
-			frmRegister = 0;
+			scrollNav = 0;
 			viewMenu();
 		}
 	}

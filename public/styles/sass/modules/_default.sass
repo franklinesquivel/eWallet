@@ -1,12 +1,11 @@
-@import "modules/_variables.scss"
-@import "modules/_color.scss"
-@import "modules/_grid.scss"
-@import "modules/_form.scss"
-@import "modules/_slider.sass"
-
+@import "_variables.scss"
+@import "_color.scss"
+@import "_grid.scss"
+@import "_form.scss"
+@import "_slider.sass"
 @font-face 
     font-family: Lato;
-    src: url(../fonts/Lato/Lato-Regular.ttf);
+    src: url(../../fonts/Lato/Lato-Regular.ttf);
 
 $primary_c: #1D2671;
 $secondary_c: #C33764;
@@ -16,3 +15,48 @@ $secondary_c: #C33764;
 	margin: 0
 	padding: 0
 	box-sizing: border-box
+.button
+	flex: 1 1 auto
+	padding: 20px
+	border: 1px solid #f7f7f7
+	color: white
+	text-align: center
+	text-transform: uppercase
+	position: relative
+	overflow: hidden
+	transition: .3s
+	&:after
+		position: absolute
+		transition: .3s
+		content: ''
+		width: 0
+		bottom: 0
+		left: 50%
+		bottom: 0
+		height: 3px
+	&:hover
+		cursor: pointer
+	&.skew-fill
+		&:after
+			background: -webkit-linear-gradient(to right, $primary-color, $secondary-color)
+			background: linear-gradient(to right, $primary-color, $secondary-color)
+			height: 120%;
+			left: -10%
+			-webkit-transform: skewX(15deg)
+			transform: skewX(15deg)
+			z-index: -1
+		&:hover
+			&:after
+				width: 100%
+				left: 0
+				left: -10%
+				width: 120%
+	&.left-right
+		&:after
+			background: -webkit-linear-gradient(to right, $primary-color, $secondary-color)
+			background: linear-gradient(to right, $primary-color, $secondary-color)
+			left: 0;
+		&:hover
+			&:after
+				width: 100%
+				left: 0
