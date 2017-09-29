@@ -32,11 +32,11 @@ class EncryptDecrypt {
 		this.letters = ["a", "b", "c", "d","e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D","E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 		this.space = ["-", "*", "/", "!", "?"];
 
-		// this.VerifyNumber = this.VerifyNumber.bind(this);
-		// this.VerifyLetter = this.VerifyLetter.bind(this);
-		// this.VerifySpace = this.VerifySpace.bind(this);
-		// this.Encrypt = this.Encrypt.bind(this);
-		// this.Decrypt = this.Decrypt.bind(this);
+		this.VerifyNumber = this.VerifyNumber.bind(this);
+		this.VerifyLetter = this.VerifyLetter.bind(this);
+		this.VerifySpace = this.VerifySpace.bind(this);
+		this.Encrypt = this.Encrypt.bind(this);
+		this.Decrypt = this.Decrypt.bind(this);
 	}
 
 	VerifyNumber(char){
@@ -145,7 +145,7 @@ class Slider {
 	}
 }
 
-eWallet.EncryptDecrypt = new EncryptDecrypt();
+eWallet.encryptation = new EncryptDecrypt();
 
 class Modal {
 	constructor(element) {
@@ -153,7 +153,7 @@ class Modal {
 		this.back = eWallet.find('#_background', 1);
 	}
 
-	open(){
+	open(callback = null){
 		if (this.back === null) {
 			eWallet.genPopOutBackground();
 			this.back = eWallet.find('#_background', 1);
@@ -161,11 +161,13 @@ class Modal {
 
 		this.back.classList.add('active');
 		this.element.classList.add('open');
+		typeof callback === "function" ? callback() : "";
 	}
 
-	close(){
+	close(callback = null){
 		this.back.classList.remove('active');
 		this.element.classList.remove('open');
+		typeof callback === "function" ? callback() : "";
 	}
 }
 
@@ -255,22 +257,132 @@ eWallet.find = function(selector, index = false){
 	}
 };
 
-eWallet.register = function(dataset, handler = null){
-	if (typeof dataset !== "object" || !eWallet.dataFlag) return false;
-	if(typeof handler !== null && typeof handler !== "function")
-		console.error("");
-	localStorage.setItem(dataset.email, JSON.stringify(dataset));
-};
+eWallet.destroy = function(selector){
+	if (typeof selector !== "string" && !eWallet.isElement(selector)) return;
 
-eWallet.login = function(credentials){
-	if (typeof credentials !== "object" || !eWallet.dataFlag) return false;
-	let loginData = localStorage.getItem(credentials.email);
-	if (loginData) {
-		
+	if (typeof selector === "string") {
+		let elements = eWallet.find(selector);
+
+		if (elements.length > 0) {
+			for (var i = 0; i < elements.length; i++) {
+				elements[i].parentNode.removeChild(elements[i]);
+			}
+		}
 	}else{
-		return false;
+		selector.parentNode.removeChild(selector);
 	}
 };
+
+eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
+	if (typeof msg !== "string") return;
+	var toast = eWallet.create('div', msg, {class: "toast"});
+
+	if (style.split(' ').length > 1) {
+		let cls = style.split(' ');
+		cls.forEach(c => toast.classList.add(c));
+	}else if (style.trim() !== ""){
+		toast.classList.add(style);
+	}
+	
+	toast.style.animation = `toast-animation ${time}s ease-in`;
+	document.querySelector('body').appendChild(toast);
+
+	setTimeout(function(){
+		eWallet.destroy(toast);
+	}, ((time * 1000) + 500));
+};
+
+eWallet.register = function(dataset, handler = null){
+	if (typeof dataset !== "object" || !eWallet.dataFlag) return false;
+	if(typeof handler !== null && typeof handler !== "function"){
+		console.error("eWallet Error: Parámetro inválido en el registro de usuario!");
+		return;
+	}
+	
+	localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset)));
+	handler(true);
+};
+
+eWallet.getLocalData = function(key){
+	if (typeof key !== "string" || !eWallet.dataFlag) return false;
+	if (localStorage.length > 0){
+		return localStorage.getItem(key) !== null ? localStorage.getItem(key) : false;
+	}
+}
+
+eWallet.getSessionData = function(key){
+	if (typeof key !== "string" || !eWallet.dataFlag) return false;
+	if (sessionStorage.length > 0){
+		return sessionStorage.getItem(key) !== null ? sessionStorage.getItem(key) : false;
+	}
+}
+
+eWallet.logIn = function(credentials, handler){
+	let data = eWallet.getLocalData(credentials.email);
+	if ( data !== false) {
+		let loginData = JSON.parse(eWallet.encryptation.Decrypt(data));
+		if (loginData.email == credentials.email && loginData.password == credentials.password) {
+			sessionStorage.setItem(credentials.email, true);
+			window.eWallet.user = credentials.email;
+			handler(true, loginData);
+		}else{
+			handler(false);
+		}
+	}else{
+		handler(false);
+	}
+};
+
+eWallet.logOut = function(credentials, handler = null){
+	let data = eWallet.getSessionData(credentials.email);
+	if (data !== false) {
+		sessionStorage.clear();
+		typeof handler === "function" ? handler(true): "";
+	}else{
+		typeof handler === "function" ? handler(false): "";
+	}
+}
+
+eWallet.checkSession = function(user = null, keyFlag = false){
+	let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if (user === null) {
+		for(i in sessionStorage){
+			if (emailPattern.test(i) && sessionStorage[i] === "true") {
+				return !keyFlag ? true : i;
+			}
+		}
+		eWallet.UserData = undefined;
+		return false;
+	}else if(typeof user === "string"){
+		return emailPattern.test(user) && sessionStorage[user] === "true";
+	}
+}
+
+eWallet.setSessionData = function(){
+	if (eWallet.checkSession()) {
+		eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true))));
+	}
+}
+
+eWallet.updateUserData = function(previousId, dataset){
+	if (eWallet.checkSession(previousId)) {
+		localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset)));
+		
+		if (previousId !== dataset.email) {
+			let auxData;
+
+			for(i in sessionStorage){
+				auxData[i] = sessionStorage[i];
+			}
+
+			sessionStorage.clear;
+
+			for(i in auxData){
+				sessionStorage.setItem(i, auxData[i]);
+			}
+		}
+	}
+}
 
 eWallet.slider = function(selector){
 	const elements = document.querySelectorAll(selector);
@@ -387,65 +499,59 @@ eWallet.modal = function(selector){
 		this.element = element;
 	};
 
-	eWallet_Methods.prototype.validate = function(dataset) {
+	eWallet_Methods.prototype.validate = function(dataset, handler = null) {
 		if (!this.element instanceof HTMLFormElement) return false; 
 		if (typeof dataset === "object") {
-			if (dataset.rules !== undefined && typeof dataset.rules === "object") {
-				let f = 0, options = dataset.rules;
-				for(el in options){
-					if (this.element[el] !== undefined) {
-						for(rule in options[el]){
-							let msg = options[el][rule].msg,
-								pattern = msg !== undefined ? options[el][rule].value : undefined,
-								condition;
+			let f = 0, options = dataset;
+			for(el in options){
+				if (this.element[el] !== undefined) {
+					for(rule in options[el]){
+						let msg = options[el][rule].msg,
+							pattern = msg !== undefined ? options[el][rule].value : undefined,
+							condition;
 
-							switch(rule){
-								case "required":
-									condition = parseInt(this.element[el].value.trim().length) === 0;
-									break;
-								case "pattern":
-									condition = !pattern.test(this.element[el].value);
-									break;
-							}
-							condition ? f++ : "";
-							this.element[el].eWallet.validateInput(condition, msg);
+						switch(rule){
+							case "required":
+								condition = parseInt(this.element[el].value.trim().length) === 0;
+								break;
+							case "pattern":
+								condition = !pattern.test(this.element[el].value);
+								break;
+							// case "condition":
+							// 	condition = ;
 						}
-					}else{
-						console.warn(`eValidate Warning: El elemento ${el} no existe en el DOM!`);
+						condition ? f++ : "";
+						this.element[el].eWallet.validateInput(condition, msg);
 					}
-				}
-
-				if (dataset.success !== undefined && typeof dataset.success === "function")  {
-					f == 0 ? dataset.success() : "";
-				}else if((dataset.invalid !== undefined && typeof dataset.invalid === "function")){
-					f == 0 ? "" : dataset.invalid();
 				}else{
-					return f == 0;
+					console.warn(`eValidate Warning: El elemento ${el} no existe en el DOM!`);
 				}
-			}else{
-				console.error("eValidate Error: El parámetro no posee un atributo 'Rules'!");
+			}
+
+			if (handler !== null && typeof handler === "function")  {
+				handler(f == 0)
 			}
 		}else{
 			console.error(`eValidate Error: Parámetro inválido!`);
 		}
-	}
+	};
 
 	eWallet_Methods.prototype.validateInput = function(toogle, msg = undefined){
-		if (!this.element instanceof HTMLInputElement) return false;
+		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
 		toogle ? this.element.classList.add('invalid') : this.element.classList.remove('invalid');
 		// !toogle ? this.element.classList.add('valid') : this.element.classList.remove('valid');
 		msg !== undefined && toogle ? this.insertMsg(msg) : "";
-	}
+	};
 
 	eWallet_Methods.prototype.insertMsg = function(msg, toogle = 1){
-		if (!this.element instanceof HTMLInputElement) return false;
+		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
 		if (this.element.nextElementSibling === null) {
 			this.element.parentNode.appendChild(eWallet.create('div', msg, {
 				class: `msg ${toogle ? 'error' : 'success'}`,
 				id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
 			}))
 		}
-	}
+	};
 
 	eWallet_Methods.prototype.prepend = function(content){
 		if (this.element instanceof Element) {
@@ -468,7 +574,7 @@ eWallet.modal = function(selector){
 				eWallet.isElement(content) ? this.element.appendChild(content) : this.element.innerHTML = content;
 			}
 		}
-	}
+	};
 
 	eWallet_Methods.prototype.append = function(content){
 		if (this.element instanceof Element) {
@@ -482,7 +588,7 @@ eWallet.modal = function(selector){
 				this.element.appendChild(content);
 			}
 		}
-	}
+	};
 
 	// Object.defineProperty(HTMLFormElement.prototype, "eWallet", {
 	// 	get: function () {
@@ -530,19 +636,23 @@ eWallet.modal = function(selector){
 	//----------------------------------------------------------------------------------//
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
 	document.addEventListener('DOMContentLoaded', () => {
+		if(eWallet.checkSession()){
+			// location.href = "user";
+		}
+
 		input_selector.forEach(i => {
 			let jLabel;
 			eWallet.find(i).forEach(j => {
 				if (j.length !== 0) {
 					eWallet.on(document, 'focusin', j.tagName, function(e){
-						let input = e.target, label = input.nextElementSibling;
-						label = label === null || label instanceof HTMLLabelElement ? input.previousElementSibling : label;
+						let input = e.target, label = input.previousElementSibling;
+						// label = label !== null || !label instanceof HTMLLabelElement ? label : input.previousElementSibling;
 						label.classList.add("active");
 					})
 
 					eWallet.on(document, 'focusout', j.tagName, function(e){
-						let input = e.target, label = input.nextElementSibling;
-						label = label === null || label instanceof HTMLLabelElement ? input.previousElementSibling : label;
+						let input = e.target, label = input.previousElementSibling;
+						// label = label === null || label instanceof HTMLLabelElement ? input.previousElementSibling : label;
 						if (input.value.length === 0 && input.getAttribute('placeholder') === null) {
 							label.classList.remove("active");
 						}
