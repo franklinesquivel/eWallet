@@ -1,8 +1,11 @@
-@import "_variables.scss"
-@import "_color.scss"
-@import "_grid.scss"
-@import "_form.scss"
-@import "_slider.sass"
+@import "./_color.scss"
+@import "./_variables.scss"
+@import "./_grid.scss"
+@import "./_form.scss"
+@import "./_slider.sass"
+@import "./_modal.sass"
+@import "./_toast.sass"
+
 @font-face 
     font-family: Lato;
     src: url(../../fonts/Lato/Lato-Regular.ttf);
@@ -60,3 +63,17 @@ $secondary_c: #C33764;
 			&:after
 				width: 100%
 				left: 0
+
+#_background
+	z-index: 999
+	position: fixed
+	top: 0
+	right: 0
+	bottom: 0
+	left: 0
+	display: none
+	opacity: 0
+	background: rgba(#000, 0.8)
+	&.active
+		display: block
+		opacity: 1

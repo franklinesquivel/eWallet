@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<!-- <div class="modal" id="modal1"></div> -->
+	<!-- <div class="modal" id="mdlLogin"></div> -->
 	
 	<main></main>
 
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="row navbar-options">
-					<div class="col l4 m6 s12 button offset-l7 offset-m5 skew-fill" id="btnLogSession">
+					<div class="col l4 m6 s12 button offset-l7 offset-m5 modal-trigger skew-fill" modal="mdlLogin" id="btnLogSession">
 						Iniciar Sesión
 					</div>
 				</div>
@@ -128,46 +128,103 @@
 			<div class="header">eWallet
 				<p>Registrate ahora y disfruta de todos los servicios que te ofrecemos totalmente gratis, se parte de esta gran comunidad.</p>
 			</div>
-			<div class="container row">
+			<div class="container">
 				<form class="frmRegister" name="frmRegister" autocomplete="off">
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtName">Nombres</label>
-						<input type="text" id="txtName" class="txtRegister" name="txtName">
+					<div class="row">
+						<br><br>
+						<div class="input-field col s12 m5 l5 offset-l1 offset-m1">
+							<label for="txtName">Nombres</label>
+							<input type="text" id="txtName" class="txtRegister" name="txtName">
+						</div>
+						<div class="input-field col s12 m5 l5">
+							<label for="txtLast">Apellidos</label>
+							<input type="text" id="txtLast" class="txtRegister" name="txtLast">
+						</div>
+						<div class="input-field col s12 m10 l10 offset-l1 offset-m1">
+							<label for="txtEmail">Email</label>
+							<input type="text" id="txtEmail" class="txtRegister" name="txtEmail">
+						</div>
+						<div class="input-field col s12 m5 l5 offset-l1 offset-m1">
+							<label for="txtPass">Contraseña</label>
+							<input type="password" id="txtPass" class="txtRegister" name="txtPass">
+						</div>
+						<div class="input-field col s12 m5 l5">
+							<label for="txtPass2">Confirmar contraseña</label>
+							<input type="password" id="txtPass2" class="txtRegister" name="txtPass2">
+						</div>
+						<div class="input-field col s12 m5 l5 offset-l1 offset-m1">
+							<label for="cmbDepartamento" class="select-label">Departamento</label>
+							<div class="slct-field">
+								<select id="cmbDepartamento" name="cmbDepartamento">
+									<option selected disabled>Selecciona una opción</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field col s12 m5 l5">
+							<label for="cmbMunicipio" class="select-label">Municipio</label>
+							<div class="slct-field">
+								<select id="cmbMunicipio" name="cmbMunicipio">
+									<option selected disabled>Selecciona una opción</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="input-field col s12 m4 l4 offset-l1 offset-m1">
+							<label for="txtCol">Colonia</label>
+							<input type="text" id="txtCol" class="txtRegister" name="txtCol">
+						</div>
+						<div class="input-field col s12 m3 l3">
+							<label for="txtPje">Calle / Pasaje</label>
+							<input type="text" id="txtPje" class="txtRegister" name="txtPje">
+						</div>
+						<div class="input-field col s12 m3 l3">
+							<label for="txtNCasa">N° de Casa</label>
+							<input type="number" id="txtNCasa" class="txtRegister" name="txtNCasa">
+						</div>
+
+						<div class="input-field col s12 m6 l6 offset-l1 offset-m1">
+							<label for="cmbSecurityQuestion" class="select-label">Preguntas de Seguridad</label>
+							<div class="slct-field">
+								<select id="cmbSecurityQuestion" name="cmbSecurityQuestion">
+									<option selected disabled>Selecciona una pregunta</option>
+									<option value="¿Cuál es el nombre de la mascota de tu infancia?">¿Cuál es el nombre de la mascota de tu infancia?</option>
+									<option value="¿Cuál es tu color favorito?">¿Cuál es tu color favorito?</option>
+									<option value="¿Cuándo se conocieron tus padres?">¿Cuándo se conocieron tus padres?</option>
+									<option value="¿En dónde naciste?">¿En dónde naciste?</option>
+									<option value="Le digo hola, ¿ella me dice?">Le digo hola, ¿ella me dice?</option>
+								</select>
+							</div>
+						</div>
+						<div class="input-field col s12 m4 l4">
+							<label for="txtAnswer">Respuesta de Seguridad</label>
+							<input type="text" id="txtAnswer" class="txtRegister" name="txtAnswer">
+						</div>
 					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtLast">Apellidos</label>
-						<input type="text" id="txtLast" class="txtRegister" name="txtLast">
-					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtEmail">Email</label>
-						<input type="text" id="txtEmail" class="txtRegister" name="txtEmail">
-					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtPass">Contraseña</label>
-						<input type="password" id="txtPass" class="txtRegister" name="txtPass">
-					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtDui">DUI</label>
-						<input type="text" id="txtDui" class="txtRegister" name="txtDui">
-					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtNit">NIT</label>
-						<input type="text" id="txtNit" class="txtRegister" name="txtNit">
-					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtTel">Número telefónico</label>
-						<input type="text" id="txtTel" class="txtRegister" name="txtTel">
-					</div>
-					<div class="input-field col s12 m6 l6 offset-l3">
-						<label for="txtDate">Fecha de nacimiento</label>
-						<input type="date" id="txtDate" class="txtRegister" name="txtDate">
+					<div class="row">
+						<div class="input-field col s12 m5 l5 offset-l1 offset-m1">
+							<label for="txtDui">DUI</label>
+							<input type="text" id="txtDui" class="txtRegister" name="txtDui">
+						</div>
+						<div class="input-field col s12 m5 l5">
+							<label for="txtNit">NIT</label>
+							<input type="text" id="txtNit" class="txtRegister" name="txtNit">
+						</div>
+						<div class="input-field col s12 m10 l10 offset-l1 offset-m1">
+							<label for="txtTel">Número telefónico</label>
+							<input type="text" id="txtTel" class="txtRegister" name="txtTel">
+						</div>
+						<div class="input-field col s12 m10 l10 offset-l1 offset-m1">
+							<label for="txtDate">Fecha de nacimiento</label>
+							<input type="date" id="txtDate" class="txtRegister" name="txtDate">
+						</div>
 					</div>
 				</form>
-				<div class="row">
-					<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3 btnArrowHome">
-						<div class="arrow-register2 button left-right">
-							HOME
-						</div>
+				<div class="button" id="btnRegister">Registrar</div>
+			</div>
+			<div class="row">
+				<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3 btnArrowHome">
+					<div class="arrow-register2 button left-right">
+						HOME
 					</div>
 				</div>
 			</div>
@@ -175,18 +232,27 @@
 	</div>
 
 	
-	<div class="modal" id="modal1">
-		<div class="modal-wraper">
-			<div class="content">
-			</div>
-			<div class="footer">
-				<a href="#" class="close">Cerrar</a>
-			</div>
+	<div class="modal" id="mdlLogin">
+		<div class="content">
+			<form name="frmLogin" class="row">
+				<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+					<label for="txtEmail">Correo Electrónico</label>
+					<input type="text" id="txtEmail">
+				</div>
+				<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+					<label for="txtPassword">Contraseña</label>
+					<input type="password" id="txtPassword">
+				</div>
+				<br>
+				<button id="btnLog">Iniciar</button>
+			</form>
+		</div>
+		<div class="footer fixed-foo">
+			<a class="modal-btn close" mdl-action="close">Cerrar</a>
 		</div>
 	</div>
-	
-	
 </body>
+<<<<<<< HEAD
 <script>
 
 	var scrollNav = 0;
@@ -239,4 +305,6 @@
 		eWallet.modal('#modal1').close();
 	});
 </script>
+=======
+>>>>>>> 6fc9fb6573a09925c14c889dd8009786f849b23e
 </html>
