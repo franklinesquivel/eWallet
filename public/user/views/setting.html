@@ -30,7 +30,7 @@
                         <a href="#" class="item-menu"><i class="material-icons">monetization_on</i><span>Cuentas</span></a>
                         <ul class="list-subitems">
                             <li class="sub-item"><a href="viewAccounts.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="#"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                            <li class="sub-item"><a href="addAccounts.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
                         </ul>
                     </li>
                     <li class="item">
@@ -56,7 +56,7 @@
                     </li>
                     <li class="item"><a href="statistics.html"><i class="material-icons">graphic_eq</i><span>Estadísticas</span></a></li>
                     <li class="item active"><a href="setting.html"><i class="material-icons">settings</i><span>Configuración</span></a></li>
-                    <li class="item"><a href="#"><i class="material-icons">cancel</i><span>Cerrar Sesión</span></a></li>
+                    <li class="item" id="btnUnLog"><a><i class="material-icons" >cancel</i><span>Cerrar Sesión</span></a></li>
                 </ul>
             </div>
         </div>
@@ -76,32 +76,32 @@
         <main>
             <div class="container row"> <!-- Configuraciones Generales -->
                 <form class="frmConfiguration">
-                    <div class="input-field col s12 m6 l6 offset-l3 offset-m3">
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="">Ingresos Minímos</label>
                         <input type="text" name="" id="">
                     </div>
-                    <div class="input-field col s12 m6 l6 offset-l3 offset-m3">
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="">Gastos Minímos</label>
                         <input type="text" name="" id="">
                     </div>
 
                     <!-- <div class="container-rdb"> Forma de pago -->
                         <!-- <h4>Tipo de pago por defecto </h4> -->
-                        <div class="input-field col s12 m6 l3 offset-l3 offset-m3">
+                        <div class="input-field col s12 m8 l3 offset-l3 offset-m2">
                             <input type="radio" id="option_1" name="rdbPaymentType">
                             <label for="option_1">Efectivo</label>
                         </div>
-                        <div class="input-field col s12 m6 l3 offset-m3">
+                        <div class="input-field col s12 m8 l3 offset-m2">
                             <input type="radio" id="option_2" name="rdbPaymentType">
                             <label for="option_2">Cuenta de ahorro</label>
                         </div>
-                        <div class="input-field col s12 m6 l7 offset-l5 offset-m3">
+                        <div class="input-field col s12 m8 l7 offset-l5 offset-m2">
                             <input type="radio" id="option_3" name="rdbPaymentType">
                             <label for="option_3">Tarjeta de crédito</label>
                         </div>
                     <!-- </div> Fin forma de pago -->
                     
-                    <div class="input-field col s12 m6 l6 offset-l3 offset-m3">
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <br>
                         <label for="cmbPayment" class="select-label">Forma de pago</label>
                         <div class="slct-field">
@@ -113,7 +113,7 @@
                     </div>
                 </form>
                 <div class="row">
-					<div class="col l4 m4 s8 offset-l4 offset-m4 offset-s2">
+					<div class="col l4 m8 s8 offset-l4 offset-m2 offset-s2">
 						<div class="button left-right">
 							Registrar
 						</div>

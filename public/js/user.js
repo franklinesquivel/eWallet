@@ -1,5 +1,12 @@
 (()=>{
     document.addEventListener('DOMContentLoaded', function(){
+
+        eWallet.find('#btnUnLog', 1).addEventListener('click', function(){
+            eWallet.logOut(eWallet.UserData, function(){
+                eWallet.sessionLocation();
+            });
+        })
+
         document.querySelector('#slide-menu').addEventListener('click', function(){
             if(document.querySelector('.menu-wraper').getAttribute('class') == 'menu-wraper active'){
                 document.querySelector('.menu-wraper').classList.remove('active');
@@ -105,9 +112,4 @@
             value: ""
         }
     ];
-        eWallet.find('#btnUnLog', 1).addEventListener('click', function(){
-            eWallet.logOut(eWallet.UserData, function(){
-                eWallet.sessionLocation();
-            });
-        });
-})()
+})();

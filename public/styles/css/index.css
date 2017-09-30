@@ -2706,6 +2706,15 @@ textarea {
   overflow-y: auto;
   display: none;
   opacity: 0; }
+  .modal button {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #1D2671;
+    width: 100%;
+    border: 1px solid #1D2671; }
+    .modal button:hover {
+      color: white; }
   .modal.open {
     display: block;
     opacity: 1; }
