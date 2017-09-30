@@ -1,4 +1,5 @@
 @import "_default.sass"
+
 body
     background: #F5F5F5
     width: 100%
@@ -79,9 +80,10 @@ body
                 ul.list-subitems
                     display: none
                     transition: .6s ease-in
+                    // border-bottom: 1px solid #EEEEEE
                     li.sub-item
                         a
-                            padding-left: 25px
+                            padding-left: 35px
                             width: 100%
                             transition: .3s ease-in
                         &.active, &:hover
@@ -130,7 +132,6 @@ body
             width: 90%
     main
         width: 100%
-
 @media only screen and (max-width: 993px)
     .menu-wraper
         width: 30%

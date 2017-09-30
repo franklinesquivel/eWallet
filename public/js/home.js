@@ -278,7 +278,7 @@
 		function switchForms(quitFrmRegister){
 			if(quitFrmRegister){//Se agrega el formulario de registro
 				document.querySelector('.container-bodys').style.marginLeft = "-100%";
-				document.querySelector('main').style.height = "1100px"
+				//document.querySelector('main').style.height = "1100px"
 				bodyFlag = 1;
 			}else{//Se quita el formulario de registro
 				document.querySelector('.container-bodys').style.marginLeft = "0%";

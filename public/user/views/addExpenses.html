@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
-    <script src="../js/user.js"></script>
+    <script src="../../js/user.js"></script>
 </head>
 <body>
     <div class="menu-wraper">
@@ -25,12 +25,12 @@
             </div> -->
             <div class="options-menu">
                 <ul class="list-items">
-                    <li class="item"><a href="../index.html""><i class="material-icons">home</i><span>Inicio</span></a></li>
+                    <li class="item"><a href="../index.html"><i class="material-icons">home</i><span>Inicio</span></a></li>
                     <li class="item">
                         <a href="#" class="item-menu"><i class="material-icons">monetization_on</i><span>Cuentas</span></a>
                         <ul class="list-subitems">
                             <li class="sub-item"><a href="viewAccounts.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="#"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                            <li class="sub-item"><a href="addAccounts.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
                         </ul>
                     </li>
                     <li class="item">
@@ -44,7 +44,7 @@
                         <a href="#" class="item-menu"><i class="material-icons">money_off</i><span>Gastos</span></a>
                         <ul class="list-subitems active">
                             <li class="sub-item"><a href="viewExpenses.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item active"><a href="addExpenses"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                            <li class="sub-item active"><a href="addExpenses.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
                         </ul>
                     </li>
                     <li class="item">
@@ -80,10 +80,6 @@
                         <label for="txtCount">N° de cuenta</label>
                         <input type="text" name="" id="txtCount">
                     </div>
-                    <!-- <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="">Motivo</label>
-                        <input type="text" name="" id="">
-                    </div> -->
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="txtAmount">Monto ($)</label>
                         <input type="text" name="" id="txtAmount">
@@ -93,18 +89,21 @@
                         <input type="date" name="" id="txtDate">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="txtReason">Motivo</label>
-                        <textarea id="txtReason" class="materialize-textarea"></textarea>
+                        <label for="cmbReason" class="select-label">Motivo</label>
+                        <div class="slct-field">
+                            <select id="cmbReason" name="cmbReason">
+                            </select>
+                        </div>
                     </div>
                 </form>
-                <div class="row">
-					<div class="col l4 m4 s6 offset-l4 offset-m4 offset-s3">
-						<div class="button left-right">
-							Registrar
-						</div>
-					</div>
-				</div>
             </div> <!-- Fin agregar gatos -->
+            <div class="row">
+                <div class="col l4 m8 s6 offset-l4 offset-m3 offset-s3">
+                    <div class="button left-right">
+                        Registrar
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </body>
