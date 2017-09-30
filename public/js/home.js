@@ -203,8 +203,9 @@
 						birthdate: txtDate.value,
 						firstLogin: true
 					}, function(f){
-						eWallet.toast(r ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!', (r ? 'green' : 'red') + ' darken-1');
-						r ? frmRegister.reset() : "";
+						console.log(f);
+						eWallet.toast(f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!', (f ? 'green' : 'red') + ' darken-1');
+						f ? frmRegister.reset() : "";
 					});
 				}else{
 					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
@@ -233,6 +234,9 @@
 					}, function(f, obj){
 						if (f) {
 							eWallet.toast(`<i>${obj.email}</i> ha iniciado sesión éxitosamente!`, 2, 'green darken-1');
+							setTimeout(function(){
+								eWallet.sessionLocation(true);
+							}, 2300);
 						}else{
 							eWallet.toast('Ese usuario no existe!', 2, 'red darken-1');
 							frmLogin.reset();

@@ -299,8 +299,8 @@ eWallet.register = function(dataset, handler = null){
 		return;
 	}
 	
-	localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset)));
 	handler(true);
+	localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset)));
 };
 
 eWallet.getLocalData = function(key){
@@ -345,6 +345,7 @@ eWallet.logOut = function(credentials, handler = null){
 
 eWallet.checkSession = function(user = null, keyFlag = false){
 	let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	
 	if (user === null) {
 		for(i in sessionStorage){
 			if (emailPattern.test(i) && sessionStorage[i] === "true") {
@@ -358,9 +359,44 @@ eWallet.checkSession = function(user = null, keyFlag = false){
 	}
 }
 
+eWallet.sessionLocation = function(sessionFlag = false){
+	let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
+		appRoot = actualEnvironment === "server" ? '/' : 'index.html',
+		userDir = actualEnvironment === "server" ? '/user' : 'user/index.html';
+
+	let localAppRootFlag = true, actualHref = location.href.split('/');
+
+	localAppRootFlag = actualHref[actualHref.length - 1] === "index.html" && actualHref[actualHref.length - 2] === "public";
+
+	if (!sessionFlag && !(actualEnvironment === "server" ? location.pathname === appRoot : localAppRootFlag)) {
+		let locationAux = location.href.split('/'), newLocation = "";
+
+		for (var i = 0; i < locationAux.length; i++) {
+			if (locationAux[i] !== "eWallet") newLocation += `${locationAux[i]}/`; else break;
+		}
+
+		newLocation += `eWallet/public/${appRoot}`;
+		location.href = actualEnvironment === "server" ? appRoot : newLocation;
+	}else if (actualEnvironment === "server" && location.pathname === appRoot) {
+		if (sessionFlag) location.href = `${location}/${userDir}`;
+	}else if(actualEnvironment === "local" && localAppRootFlag){
+		let hrefAux = location.href.split('/');
+		hrefAux[hrefAux.length - 1] = userDir;
+		if (sessionFlag) location.href = hrefAux.join('/');
+	}
+}
+
 eWallet.setSessionData = function(){
 	if (eWallet.checkSession()) {
-		eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true))));
+		let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
+		appRoot = actualEnvironment === "server" ? '/' : 'index.html',
+		userDir = actualEnvironment === "server" ? '/user' : 'user/index.html';
+
+		if ((actualEnvironment === "server" && location.pathname === appRoot) || (actualEnvironment === "local" && location.href.search("/eWallet/public/index.html") !== -1)) {
+			eWallet.UserData = undefined;
+		}else{
+			eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true))));
+		}
 	}
 }
 
@@ -637,7 +673,13 @@ eWallet.modal = function(selector){
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
 	document.addEventListener('DOMContentLoaded', () => {
 		if(eWallet.checkSession()){
-			// location.href = "user";
+			eWallet.setSessionData();
+			eWallet.UserData === undefined ? eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3') : "";
+			setTimeout(function(){
+				eWallet.sessionLocation(true);
+			}, 2300)
+		}else{
+			eWallet.sessionLocation(false);
 		}
 
 		input_selector.forEach(i => {

@@ -105,4 +105,9 @@
             value: ""
         }
     ];
+        eWallet.find('#btnUnLog', 1).addEventListener('click', function(){
+            eWallet.logOut(eWallet.UserData, function(){
+                eWallet.sessionLocation();
+            });
+        });
 })()
