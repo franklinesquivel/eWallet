@@ -637,7 +637,10 @@ eWallet.modal = function(selector){
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
 	document.addEventListener('DOMContentLoaded', () => {
 		if(eWallet.checkSession()){
-			// location.href = "user";
+			eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3');
+			setTimeout(function(){
+				// location.href = "user/index.html";
+			}, 3000)
 		}
 
 		input_selector.forEach(i => {
