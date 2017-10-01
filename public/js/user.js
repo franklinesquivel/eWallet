@@ -7,13 +7,19 @@
             });
         })
 
-        document.querySelector('#slide-menu').addEventListener('click', function(){
-            if(document.querySelector('.menu-wraper').getAttribute('class') == 'menu-wraper active'){
-                document.querySelector('.menu-wraper').classList.remove('active');
-            }else{
-                document.querySelector('.menu-wraper').classList.add('active');
-            }
-        });
+        var slideMenu = eWallet.menu('.menu-wraper');
+
+        // document.querySelector('#slide-menu').addEventListener('click', function(){
+
+        //     if (eWallet.find('#_background').length == 0) eWallet.genPopOutBackground();
+
+        //     if(document.querySelector('.menu-wraper').getAttribute('class') == 'menu-wraper active'){
+        //         document.querySelector('.menu-wraper').classList.remove('active');
+        //     }else{
+        //         eWallet.find('#_background', 1).classList.add('active');
+        //         document.querySelector('.menu-wraper').classList.add('active');
+        //     }
+        // });
     
         for(var i = 0; i < document.querySelectorAll('a.item-menu').length; i++){
             document.querySelectorAll('a.item-menu')[i].addEventListener('click', function(){

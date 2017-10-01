@@ -2717,7 +2717,8 @@ textarea {
       color: white; }
   .modal.open {
     display: block;
-    opacity: 1; }
+    opacity: 1;
+  }
   .modal .content {
     padding: 40px 40px 30px 40px; }
   .modal .footer {

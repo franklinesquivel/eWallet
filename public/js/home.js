@@ -272,7 +272,7 @@
 		});//Quitar frmRegister
 		document.querySelector('.arrow-home').addEventListener('click', function(){
 			document.querySelector('.container-arrow').classList.add("active");	
-			switchForms(1)
+			switchForms(1);
 		});//Agrega frmRegister
 		document.querySelector('.arrow-register2').addEventListener("click", function(){
 			document.querySelector('.container-arrow').classList.remove("active");
@@ -294,6 +294,11 @@
 
 		document.querySelector('#mdlLogin .close').addEventListener('click', function(){
 			eWallet.modal('#mdlLogin').close();
+		});
+
+		document.querySelector('#txtName').addEventListener('focus', function(){
+			document.querySelector('.container-arrow').classList.add("active");	
+			switchForms(1);
 		});
 	})
 })()

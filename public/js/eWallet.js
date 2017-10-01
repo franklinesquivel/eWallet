@@ -159,14 +159,39 @@ class Modal {
 			this.back = eWallet.find('#_background', 1);
 		}
 
-		this.back.classList.add('active');
+		this.back.eWallet.fadeIn(2);
+		this.element.eWallet.fadeIn();
 		this.element.classList.add('open');
 		typeof callback === "function" ? callback() : "";
 	}
 
 	close(callback = null){
-		this.back.classList.remove('active');
+		this.back.eWallet.fadeOut(2);
 		this.element.classList.remove('open');
+		typeof callback === "function" ? callback() : "";
+	}
+}
+
+class Menu {
+	constructor(element) {
+		this.element = element;
+		this.back = eWallet.find('#_background', 1);
+	}
+
+	open(callback = null){
+		if (this.back === null) {
+			eWallet.genPopOutBackground();
+			this.back = eWallet.find('#_background', 1);
+		}
+
+		this.back.eWallet.fadeIn(2);
+		this.element.classList.add('active');
+		typeof callback === "function" ? callback() : "";
+	}
+
+	close(callback = null){
+		this.back.eWallet.fadeOut(2);
+		this.element.classList.remove('active');
 		typeof callback === "function" ? callback() : "";
 	}
 }
@@ -510,6 +535,45 @@ eWallet.modal = function(selector){
 	return ModalObj;
 };
 
+eWallet.menu = function(selector){
+	let element = eWallet.find(selector);
+	
+	if (element.length > 1){
+		console.error('eWallet Error: Se quiere instaciar más de un elemento como menu, favor hacerlo individual');
+		return;
+	}
+
+	element = element[0];
+	const _id = element.getAttribute('id'),
+		triggers = _id !== null ? eWallet.find(`.menu-trigger[menu=${_id}]`) : null;
+
+	if (eWallet.find('#_background').length == 0) eWallet.genPopOutBackground();
+
+	if (!element instanceof HTMLDivElement) {
+		console.error('eWallet Error: El parámetro no es un elemento válido para instaciar un menu!');
+		return;
+	}
+	
+	const MenuObj = new Menu(element);
+	if (_id !== null && triggers.length !== 0){
+		triggers.forEach(trigger => trigger.addEventListener('click', function(){MenuObj.open()}));
+	}
+
+	window.addEventListener('keydown', function(e){
+	    if ( e.keyCode == 27 && MenuObj.element.classList.contains('active')) {
+	        MenuObj.close();
+	    }
+	})
+
+	eWallet.find("#_background", 1).addEventListener('click', function(e){
+		if (e.target === eWallet.find("#_background", 1) && MenuObj.element.classList.contains('active')) {
+	        MenuObj.close();
+		}
+	})
+
+	return MenuObj;		
+};
+
 (function(){
 	//----------------------------------------------------------------------------------//
 	//																					//
@@ -623,6 +687,38 @@ eWallet.modal = function(selector){
 			}else if(eWallet.isElement(content)){
 				this.element.appendChild(content);
 			}
+		}
+	};
+
+	eWallet_Methods.prototype.fadeIn = function(time = 1){
+		if (this.element instanceof Element) {
+			let el = this.element, op = 0.1, timer;
+
+			el.style.display = 'block';
+			timer = setInterval(function(){
+				if (op >= 1) {
+					clearInterval(timer);
+				}
+				el.style.opacity = op;
+				el.style.filter = `alpha(opacity=${op * 100})`;
+				op += op * 0.1;
+			}, time);
+		}
+	};
+
+	eWallet_Methods.prototype.fadeOut = function(time = 1){
+		if (this.element instanceof Element) {
+			let el = this.element, op = 1, timer;
+
+			timer = setInterval(function(){
+				if (op <= 0.1) {
+					clearInterval(timer);
+					el.style.display = 'none';
+				}
+				el.style.opacity = op;
+				el.style.filter = `alpha(opacity=${op * 100})`;
+				op -= op * 0.1;
+			}, time);
 		}
 	};
 

@@ -3009,9 +3009,6 @@ textarea {
   display: none;
   opacity: 0;
   background: rgba(0, 0, 0, 0.8); }
-  #_background.active {
-    display: block;
-    opacity: 1; }
 
 body {
   background: #F5F5F5;
@@ -3024,6 +3021,7 @@ body {
   padding: 15px; }
 
 .menu-wraper {
+  z-index: 1000;
   background: white;
   position: absolute;
   height: 100vh;
@@ -3150,5 +3148,4 @@ body {
     display: block; }
   .menu-wraper {
     width: 60%;
-    margin-left: -60%;
-    z-index: 999; } }
+    margin-left: -60%; } }
