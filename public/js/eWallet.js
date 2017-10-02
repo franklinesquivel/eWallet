@@ -422,13 +422,13 @@ eWallet.sessionLocation = function(sessionFlag = false){
 		}
 
 		newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${eWallet.dir}/${appRoot}`;
-		location.href = actualEnvironment === "server" ? appRoot : newLocation;
+		// location.href = actualEnvironment === "server" ? appRoot : newLocation;
 	}else if (actualEnvironment === "server" && location.pathname === appRoot) {
-		if (sessionFlag) location.href = `${location}/${userDir}`;
+		// if (sessionFlag) location.href = `${location}/${userDir}`;
 	}else if(actualEnvironment === "local" && localAppRootFlag){
 		let hrefAux = location.href.split('/');
 		hrefAux[hrefAux.length - 1] = userDir;
-		if (sessionFlag) location.href = hrefAux.join('/');
+		// if (sessionFlag) location.href = hrefAux.join('/');
 	}
 }
 
