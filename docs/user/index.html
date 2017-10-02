@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="manifest" href="../manifest.json">
+	<link rel="stylesheet" href="../styles/css/user.css">
+    <title>eWallet: Usuario</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+    <script src="../js/eWallet.js"></script>
+    <script src="../js/user.js"></script>
+</head>
+<body>
+    <div class="menu-wraper" id="mainMenu">
+        <div class="company-data">
+            <div class="name">
+                eWallet
+            </div>
+        </div>
+        <div class="menu-items">    
+            <!-- <div class="user-data">
+                
+            </div> -->
+            <div class="options-menu">
+                <ul class="list-items">
+                    <li class="item active"><a><i class="material-icons">home</i><span>Inicio</span></a></li>
+                    <li class="item">
+                        <a class="item-menu"><i class="material-icons">monetization_on</i><span>Cuentas</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="views/viewAccounts.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="views/addAccounts.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item">
+                        <a class="item-menu"><i class="material-icons">attach_money</i><span>Ingresos</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="views/viewEarnings.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="views/addEarnings.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item">
+                        <a class="item-menu"><i class="material-icons">money_off</i><span>Gastos</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="views/viewExpenses.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="views/addExpenses.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item">
+                        <a class="item-menu"><i class="material-icons">credit_card</i><span>Tarjetas</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="views/viewCard.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="views/addCard.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item"><a href="views/statistics.html"><i class="material-icons">graphic_eq</i><span>Estadísticas</span></a></li>
+                    <li class="item"><a href="views/setting.html"><i class="material-icons">settings</i><span>Configuración</span></a></li>
+                    <li class="item" id="btnUnLog"><a><i class="material-icons">cancel</i><span>Cerrar Sesión</span></a></li>
+               </ul>
+            </div>
+        </div>
+    </div>
+    <div class="content-wraper">
+        <div class="header">
+            <div class="header-content">
+                <div class="icon-menu">
+                    <i class="material-icons menu-trigger" id="slide-menu" menu="mainMenu">menu</i>
+                </div>
+                <div class="name-site">
+                    Inicio
+                </div>
+            </div>
+        </div>
+        <main></main>
+    </div>
+
+    <div class="modal" id="mdlBalance">
+        <div class="content">
+            <h1 class="center">Bienvenido a eWallet!</h1>
+            <h5 class="sub center">Esta es la primera vez que inicias sesión y necesitamos que nos proveas unos datos extra para poder manejar tus finanzas con mayor facilidad!</h5>
+            <br>
+            <div class="forms row">
+                <form name="frmBalance" class="row">
+                    <div class="input-field col s12 l3 m3 offset-l3 offset-m3">
+                        <label for="txtBalance">Efectivo actual</label>
+                        <input type="text" name="txtBalance" id="txtBalance">
+                    </div>
+                    <div class="input-field col s12 l4 m4">
+                        <label for="txtAccounts">¿Cuántas cuentas de banco desea registrar?</label>
+                        <input type="number" name="txtAccounts" id="txtAccounts">
+                    </div>
+                    
+                </form>
+                <div class="col l4 m6 s8 offset-l4 offset-m3 offset-s2">
+                    <button id="btnBalance" class="button skew-fill">Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer fixed-foo">
+            <a class="modal-btn close" mdl-action="close">Cerrar</a>
+        </div>
+    </div>
+</body>
+</html>

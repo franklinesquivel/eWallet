@@ -1,0 +1,153 @@
+@import "modules/_default.sass"
+
+body
+    background: #F5F5F5
+    width: 100%
+    font-size: 18px
+.button
+    color: #1D2671
+    border: 1px solid #1D2671
+    padding: 15px
+.menu-wraper
+    background: white
+    position: absolute
+    height: 100vh
+    width: 20%
+    -webkit-transition: .2s ease-in
+    -o-transition: .2s ease-in
+    transition: .2s ease-in
+    overflow: auto
+    -webkit-box-shadow: 0px 2px 12px 0px rgba(0,0,0,0.75)
+    -moz-box-shadow: 0px 2px 12px 0px rgba(0,0,0,0.75)
+    box-shadow: 0px 2px 12px 0px rgba(0,0,0,0.75)
+    .company-data
+        text-align: center
+        background: -webkit-linear-gradient(to right, #C33764, #1D2671)
+        background: -webkit-gradient(linear, left top, right top, from(#C33764), to(#1D2671))
+        background: -webkit-linear-gradient(left, #C33764, #1D2671)
+        background: -o-linear-gradient(left, #C33764, #1D2671)
+        background: linear-gradient(to right, #C33764, #1D2671)
+        background: #C33764
+    div
+        // display: -webkit-box
+        // display: -webkit-flex
+        // display: -ms-flexbox
+        // display: flex
+        // -webkit-box-pack: center
+        // -webkit-justify-content: center
+        // -ms-flex-pack: center
+        // justify-content: center
+        width: 100%
+        height: auto
+        &.icon img
+            width: 50%
+            height: 100%
+        &.name
+            padding: 30px
+            color: white
+            font-size: 25px
+    .menu-items
+        // margin-top: 10px
+        .options-menu ul
+            font-size: 15px
+            list-style: none
+            width: 100%
+            li.item
+                cursor: pointer
+                -webkit-transition: .3s ease-in
+                -o-transition: .3s ease-in
+                transition: .3s ease-in
+                &.active > a, &:hover > a
+                        background: #EEEEEE
+                a
+                    text-decoration: none
+                    padding: 15px
+                    padding-left: 10px
+                    display: -webkit-box
+                    display: -webkit-flex
+                    display: -ms-flexbox
+                    display: flex
+                    -webkit-box-align: center
+                    -webkit-align-items: center
+                    -ms-flex-align: center
+                    align-items: center
+                    color: grey
+                    width: 100%
+                    &.active
+                        background: #EEEEEE
+                span
+                    margin-left: 10px
+                ul.list-subitems
+                    display: none
+                    transition: .6s ease-in
+                    // border-bottom: 1px solid #EEEEEE
+                    li.sub-item
+                        a
+                            padding-left: 35px
+                            width: 100%
+                            transition: .3s ease-in
+                        &.active, &:hover
+                            background: #F5F5F5
+                ul.list-subitems.active
+                        display: block            
+        // .user-data
+        //     padding: 10px
+        //     display: block
+        // .title
+        //     font-weight: bold
+        //     color: grey
+        // .result
+        //     color: grey
+
+.content-wraper
+    margin-left: 20%
+    .header
+        width: 100%
+        font-size: 25px
+        background: #1D2671
+        color: white
+        padding: 30px
+        .header-content
+            width: 100%
+            display: -webkit-box
+            display: -webkit-flex
+            display: -ms-flexbox
+            display: flex
+            -webkit-box-pack: center
+            -webkit-justify-content: center
+            -ms-flex-pack: center
+            justify-content: center
+            -webkit-box-align: center
+            -webkit-align-items: center
+            -ms-flex-align: center
+            align-items: center
+        .icon-menu
+            width: 10%
+            display: none
+            i
+                cursor: pointer
+                font-size: 25px
+        .name-site
+            text-align: center
+            width: 90%
+    main
+        width: 100%
+@media only screen and (max-width: 993px)
+    .menu-wraper
+        width: 30%
+    .content-wraper
+        margin-left: 30%
+    body
+        width: 100%
+@media only screen and (max-width: 601px)
+    .content-wraper
+        margin-left: 0%
+        width: 100%
+    .menu-wraper.active
+        margin-left: 0%
+    .content-wraper .header .header-content .icon-menu
+        display: block
+    .menu-wraper
+        width: 60%
+        margin-left: -60%
+        z-index: 1000

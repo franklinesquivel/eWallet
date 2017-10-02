@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="manifest" href="../../manifest.json">
+	<link rel="stylesheet" href="../../styles/css/user.css">
+    <title>eWallet: Usuario</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+    <script src="../../js/eWallet.js"></script>
+    <script src="../../js/user.js"></script>
+</head>
+<body>
+    <div class="menu-wraper">
+        <div class="company-data">
+            <div class="name">
+                eWallet
+            </div>
+        </div>
+        <div class="menu-items">    
+            <!-- <div class="user-data">
+                        
+            </div> -->
+            <div class="options-menu">
+                <ul class="list-items">
+                    <li class="item"><a href="../index.html"><i class="material-icons">home</i><span>Inicio</span></a></li>
+                    <li class="item">
+                        <a href="#" class="item-menu"><i class="material-icons">monetization_on</i><span>Cuentas</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="viewAccounts.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="addAccounts.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="item-menu"><i class="material-icons">attach_money</i><span>Ingresos</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="viewEarnings.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="addEarnings.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item active">
+                        <a href="#" class="item-menu"><i class="material-icons">money_off</i><span>Gastos</span></a>
+                        <ul class="list-subitems active">
+                            <li class="sub-item"><a href="viewExpenses.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item active"><a href="addExpenses.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item">
+                        <a href="#" class="item-menu"><i class="material-icons">credit_card</i><span>Tarjetas</span></a>
+                        <ul class="list-subitems">
+                            <li class="sub-item"><a href="viewCard.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
+                            <li class="sub-item"><a href="addCard.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="item"><a href="statistics.html"><i class="material-icons">graphic_eq</i><span>Estadísticas</span></a></li>
+                    <li class="item"><a href="setting.html"><i class="material-icons">settings</i><span>Configuración</span></a></li>
+                    <li class="item" id="btnUnLog"><a><i class="material-icons">cancel</i><span>Cerrar Sesión</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="content-wraper">
+        <div class="header">
+            <div class="header-content">
+                <div class="icon-menu">
+                    <i class="material-icons" id="slide-menu">menu</i>
+                </div>
+                <div class="name-site">
+                    Agregar Gastos
+                </div>
+            </div>
+        </div>
+        <br>
+        <main>
+            <div class="container row"> <!-- Agregar Gastos -->
+                <form class="frmAddExpensive">
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="txtCount">N° de cuenta</label>
+                        <input type="text" name="" id="txtCount">
+                    </div>
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="txtAmount">Monto ($)</label>
+                        <input type="text" name="" id="txtAmount">
+                    </div>
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="txtDate">Fecha</label>
+                        <input type="date" name="" id="txtDate">
+                    </div>
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="cmbReason" class="select-label">Motivo</label>
+                        <div class="slct-field">
+                            <select id="cmbReason" name="cmbReason">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div> <!-- Fin agregar gatos -->
+            <div class="row">
+                <div class="col l4 m8 s6 offset-l4 offset-m2 offset-s3">
+                    <div class="button left-right">
+                        Registrar
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -8,7 +8,7 @@ const app = express();
 app.get('/', (req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/html');
-	res.sendFile(path.join(__dirname, 'public'));
+	res.sendFile(path.join(__dirname, 'docs'));
 })
 
 app.use(express.static(path.join(__dirname, 'public')));
