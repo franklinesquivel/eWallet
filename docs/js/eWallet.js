@@ -26,7 +26,8 @@
 //																					//
 //----------------------------------------------------------------------------------//
 
-class EncryptDecrypt {
+//Clase para la encriptación / decriptación de datos
+class Encryptation {
 	constructor(){
 		this.numbers = ["e", "l", "a", "y", "A", "L", "F", "R","o", "p"];
 		this.letters = ["a", "b", "c", "d","e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D","E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
@@ -108,6 +109,11 @@ class EncryptDecrypt {
     }
 }
 
+eWallet.encryptation = new Encryptation();
+//							END eWallet Encryptation								//
+//----------------------------------------------------------------------------------//
+
+//Clase general para el elemento de SLIDER
 class Slider {
 	constructor(element, btns, time) {
 		this.element = element;
@@ -145,8 +151,7 @@ class Slider {
 	}
 }
 
-eWallet.encryptation = new EncryptDecrypt();
-
+//Clase para el elemento de la ventana MODAL
 class Modal {
 	constructor(element) {
 		this.element = element;
@@ -160,7 +165,7 @@ class Modal {
 		}
 
 		this.back.eWallet.fadeIn(2);
-		this.element.eWallet.fadeIn();
+		this.element.classList.remove('closed');
 		this.element.classList.add('open');
 		typeof callback === "function" ? callback() : "";
 	}
@@ -168,10 +173,12 @@ class Modal {
 	close(callback = null){
 		this.back.eWallet.fadeOut(2);
 		this.element.classList.remove('open');
+		this.element.classList.add('closed');
 		typeof callback === "function" ? callback() : "";
 	}
 }
 
+//Clase para el elemento del MENÚ en las distintas vistas del usuario.
 class Menu {
 	constructor(element) {
 		this.element = element;
@@ -234,6 +241,7 @@ eWallet.delegate = function(criteria, listener){
 	};
 }
 
+//Método del OBJETO GENERAL para crear elementos del DOM
 eWallet.create = function(tag, content = null, dataset = null){
 	let element = document.createElement(tag);
 
@@ -248,7 +256,7 @@ eWallet.create = function(tag, content = null, dataset = null){
 	}
 
 	if (content !== null) {
-		let elementPattern = /^<.+>.*<\/.+>$/i;
+		let elementPattern = /<[a-z][\s\S]*>/im;
 
 		if (eWallet.isElement(content)) {
 			element.appendChild(content);
@@ -260,6 +268,7 @@ eWallet.create = function(tag, content = null, dataset = null){
 	return element;
 };
 
+//Método del OBJETO GENERAL para verificar sí su parámetro es un elemento del DOM
 eWallet.isElement = function(obj){
 	try{
 		return (obj.constructor.__proto__.prototype.constructor.name) ? true : false;
@@ -268,6 +277,7 @@ eWallet.isElement = function(obj){
 	}
 };
 
+//Método del OBJETO GENERAL para encontrar y obtener un o varios elementos del DOM
 eWallet.find = function(selector, index = false){
 	if (selector === undefined || selector === null || typeof selector !== "string" || selector.length <= 0) {
 		console.error("eWallet Error: Ingrese un selector válido");
@@ -282,6 +292,7 @@ eWallet.find = function(selector, index = false){
 	}
 };
 
+//Método del OBJETO GENERAL para eliminar elementos del DOM
 eWallet.destroy = function(selector){
 	if (typeof selector !== "string" && !eWallet.isElement(selector)) return;
 
@@ -298,6 +309,7 @@ eWallet.destroy = function(selector){
 	}
 };
 
+//Método del OBJETO GENERAL para mostrar un mensaje temporal en una caja personalizada
 eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	if (typeof msg !== "string") return;
 	var toast = eWallet.create('div', msg, {class: "toast"});
@@ -317,6 +329,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	}, ((time * 1000) + 500));
 };
 
+//Método del OBJETO GENERAL para  registrar un usuario en el LocalStorage
 eWallet.register = function(dataset, handler = null){
 	if (typeof dataset !== "object" || !eWallet.dataFlag) return false;
 	if(typeof handler !== null && typeof handler !== "function"){
@@ -343,28 +356,32 @@ eWallet.getSessionData = function(key){
 }
 
 eWallet.logIn = function(credentials, handler){
-	let data = eWallet.getLocalData(credentials.email);
-	if ( data !== false) {
-		let loginData = JSON.parse(eWallet.encryptation.Decrypt(data));
-		if (loginData.email == credentials.email && loginData.password == credentials.password) {
-			sessionStorage.setItem(credentials.email, true);
-			window.eWallet.user = credentials.email;
-			handler(true, loginData);
+	if (eWallet.UserData === undefined) {
+		let data = eWallet.getLocalData(credentials.email);
+		if ( data !== false) {
+			let loginData = JSON.parse(eWallet.encryptation.Decrypt(data));
+			if (loginData.email == credentials.email && loginData.password == credentials.password) {
+				sessionStorage.setItem(credentials.email, true);
+				window.eWallet.user = credentials.email;
+				handler(true, loginData);
+			}else{
+				handler(false);
+			}
 		}else{
 			handler(false);
 		}
-	}else{
-		handler(false);
 	}
 };
 
-eWallet.logOut = function(credentials, handler = null){
-	let data = eWallet.getSessionData(credentials.email);
-	if (data !== false) {
-		sessionStorage.clear();
-		typeof handler === "function" ? handler(true): "";
-	}else{
-		typeof handler === "function" ? handler(false): "";
+eWallet.logOut = function(handler = null){
+	if (eWallet.UserData !== undefined) {
+		let data = eWallet.getSessionData(eWallet.UserData.email);
+		if (data !== false) {
+			sessionStorage.clear();
+			typeof handler === "function" ? handler(true): "";
+		}else{
+			typeof handler === "function" ? handler(false): "";
+		}
 	}
 }
 
@@ -445,9 +462,13 @@ eWallet.updateUserData = function(previousId, dataset){
 	}
 }
 
+eWallet.genPopOutBackground = function(){
+	let background = eWallet.create('div', '', {id: '_background'});
+	eWallet.find('body', 1).eWallet.append(background);
+}
+
 eWallet.slider = function(selector){
 	const elements = document.querySelectorAll(selector);
-	// console.log(elements);
 	if (elements.length > 0) {
 		elements.forEach(element => {
 			if (!element instanceof HTMLDivElement){
@@ -488,11 +509,6 @@ eWallet.newSlider = function(element, time = 3000){
 		i == 0 ? btn.classList.add('selected') : "";
 	})
 };
-
-eWallet.genPopOutBackground = function(){
-	let background = eWallet.create('div', '', {id: '_background'});
-	eWallet.find('body', 1).eWallet.append(background);
-}
 
 eWallet.modal = function(selector){
 	let element = eWallet.find(selector);
@@ -583,18 +599,6 @@ eWallet.menu = function(selector){
 	//	 					- author: Franklin Esquivel									//
 	//																					//
 	//----------------------------------------------------------------------------------//
-	const CustomForm = function(element) {
-		this.element = element;
-	};
-
-	const CustomInput = function(element){
-		this.element = element;
-	};
-
-	const CustomElement = function(element){
-		this.element = element;
-	};
-
 	const eWallet_Methods = function(element){
 		this.element = element;
 	};
@@ -629,8 +633,9 @@ eWallet.menu = function(selector){
 			}
 
 			if (handler !== null && typeof handler === "function")  {
-				handler(f == 0)
+				handler(f == 0);
 			}
+			return f == 0;
 		}else{
 			console.error(`eValidate Error: Parámetro inválido!`);
 		}
@@ -655,7 +660,7 @@ eWallet.menu = function(selector){
 
 	eWallet_Methods.prototype.prepend = function(content){
 		if (this.element instanceof Element) {
-			let elementPattern = /^<.+>.*<\/.+>$/i;
+			let elementPattern = /<[a-z][\s\S]*>/im;
 
 			if (this.element.children[0]) {
 				if(eWallet.isElement(content)){
@@ -678,7 +683,7 @@ eWallet.menu = function(selector){
 
 	eWallet_Methods.prototype.append = function(content){
 		if (this.element instanceof Element) {
-			let elementPattern = /^<.+>.*<\/.+>$/i;
+			let elementPattern = /<[a-z][\s\S]*>/im;
 
 			if (!eWallet.isElement(content) || typeof content === "string") {
 				content = !elementPattern.test(content) ? document.createTextNode(content) : content;
@@ -722,30 +727,11 @@ eWallet.menu = function(selector){
 		}
 	};
 
-	// Object.defineProperty(HTMLFormElement.prototype, "eWallet", {
-	// 	get: function () {
-	// 		Object.defineProperty(this, "eWallet", {
-	// 			value: new eWallet_Methods(this)
-	// 		});
-			
-	// 		return this.eWallet;
-	// 	},
-	// 	configurable: true,
-	// 	writeable: false
-	// });
-
-	// Object.defineProperty(HTMLInputElement.prototype, "eWallet", {
-	// 	get: function () {
-	// 		Object.defineProperty(this, "eWallet", {
-	// 			value: new eWallet_Methods(this)
-	// 		});
-			
-	// 		return this.eWallet;
-	// 	},
-	// 	configurable: true,
-	// 	writeable: false
-	// });
-
+	/*
+	El objeto eWallet_Methods es añadido a TODOS los elementos existentes y/o que existirán en
+	el DOM como una propiedad más. Mediante esta propiedad se podrá acceder a todos los métodos
+	declarados anteriormente.
+	*/
 	Object.defineProperty(Element.prototype, "eWallet", {
 		get: function () {
 			Object.defineProperty(this, "eWallet", {
@@ -773,7 +759,7 @@ eWallet.menu = function(selector){
 			eWallet.UserData === undefined ? eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3') : "";
 			setTimeout(function(){
 				eWallet.sessionLocation(true);
-			}, 2300)
+			}, 2000)
 		}else{
 			eWallet.sessionLocation(false);
 		}

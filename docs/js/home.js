@@ -182,30 +182,33 @@
 			}, function(r){
 				if (r) {
 					eWallet.register({
-						name: txtName.value,
-						lastName: txtLast.value,
+						name: frmRegister.txtName.value,
+						lastName: frmRegister.txtLast.value,
 						email: frmRegister.txtEmail.value,
-						password: txtPass.value,
+						password: frmRegister.txtPass.value,
 						address: {
-							department: cmbDepartamento.value,
-							city: cmbMunicipio.value,
-							colony: txtCol.value,
-							street: txtPje.value,
-							house: txtNCasa.value
+							department: frmRegister.cmbDepartamento.value,
+							city: frmRegister.cmbMunicipio.value,
+							colony: frmRegister.txtCol.value,
+							street: frmRegister.txtPje.value,
+							house: frmRegister.txtNCasa.value
 						},
 						securityQuestion: {
-							question: cmbSecurityQuestion.value,
-							answer: txtAnswer.value
+							question: frmRegister.cmbSecurityQuestion.value,
+							answer: frmRegister.txtAnswer.value
 						},
-						dui: txtDui.value,
-						nit: txtNit.value,
-						phone: txtTel.value,
-						birthdate: txtDate.value,
+						dui: frmRegister.txtDui.value,
+						nit: frmRegister.txtNit.value,
+						phone: frmRegister.txtTel.value,
+						birthdate: frmRegister.txtDate.value,
 						firstLogin: true
 					}, function(f){
-						console.log(f);
-						eWallet.toast(f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!', (f ? 'green' : 'red') + ' darken-1');
+						let msg = (f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!');
+						eWallet.toast(msg, 2, `${f ? 'green' : 'red'} darken-1`);
 						f ? frmRegister.reset() : "";
+
+						document.querySelector('.container-arrow').classList.remove("active");
+						switchForms(0);
 					});
 				}else{
 					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
@@ -213,7 +216,7 @@
 			})
 		})
 
-		eWallet.find('#btnLog', 1).addEventListener('click', function(){
+		eWallet.on(document, 'click', '#btnLog', function(){
 			frmLogin.eWallet.validate({
 				"txtEmail": {
 					"pattern": {
@@ -236,7 +239,7 @@
 							eWallet.toast(`<i>${obj.email}</i> ha iniciado sesión éxitosamente!`, 2, 'green darken-1');
 							setTimeout(function(){
 								eWallet.sessionLocation(true);
-							}, 2300);
+							}, 1000);
 						}else{
 							eWallet.toast('Ese usuario no existe!', 2, 'red darken-1');
 							frmLogin.reset();
@@ -251,6 +254,98 @@
 		var bodyFlag = 0, mdl = eWallet.modal('.modal');
 		window.addEventListener("scroll", function(){viewMenu();});
 
+		eWallet.on(document, 'click', '#recoverPassword', function(){
+			eWallet.find('.modal .content', 1).innerHTML = `
+				<h3 class="center">Ingresa el correo electrónico de tu cuenta</h3><br/>
+				<form name="frmPassword" class="row">
+					<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+						<label for="txtEmail">Correo Electrónico</label>
+						<input type="text" id="txtEmail">
+					</div>
+					<div class="row col l3 offset-l5 m6 offset-m3 s8 offset-s2">
+						<button id="btnRecoverPassword" class="button skew-fill">Siguiente</button>
+					</div>
+				</form>
+			`;
+
+			frmPassword.onsubmit = function(){return false};
+		})
+
+		eWallet.on(document, 'click', '#btnRecoverPassword', function(){
+			frmPassword.eWallet.validate({
+				txtEmail: {
+					pattern: {
+						value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+						msg: "Ingresa un valor válido!"
+					}
+				}
+			}, function(r){
+				if (r) {
+					if (eWallet.getLocalData(frmPassword.txtEmail.value) !== false) {
+						let userData = eWallet.encryptation.Decrypt(eWallet.getLocalData(frmPassword.txtEmail.value));
+						userData = JSON.parse(userData);
+
+						eWallet.find('.modal .content', 1).innerHTML = `
+						<h3 class="center">Responde la siguiente pregunta para recuperar tu contraseña</h3>
+						<h4 class="center sub">${userData.securityQuestion.question}</h4>
+						<br/>
+						<form name="frmPassword" class="row">
+							<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+								<label for="txtAnswer">Respuesta</label>
+								<input type="text" id="txtAnswer">
+							</div>
+							<div class="row col l3 offset-l5 m6 offset-m3 s8 offset-s2">
+								<button id="btnShowPassword" class="button skew-fill">recuperar contraseña</button>
+							</div>
+						</form>`;
+						frmPassword.onsubmit = function(){return false};
+
+						eWallet.on(document, 'click', '#btnShowPassword', function(){
+							frmPassword.eWallet.validate({
+								txtAnswer: {
+									required: {
+										msg: "Ingresa un valor válido!"
+									}
+								}
+							}, function(r){
+								if (r) {
+									if (frmPassword.txtAnswer.value === userData.securityQuestion.answer) {
+										eWallet.toast(userData.password, 10, 'green darken-1');
+
+										eWallet.find('.modal .content', 1).innerHTML = `
+										<form name="frmLogin" class="row">
+											<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+												<label for="txtEmail">Correo Electrónico</label>
+												<input type="text" id="txtEmail" value="${userData.email}">
+											</div>
+											<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+												<label for="txtPassword">Contraseña</label>
+												<input type="password" id="txtPassword">
+											</div>
+											<br>
+											<div class="row col l3 offset-l5 m6 offset-m3 s8 offset-s2">
+												<button id="btnLog" class="button skew-fill">Iniciar</button>
+											</div>
+										</form>`;
+										frmLogin.onsubmit = function(){return false};
+										frmLogin.txtPassword.focus();
+										eWallet.updateTextFields();
+									}else{
+										eWallet.toast('El valor ingresado no coincide con el registrado!', 2, 'red darken-1');
+									}
+								}else{
+									eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
+								}
+							})
+						})
+					}else{
+						eWallet.toast('El usuario no ha sido encontrado!', 2, 'yellow darken-3');
+					}
+				}else{
+					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
+				}
+			})
+		})
 		function viewMenu(){
 			if(!bodyFlag){
 				if(window.pageYOffset > 0){
@@ -293,7 +388,7 @@
 		}
 
 		document.querySelector('#mdlLogin .close').addEventListener('click', function(){
-			eWallet.modal('#mdlLogin').close();
+			mdl.close();
 		});
 
 		document.querySelector('#txtName').addEventListener('focus', function(){
