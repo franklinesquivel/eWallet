@@ -14,7 +14,7 @@
 		eWallet.dataFlag = !(typeof Storage === undefined);
 
 		//Directorio general del proyecto
-		eWallet.dir = 'docs';
+		eWallet.dir = 'public';
 
 	}
 })(window);
@@ -406,8 +406,9 @@ eWallet.checkSession = function(user = null, keyFlag = false){
 
 eWallet.sessionLocation = function(sessionFlag = false){
 	let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
-		appRoot = actualEnvironment === "server" ? '/' : 'index.html',
-		userDir = actualEnvironment === "server" ? '/user' : 'user/index.html';
+		hostFlag = location.hostname === "localhost",
+		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/') : 'index.html',
+		userDir = actualEnvironment === "server" ? (host ? '/user' : '/eWallet/user') : 'user/index.html';
 
 	let localAppRootFlag = true, actualHref = location.href.split('/');
 
@@ -434,8 +435,9 @@ eWallet.sessionLocation = function(sessionFlag = false){
 eWallet.setSessionData = function(){
 	if (eWallet.checkSession()) {
 		let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
-		appRoot = actualEnvironment === "server" ? '/' : 'index.html',
-		userDir = actualEnvironment === "server" ? '/user' : 'user/index.html';
+		hostFlag = location.hostname === "localhost",
+		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/') : 'index.html',
+		userDir = actualEnvironment === "server" ? (host ? '/user' : '/eWallet/user') : 'user/index.html';
 
 		if ((actualEnvironment === "server" && location.pathname === appRoot) || (actualEnvironment === "local" && location.href.search("/eWallet/" + eWallet.dir + "/index.html") !== -1)) {
 			eWallet.UserData = undefined;
