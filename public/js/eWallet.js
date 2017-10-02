@@ -419,9 +419,10 @@ eWallet.sessionLocation = function(sessionFlag = false){
 		for (var i = 0; i < locationAux.length; i++) {
 			if (locationAux[i] !== "eWallet") newLocation += `${locationAux[i]}${locationAux[i + 1] === "eWallet" ? "" : "/"}`; else break;
 		}
-
+		console.log(newLocation);
 		newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${appRoot}/${eWallet.dir}`;
-		location.href = actualEnvironment === "server" ? appRoot : newLocation;
+		console.log(newLocation);
+		// location.href = actualEnvironment === "server" ? appRoot : newLocation;
 	}else if (actualEnvironment === "server" && location.pathname === appRoot) {
 		if (hostFlag) {
 			let locationAux = location.href.split('/'), hrefAux = [];
