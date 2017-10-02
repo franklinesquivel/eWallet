@@ -38,6 +38,7 @@
             frmBalance.onsubmit = function(){
                 return false;
             }
+            eWallet.updateTextFields();
 
             eWallet.find('#btnBalance', 1).addEventListener('click', function(){
                 frmBalance.eWallet.validate({
@@ -93,11 +94,11 @@
                                     txtAccountNumber: {
                                         required: {
                                             msg: "Ingrese un valor"
+                                        },
+                                        pattern: {
+                                            value: /^\d{4}[ \-]\d{4}[ \-]\d{4}[ \-]\d{4}$/,
+                                            msg: "Ingrese un´valor valido!"
                                         }
-                                        // pattern: {
-                                        //     value: ,
-                                        //     msg: "Ingrese un´valor valido!"
-                                        // }
                                     },
                                     txtBankBalance: {
                                         required: {

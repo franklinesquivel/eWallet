@@ -190,38 +190,35 @@
 				}
 			}, function(r){
 				if (r) {
-					f = 1;
-						eWallet.toast('Yei', 2, `${f ? 'green' : 'red'} darken-1`);
+					eWallet.register({
+						name: frmRegister.txtName.value,
+						lastName: frmRegister.txtLast.value,
+						email: frmRegister.txtEmail.value,
+						password: frmRegister.txtPass.value,
+						address: {
+							department: frmRegister.cmbDepartamento.value,
+							city: frmRegister.cmbMunicipio.value,
+							colony: frmRegister.txtCol.value,
+							street: frmRegister.txtPje.value,
+							house: frmRegister.txtNCasa.value
+						},
+						securityQuestion: {
+							question: frmRegister.cmbSecurityQuestion.value,
+							answer: frmRegister.txtAnswer.value
+						},
+						dui: frmRegister.txtDui.value,
+						nit: frmRegister.txtNit.value,
+						phone: frmRegister.txtTel.value,
+						birthdate: frmRegister.txtDate.value,
+						firstLogin: true
+					}, function(f){
+						let msg = (f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!');
+						eWallet.toast(msg, 2, `${f ? 'green' : 'red'} darken-1`);
+						f ? frmRegister.reset() : "";
 
-					// eWallet.register({
-					// 	name: frmRegister.txtName.value,
-					// 	lastName: frmRegister.txtLast.value,
-					// 	email: frmRegister.txtEmail.value,
-					// 	password: frmRegister.txtPass.value,
-					// 	address: {
-					// 		department: frmRegister.cmbDepartamento.value,
-					// 		city: frmRegister.cmbMunicipio.value,
-					// 		colony: frmRegister.txtCol.value,
-					// 		street: frmRegister.txtPje.value,
-					// 		house: frmRegister.txtNCasa.value
-					// 	},
-					// 	securityQuestion: {
-					// 		question: frmRegister.cmbSecurityQuestion.value,
-					// 		answer: frmRegister.txtAnswer.value
-					// 	},
-					// 	dui: frmRegister.txtDui.value,
-					// 	nit: frmRegister.txtNit.value,
-					// 	phone: frmRegister.txtTel.value,
-					// 	birthdate: frmRegister.txtDate.value,
-					// 	firstLogin: true
-					// }, function(f){
-					// 	let msg = (f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!');
-					// 	eWallet.toast(msg, 2, `${f ? 'green' : 'red'} darken-1`);
-					// 	f ? frmRegister.reset() : "";
-
-					// 	document.querySelector('.container-arrow').classList.remove("active");
-					// 	switchForms(0);
-					// });
+						document.querySelector('.container-arrow').classList.remove("active");
+						switchForms(0);
+					});
 				}else{
 					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
 				}
