@@ -2532,15 +2532,19 @@ textarea {
     border: 1px solid #C33764; }
     .slct-field select:focus {
       outline: none; }
-    .slct-field select.valid {
-      border: 2px solid #388E3C; }
-    .slct-field select.invalid {
-      border: 2px solid #C62828; }
+  .slct-field.valid select {
+    border: 2px solid #388E3C; }
+  .slct-field.invalid select {
+    border: 2px solid #C62828; }
   .slct-field select::-ms-expand {
     display: none;
     /* to ie 10 */ }
   .slct-field + .msg {
     transform: translateY(0px); }
+  .slct-field.valid + .msg.success {
+    opacity: 1; }
+  .slct-field.invalid + .msg.error {
+    opacity: 1; }
 
 :-moz-any(.slct-field):before,
 :-moz-any(.slct-field):after {

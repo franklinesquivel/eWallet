@@ -1,12 +1,44 @@
 (()=>{
     document.addEventListener('DOMContentLoaded', function(){
-        frmBalance.onsubmit = function(){
-            return false;
-        }
-
-        var mdlBalance = eWallet.modal('.modal');
 
         if (eWallet.UserData.firstLogin) {
+            if (eWallet.find('.balance').length > 1) {
+                eWallet.find('.balance', 1).innerHTML = "$0.00";
+                eWallet.find('.balance', 1).eWallet.append(`<h6 class="center sub">(Ingresa los datos requeridos para establecer tu saldo inicial)</h6>`);
+            }
+            document.body.eWallet.append(`
+                <div class="modal" id="mdlBalance">
+                    <div class="content">
+                        <h1 class="center">Bienvenido a eWallet!</h1>
+                        <h5 class="sub center">Esta es la primera vez que inicias sesión y necesitamos que nos proveas unos datos extra para poder manejar tus finanzas con mayor facilidad!</h5>
+                        <br>
+                        <div class="forms row">
+                            <form name="frmBalance" class="row">
+                                <div class="input-field col s12 l3 m3 offset-l3 offset-m3">
+                                    <label for="txtBalance">Efectivo actual</label>
+                                    <input type="text" name="txtBalance" id="txtBalance">
+                                </div>
+                                <div class="input-field col s12 l4 m4">
+                                    <label for="txtAccounts">¿Cuántas cuentas de banco desea registrar?</label>
+                                    <input type="number" name="txtAccounts" id="txtAccounts">
+                                </div>
+                                
+                            </form>
+                            <div class="col l4 m6 s8 offset-l4 offset-m3 offset-s2">
+                                <button id="btnBalance" class="button skew-fill">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer fixed-foo">
+                        <a class="modal-btn close" mdl-action="close">Cerrar</a>
+                    </div>
+                </div>`);
+
+            var mdlBalance = eWallet.modal('#mdlBalance');
+            frmBalance.onsubmit = function(){
+                return false;
+            }
+
             eWallet.find('#btnBalance', 1).addEventListener('click', function(){
                 frmBalance.eWallet.validate({
                     txtBalance: {
@@ -91,9 +123,12 @@
                                 eWallet.UserData.accounts = dataAux;
                                 eWallet.UserData.generalBalance = auxBalance;
                                 eWallet.UserData.firstLogin = false;
-                                eWallet.updateUserData(eWallet.user, eWallet.UserData);
+                                eWallet.updateUserData(eWallet.UserData.email, eWallet.UserData);
                                 mdlBalance.close();
                                 eWallet.toast('Los datos han sido guardados con éxito!', 2, 'green darken-1');
+                                setTimeout(function(){
+                                    location.reload();
+                                }, 1000);
                             }else{
                                 eWallet.toast('Ingrese todos los valores requeridos!', 2, 'red darken-1');
                             }
@@ -107,7 +142,9 @@
 
             mdlBalance.open();
         }else{
-            alert(':p');
+            if (eWallet.find('.balance').length > 0) {
+                eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance}`;
+            }
         }
 
         eWallet.find('#btnUnLog', 1).addEventListener('click', function(){

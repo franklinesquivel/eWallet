@@ -402,13 +402,13 @@ textarea {
         &:focus{
             outline: none;
         }
-        &.valid {
-            border: 2px solid $success-color;
-        }
+    }
+    &.valid select{
+        border: 2px solid $success-color;
+    }
 
-        &.invalid {
-            border: 2px solid $error-color;
-        }
+    &.invalid select{
+        border: 2px solid $error-color;
     }
     & select::-ms-expand{
         display: none; /* to ie 10 */
@@ -419,10 +419,12 @@ textarea {
     }
 
     &.valid + .msg.success{
+        opacity: 1;
         @extend %custom-success-message;
     }
     
     &.invalid + .msg.error{
+        opacity: 1;
         @extend %custom-error-message;
     }
 }

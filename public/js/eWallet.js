@@ -622,24 +622,34 @@ eWallet.menu = function(selector){
 			let f = 0, options = dataset;
 			for(el in options){
 				if (this.element[el] !== undefined) {
-					for(rule in options[el]){
-						let msg = options[el][rule].msg,
-							pattern = msg !== undefined ? options[el][rule].value : undefined,
-							condition;
-
-						switch(rule){
-							case "required":
-								condition = parseInt(this.element[el].value.trim().length) === 0;
-								break;
-							case "pattern":
-								condition = !pattern.test(this.element[el].value);
-								break;
-							// case "condition":
-							// 	condition = ;
+					let condition, msg;
+					if (this.element[el] instanceof HTMLInputElement) {
+						for(rule in options[el]){
+							msg = options[el][rule].msg;
+							let pattern = msg !== undefined ? options[el][rule].value : undefined;
+							switch(rule){
+								case "required":
+									condition = parseInt(this.element[el].value.trim().length) === 0;
+									break;
+								case "pattern":
+									condition = !pattern.test(this.element[el].value);
+									break;
+								case "condition":
+									condition = !options[el][rule].value;
+									break;
+							}
 						}
-						condition ? f++ : "";
-						this.element[el].eWallet.validateInput(condition, msg);
+					}else if(this.element[el] instanceof HTMLSelectElement){
+						for(rule in options[el]){
+							msg = options[el][rule].msg;
+							if (rule === "required") {
+								condition = this.element[el].selectedIndex === 0;
+							}
+						}
 					}
+
+					condition ? f++ : "";
+					this.element[el].eWallet.validateInput(condition, msg);
 				}else{
 					console.warn(`eValidate Warning: El elemento ${el} no existe en el DOM!`);
 				}
@@ -656,7 +666,11 @@ eWallet.menu = function(selector){
 
 	eWallet_Methods.prototype.validateInput = function(toogle, msg = undefined){
 		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
-		toogle ? this.element.classList.add('invalid') : this.element.classList.remove('invalid');
+		if (this.element instanceof HTMLInputElement) {
+			toogle ? this.element.classList.add('invalid') : this.element.classList.remove('invalid');
+		}else if(this.element instanceof HTMLSelectElement){
+			toogle ? this.element.parentNode.classList.add('invalid') : this.element.parentNode.classList.remove('invalid');
+		}
 		// !toogle ? this.element.classList.add('valid') : this.element.classList.remove('valid');
 		msg !== undefined && toogle ? this.insertMsg(msg) : "";
 	};
@@ -664,10 +678,17 @@ eWallet.menu = function(selector){
 	eWallet_Methods.prototype.insertMsg = function(msg, toogle = 1){
 		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
 		if (this.element.nextElementSibling === null) {
-			this.element.parentNode.appendChild(eWallet.create('div', msg, {
-				class: `msg ${toogle ? 'error' : 'success'}`,
-				id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
-			}))
+			if(this.element instanceof HTMLSelectElement){
+				this.element.parentNode.parentNode.appendChild(eWallet.create('div', msg, {
+					class: `msg ${toogle ? 'error' : 'success'}`,
+					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
+				}))
+			}else{
+				this.element.parentNode.appendChild(eWallet.create('div', msg, {
+					class: `msg ${toogle ? 'error' : 'success'}`,
+					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
+				}))
+			}
 		}
 	};
 
