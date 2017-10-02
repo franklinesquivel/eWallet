@@ -421,7 +421,7 @@ eWallet.sessionLocation = function(sessionFlag = false){
 			if (locationAux[i] !== "eWallet") newLocation += `${locationAux[i]}/`; else break;
 		}
 
-		newLocation += `eWallet/${eWallet.dir}/${appRoot}`;
+		newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${eWallet.dir}/${appRoot}`;
 		location.href = actualEnvironment === "server" ? appRoot : newLocation;
 	}else if (actualEnvironment === "server" && location.pathname === appRoot) {
 		if (sessionFlag) location.href = `${location}/${userDir}`;
@@ -766,7 +766,7 @@ eWallet.menu = function(selector){
 				eWallet.sessionLocation(true);
 			}, 2000)
 		}else{
-			eWallet.sessionLocation(false);
+			// eWallet.sessionLocation(false);
 		}
 
 		input_selector.forEach(i => {
