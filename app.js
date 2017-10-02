@@ -8,10 +8,10 @@ const app = express();
 app.get('/', (req, res) => {
 	res.statusCode = 200;
 	res.setHeader('Content-Type', 'text/html');
-	res.sendFile(path.join(__dirname, 'eWallet'));
+	res.sendFile(path.join(__dirname, 'public'));
 })
 
-app.use(express.static(path.join(__dirname, 'eWallet')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port, hostname, () => {
 	console.log(`Server running at http://${hostname}:${port}`);

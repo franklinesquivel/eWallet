@@ -406,9 +406,9 @@ eWallet.checkSession = function(user = null, keyFlag = false){
 
 eWallet.sessionLocation = function(sessionFlag = false){
 	let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
-		hostFlag = 0,
+		hostFlag = location.hostname === "localhost",
 		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/public/') : 'index.html',
-		userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/eWallet/user') : 'user/index.html';
+		userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/user/') : 'user/index.html';
 
 	let localAppRootFlag = true, actualHref = location.href.split('/');
 	localAppRootFlag = actualHref[actualHref.length - 1] === "index.html" && actualHref[actualHref.length - 2] === eWallet.dir;
@@ -423,7 +423,15 @@ eWallet.sessionLocation = function(sessionFlag = false){
 		newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${appRoot}/${eWallet.dir}`;
 		location.href = actualEnvironment === "server" ? appRoot : newLocation;
 	}else if (actualEnvironment === "server" && location.pathname === appRoot) {
-		if (sessionFlag) location.href = `${location}/${userDir}`;
+		if (hostFlag) {
+			if (sessionFlag) location.href = `${location}/${userDir}`;
+		}else{
+			let locationAux = location.href.split('/'), hrefAux = [];
+			for (var i = 0; i < locationAux.length - 1; i++) {
+				hrefAux[i] = locationAux[i];
+			}
+			if (sessionFlag) location.href = (`${hrefAux.join('/')}${userDir}`);
+		}
 	}else if(actualEnvironment === "local" && localAppRootFlag){
 		let hrefAux = location.href.split('/');
 		hrefAux[hrefAux.length - 1] = userDir;
@@ -436,7 +444,7 @@ eWallet.setSessionData = function(){
 		let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
 		hostFlag = location.hostname === "localhost",
 		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/') : 'index.html',
-		userDir = actualEnvironment === "server" ? (host ? '/user' : '/eWallet/user') : 'user/index.html';
+		userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/eWallet/user') : 'user/index.html';
 
 		if ((actualEnvironment === "server" && location.pathname === appRoot) || (actualEnvironment === "local" && location.href.search("/eWallet/" + eWallet.dir + "/index.html") !== -1)) {
 			eWallet.UserData = undefined;
@@ -760,7 +768,9 @@ eWallet.menu = function(selector){
 	document.addEventListener('DOMContentLoaded', () => {
 		if(eWallet.checkSession()){
 			eWallet.setSessionData();
-			eWallet.UserData === undefined ? eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3') : "";
+			if ((location.pathname === "/eWallet/public/" && location.hostname !== "localhost") || (location.pathname === "/" && location.hostname === "localhost")) {
+				eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3')
+			}
 			setTimeout(function(){
 				eWallet.sessionLocation(true);
 			}, 2000)
