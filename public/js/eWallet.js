@@ -408,7 +408,7 @@ eWallet.sessionLocation = function(sessionFlag = false){
 	let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
 		hostFlag = location.hostname === "localhost",
 		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/') : 'index.html',
-		userDir = actualEnvironment === "server" ? (host ? '/user' : '/eWallet/user') : 'user/index.html';
+		userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/eWallet/user') : 'user/index.html';
 
 	let localAppRootFlag = true, actualHref = location.href.split('/');
 
