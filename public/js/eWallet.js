@@ -763,7 +763,7 @@ eWallet.menu = function(selector){
 			eWallet.setSessionData();
 			eWallet.UserData === undefined ? eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3') : "";
 			setTimeout(function(){
-				eWallet.sessionLocation(true);
+				// eWallet.sessionLocation(true);
 			}, 2000)
 		}else{
 			// eWallet.sessionLocation(false);
