@@ -19,103 +19,6 @@
 	}
 })(window);
 
-//----------------------------------------------------------------------------------//
-//																					//
-//						**** eWallet Encryptation ****								//
-//																					//			
-//	 					- Version: 1.1												//
-//	 					- author: Leo López											//
-//	 					- adaptation: Frank Esquivel								//
-//																					//
-//----------------------------------------------------------------------------------//
-
-//Clase para la encriptación / decriptación de datos
-class Encryptation {
-	constructor(){
-		this.numbers = ["e", "l", "a", "y", "A", "L", "F", "R","o", "p"];
-		this.letters = ["a", "b", "c", "d","e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D","E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
-		this.space = ["-", "*", "/", "!", "?"];
-
-		this.VerifyNumber = this.VerifyNumber.bind(this);
-		this.VerifyLetter = this.VerifyLetter.bind(this);
-		this.VerifySpace = this.VerifySpace.bind(this);
-		this.Encrypt = this.Encrypt.bind(this);
-		this.Decrypt = this.Decrypt.bind(this);
-	}
-
-	VerifyNumber(char){
-	    for (let i = 0; i < this.numbers.length; i++) {
-	        if (char == i) {
-	            return this.numbers[i];
-	        }
-	    }
-	    return -1;
-	}
-	VerifyLetter(char){
-	    for (let i = 0; i < this.letters.length; i++) {
-	        if (char == this.letters[i]) {
-	            return i;
-	        }
-	    }
-	    return -1;
-	}
-
-	VerifySpace(char){
-	    for (let i = 0; i < this.space.length; i++) {
-	        if (char == this.space[i]) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
-
-	Encrypt(pass){
-        let encrypted = "";
-
-        for (let i=0; i < pass.length; i++) {
-        	let AscciCaracter, lengthCaracter, verifyNumber, verifyLetter, randSpace;
-
-            AscciCaracter = pass[i].charCodeAt(0);
-            lengthCaracter = (pass[i].charCodeAt(0).toString()).length;
-            verifyNumber = this.VerifyNumber(pass[i]);
-            verifyLetter = this.VerifyLetter(pass[i]);
-            randSpace = Math.floor((Math.random() * 4) + 0);
-            if (verifyNumber != -1) {
-            	encrypted += `${AscciCaracter}${verifyNumber}${lengthCaracter}${this.space[randSpace]}`
-            }else if(verifyLetter != -1){
-                encrypted += `${AscciCaracter}${verifyLetter}${lengthCaracter}${this.space[randSpace]}`;
-            }else{
-                encrypted += `${AscciCaracter}${lengthCaracter}${this.space[randSpace]}`;
-            }
-        }
-
-        return encrypted;
-    }
-
-    Decrypt(pass){
-        let decrypted = "", word = "";
-
-        for (let i = 0; i < pass.length; i++) {
-
-            if (this.VerifySpace(pass[i])) {
-            	let lengthWord, AscciCaracter;
-                lengthWord = word.substr(-1);
-                AscciCaracter = word.substr(0, lengthWord);
-                decrypted += String.fromCharCode(AscciCaracter);
-                word = "";
-            }else{
-                word += pass[i];
-            }
-        }
-
-        return decrypted;
-    }
-}
-
-eWallet.encryptation = new Encryptation();
-//							END eWallet Encryptation								//
-//----------------------------------------------------------------------------------//
-
 //Clase general para el elemento de SLIDER
 class Slider {
 	constructor(element, btns, time) {
@@ -332,148 +235,265 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	}, ((time * 1000) + 500));
 };
 
-//Método del OBJETO GENERAL para  registrar un usuario en el LocalStorage
-eWallet.register = function(dataset, handler = null){
-	if (typeof dataset !== "object" || !eWallet.dataFlag) return false;
-	if(typeof handler !== null && typeof handler !== "function"){
-		console.error("eWallet Error: Parámetro inválido en el registro de usuario!");
-		return;
-	}
-	
-	handler(true);
-	localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset)));
-};
+(function(){
+	function genRandom(){
+		let key = "", pattern = [".", "-", "*", "+", "|", "°", ",", "<", ">", "="], len = Math.round(Math.random() * 100);
+		for (let i = 0; i < len; i++) {
+			key += i % 2 == 0 ? pattern[Math.round(Math.random() * 9)] : `${i}` ;
+		}
 
-eWallet.getLocalData = function(key){
-	if (typeof key !== "string" || !eWallet.dataFlag) return false;
-	if (localStorage.length > 0){
-		return localStorage.getItem(key) !== null ? localStorage.getItem(key) : false;
+		return key;
 	}
-}
 
-eWallet.getSessionData = function(key){
-	if (typeof key !== "string" || !eWallet.dataFlag) return false;
-	if (sessionStorage.length > 0){
-		return sessionStorage.getItem(key) !== null ? sessionStorage.getItem(key) : false;
+	const DecryptKey = genRandom();
+	//----------------------------------------------------------------------------------//
+	//																					//
+	//						**** eWallet Encryptation ****								//
+	//																					//			
+	//	 					- Version: 1.1												//
+	//	 					- author: Leo López											//
+	//	 					- adaptation: Frank Esquivel								//
+	//																					//
+	//----------------------------------------------------------------------------------//
+
+	//Clase para la encriptación / decriptación de datos
+	class Encryptation {
+		constructor(){
+			this.numbers = ["e", "l", "a", "y", "A", "L", "F", "R","o", "p"];
+			this.letters = ["a", "b", "c", "d","e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D","E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "Ñ", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+			this.space = ["-", "*", "/", "!", "?"];
+
+			this.VerifyNumber = this.VerifyNumber.bind(this);
+			this.VerifyLetter = this.VerifyLetter.bind(this);
+			this.VerifySpace = this.VerifySpace.bind(this);
+			this.Encrypt = this.Encrypt.bind(this);
+			this.Decrypt = this.Decrypt.bind(this);
+		}
+
+		VerifyNumber(char){
+		    for (let i = 0; i < this.numbers.length; i++) {
+		        if (char == i) {
+		            return this.numbers[i];
+		        }
+		    }
+		    return -1;
+		}
+		VerifyLetter(char){
+		    for (let i = 0; i < this.letters.length; i++) {
+		        if (char == this.letters[i]) {
+		            return i;
+		        }
+		    }
+		    return -1;
+		}
+
+		VerifySpace(char){
+		    for (let i = 0; i < this.space.length; i++) {
+		        if (char == this.space[i]) {
+		            return true;
+		        }
+		    }
+		    return false;
+		}
+
+		Encrypt(pass, key){
+			if (key === DecryptKey) {
+		        let encrypted = "";
+
+		        for (let i=0; i < pass.length; i++) {
+		        	let AscciCaracter, lengthCaracter, verifyNumber, verifyLetter, randSpace;
+
+		            AscciCaracter = pass[i].charCodeAt(0);
+		            lengthCaracter = (pass[i].charCodeAt(0).toString()).length;
+		            verifyNumber = this.VerifyNumber(pass[i]);
+		            verifyLetter = this.VerifyLetter(pass[i]);
+		            randSpace = Math.floor((Math.random() * 4) + 0);
+		            if (verifyNumber != -1) {
+		            	encrypted += `${AscciCaracter}${verifyNumber}${lengthCaracter}${this.space[randSpace]}`
+		            }else if(verifyLetter != -1){
+		                encrypted += `${AscciCaracter}${verifyLetter}${lengthCaracter}${this.space[randSpace]}`;
+		            }else{
+		                encrypted += `${AscciCaracter}${lengthCaracter}${this.space[randSpace]}`;
+		            }
+		        }
+
+		        return encrypted;
+			}else{
+				console.warn("eWallet Warning: No tienes permiso para efectuar esta operación!");
+			}
+	    }
+
+	    Decrypt(pass, key){
+	    	if (key === DecryptKey) {
+		        let decrypted = "", word = "";
+
+		        for (let i = 0; i < pass.length; i++) {
+
+		            if (this.VerifySpace(pass[i])) {
+		            	let lengthWord, AscciCaracter;
+		                lengthWord = word.substr(-1);
+		                AscciCaracter = word.substr(0, lengthWord);
+		                decrypted += String.fromCharCode(AscciCaracter);
+		                word = "";
+		            }else{
+		                word += pass[i];
+		            }
+		        }
+
+		        return decrypted;
+	    	}else{
+	    		console.warn("eWallet Warning: No tienes permiso para efectuar esta operación!");
+	    	}
+	    }
 	}
-}
 
-eWallet.logIn = function(credentials, handler){
-	if (eWallet.UserData === undefined) {
-		let data = eWallet.getLocalData(credentials.email);
-		if ( data !== false) {
-			let loginData = JSON.parse(eWallet.encryptation.Decrypt(data));
-			if (loginData.email == credentials.email && loginData.password == credentials.password) {
-				sessionStorage.setItem(credentials.email, true);
-				window.eWallet.user = credentials.email;
-				handler(true, loginData);
+	eWallet.encryptation = new Encryptation();
+	//							END eWallet Encryptation								//
+	//----------------------------------------------------------------------------------//
+
+	//Método del OBJETO GENERAL para  registrar un usuario en el LocalStorage
+	eWallet.register = function(dataset, handler = null){
+		if (typeof dataset !== "object" || !eWallet.dataFlag) return false;
+		if(typeof handler !== null && typeof handler !== "function"){
+			console.error("eWallet Error: Parámetro inválido en el registro de usuario!");
+			return;
+		}
+		
+		handler(true);
+		localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset), DecryptKey));
+	};
+
+	eWallet.getLocalData = function(key){
+		if (typeof key !== "string" || !eWallet.dataFlag) return false;
+		if (localStorage.length > 0){
+			return localStorage.getItem(key) !== null ? localStorage.getItem(key) : false;
+		}
+	}
+
+	eWallet.getSessionData = function(key){
+		if (typeof key !== "string" || !eWallet.dataFlag) return false;
+		if (sessionStorage.length > 0){
+			return sessionStorage.getItem(key) !== null ? sessionStorage.getItem(key) : false;
+		}
+	}
+
+	eWallet.logIn = function(credentials, handler){
+		if (eWallet.UserData === undefined) {
+			let data = eWallet.getLocalData(credentials.email);
+			if ( data !== false) {
+				let loginData = JSON.parse(eWallet.encryptation.Decrypt(data, DecryptKey));
+				if (loginData.email == credentials.email && loginData.password == credentials.password) {
+					sessionStorage.setItem(credentials.email, true);
+					window.eWallet.user = credentials.email;
+					handler(true, loginData);
+				}else{
+					handler(false);
+				}
 			}else{
 				handler(false);
 			}
-		}else{
-			handler(false);
 		}
-	}
-};
+	};
 
-eWallet.logOut = function(handler = null){
-	if (eWallet.UserData !== undefined) {
-		let data = eWallet.getSessionData(eWallet.UserData.email);
-		if (data !== false) {
-			sessionStorage.clear();
-			typeof handler === "function" ? handler(true): "";
-		}else{
-			typeof handler === "function" ? handler(false): "";
-		}
-	}
-}
-
-eWallet.checkSession = function(user = null, keyFlag = false){
-	let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	
-	if (user === null) {
-		for(i in sessionStorage){
-			if (emailPattern.test(i) && sessionStorage[i] === "true") {
-				return !keyFlag ? true : i;
+	eWallet.logOut = function(handler = null){
+		if (eWallet.UserData !== undefined) {
+			let data = eWallet.getSessionData(eWallet.UserData.email);
+			if (data !== false) {
+				sessionStorage.clear();
+				typeof handler === "function" ? handler(true): "";
+			}else{
+				typeof handler === "function" ? handler(false): "";
 			}
 		}
-		eWallet.UserData = undefined;
-		return false;
-	}else if(typeof user === "string"){
-		return emailPattern.test(user) && sessionStorage[user] === "true";
 	}
-}
 
-eWallet.sessionLocation = function(sessionFlag = false){
-	let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
-		hostFlag = location.hostname === "localhost",
-		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/public/') : 'index.html',
-		userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/user/') : 'user/index.html';
-
-	let localAppRootFlag = true, actualHref = location.href.split('/');
-	localAppRootFlag = actualHref[actualHref.length - 1] === "index.html" && actualHref[actualHref.length - 2] === eWallet.dir;
-
-	if (!sessionFlag && !(actualEnvironment === "server" ? location.pathname === appRoot : localAppRootFlag)) {
-		let locationAux = location.href.split('/'), newLocation = "";
-
-		for (var i = 0; i < locationAux.length; i++) {
-			if (locationAux[i] !== "eWallet") newLocation += `${locationAux[i]}${locationAux[i + 1] === "eWallet" ? "" : "/"}`; else break;
-		}
-		// console.log(newLocation);
-		newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${appRoot}/`;
-		// console.log(newLocation);
-		location.href = actualEnvironment === "server" ? appRoot : newLocation;
-	}else if (actualEnvironment === "server" && location.pathname === appRoot) {
-		if (hostFlag) {
-			let locationAux = location.href.split('/'), hrefAux = [];
-			for (var i = 0; i < locationAux.length - 1; i++) {
-				hrefAux[i] = locationAux[i];
-			}
-			if (sessionFlag) location.href = (`${hrefAux.join('/')}${userDir}`);
-		}else{
-			if (sessionFlag) location.href = `${location.href}${userDir.substring(1)}`;
-		}
-	}else if(actualEnvironment === "local" && localAppRootFlag){
-		let hrefAux = location.href.split('/');
-		hrefAux[hrefAux.length - 1] = userDir;
-		if (sessionFlag) location.href = hrefAux.join('/');
-	}
-}
-
-eWallet.setSessionData = function(){
-	if (eWallet.checkSession()) {
-		let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
-		hostFlag = location.hostname === "localhost",
-		appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/') : 'index.html',
-		userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/eWallet/user') : 'user/index.html';
-
-		if ((actualEnvironment === "server" && location.pathname === appRoot) || (actualEnvironment === "local" && location.href.search("/eWallet/" + eWallet.dir + "/index.html") !== -1)) {
-			eWallet.UserData = undefined;
-		}else{
-			eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true))));
-		}
-	}
-}
-
-eWallet.updateUserData = function(previousId, dataset){
-	if (eWallet.checkSession(previousId)) {
-		localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset)));
+	eWallet.checkSession = function(user = null, keyFlag = false){
+		let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		
-		if (previousId !== dataset.email) {
-			let auxData;
-
+		if (user === null) {
 			for(i in sessionStorage){
-				auxData[i] = sessionStorage[i];
+				if (emailPattern.test(i) && sessionStorage[i] === "true") {
+					return !keyFlag ? true : i;
+				}
 			}
+			eWallet.UserData = undefined;
+			return false;
+		}else if(typeof user === "string"){
+			return emailPattern.test(user) && sessionStorage[user] === "true";
+		}
+	}
 
-			sessionStorage.clear;
+	eWallet.sessionLocation = function(sessionFlag = false){
+		let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
+			hostFlag = location.hostname === "localhost",
+			appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/public/') : 'index.html',
+			userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/user/') : 'user/index.html';
 
-			for(i in auxData){
-				sessionStorage.setItem(i, auxData[i]);
+		let localAppRootFlag = true, actualHref = location.href.split('/');
+		localAppRootFlag = actualHref[actualHref.length - 1] === "index.html" && actualHref[actualHref.length - 2] === eWallet.dir;
+
+		if (!sessionFlag && !(actualEnvironment === "server" ? location.pathname === appRoot : localAppRootFlag)) {
+			let locationAux = location.href.split('/'), newLocation = "";
+
+			for (var i = 0; i < locationAux.length; i++) {
+				if (locationAux[i] !== "eWallet") newLocation += `${locationAux[i]}${locationAux[i + 1] === "eWallet" ? "" : "/"}`; else break;
+			}
+			// console.log(newLocation);
+			newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${appRoot}/`;
+			// console.log(newLocation);
+			location.href = actualEnvironment === "server" ? appRoot : newLocation;
+		}else if (actualEnvironment === "server" && location.pathname === appRoot) {
+			if (hostFlag) {
+				let locationAux = location.href.split('/'), hrefAux = [];
+				for (var i = 0; i < locationAux.length - 1; i++) {
+					hrefAux[i] = locationAux[i];
+				}
+				if (sessionFlag) location.href = (`${hrefAux.join('/')}${userDir}`);
+			}else{
+				if (sessionFlag) location.href = `${location.href}${userDir.substring(1)}`;
+			}
+		}else if(actualEnvironment === "local" && localAppRootFlag){
+			let hrefAux = location.href.split('/');
+			hrefAux[hrefAux.length - 1] = userDir;
+			if (sessionFlag) location.href = hrefAux.join('/');
+		}
+	}
+
+	eWallet.setSessionData = function(){
+		if (eWallet.checkSession()) {
+			let actualEnvironment = location.protocol === "file:" && location.host === "" ? "local" : "server",
+			hostFlag = location.hostname === "localhost",
+			appRoot = actualEnvironment === "server" ? (hostFlag ? '/' : '/eWallet/') : 'index.html',
+			userDir = actualEnvironment === "server" ? (hostFlag ? '/user' : '/eWallet/user') : 'user/index.html';
+
+			if ((actualEnvironment === "server" && location.pathname === appRoot) || (actualEnvironment === "local" && location.href.search("/eWallet/" + eWallet.dir + "/index.html") !== -1)) {
+				eWallet.UserData = undefined;
+			}else{
+				eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true)), DecryptKey));
 			}
 		}
 	}
-}
+
+	eWallet.updateUserData = function(previousId, dataset){
+		if (eWallet.checkSession(previousId)) {
+			localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset), DecryptKey));
+			
+			if (previousId !== dataset.email) {
+				let auxData;
+
+				for(i in sessionStorage){
+					auxData[i] = sessionStorage[i];
+				}
+
+				sessionStorage.clear;
+
+				for(i in auxData){
+					sessionStorage.setItem(i, auxData[i]);
+				}
+			}
+		}
+	}
+})();
 
 eWallet.genPopOutBackground = function(){
 	let background = eWallet.create('div', '', {id: '_background'});
