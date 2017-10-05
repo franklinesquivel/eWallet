@@ -18,7 +18,7 @@
 	                                <input type="text" name="txtBalance" id="txtBalance">
 	                            </div>
 	                            <div class="input-field col s12 l4 m4">
-	                                <label for="txtAccounts">¿Cuántas cuentas de banco desea registrar?</label>
+	                                <label for="txtAccounts">¿Cuántas cuentas de ahorro desea registrar?</label>
 	                                <input type="number" name="txtAccounts" id="txtAccounts">
 	                            </div>
 	                            
@@ -34,10 +34,17 @@
 	            </div>`);
 
 	        var mdlBalance = eWallet.modal('#mdlBalance');
+
+	        document.querySelector('#mdlBalance .close').addEventListener('click', function(){
+				mdlBalance.close();
+			});
+
 	        frmBalance.onsubmit = function(){
 	            return false;
 	        }
-	        eWallet.updateTextFields();
+
+	        eWallet.setInputs();
+			eWallet.updateTextFields();
 
 	        eWallet.find('#btnBalance', 1).addEventListener('click', function(){
 	            frmBalance.eWallet.validate({
@@ -79,7 +86,8 @@
 	                            </div>`;
 	                    eWallet.toast('Ingresa los datos de las cuentas bancarias', 2, 'yellow darken-4');
 	                    eWallet.find('#mdlBalance .content .forms', 1).innerHTML = (accountsForm);
-	                    eWallet.updateTextFields();
+	                    eWallet.setInputs();
+						eWallet.updateTextFields();
 
 	                    eWallet.find('#btnSaveAccounts', 1).addEventListener('click', function(){
 	                        let forms = eWallet.find('.frmAccounts'), formsFlag = 0, dataAux = [];
@@ -95,7 +103,11 @@
 	                                        msg: "Ingrese un valor"
 	                                    },
 	                                    pattern: {
+	                                    	/*
+OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° de cuenta bancaria
+	                                    	*/
 	                                        value: /^\d{4}[ \-]\d{4}[ \-]\d{4}[ \-]\d{4}$/,
+	                                    	// value: /^d{4}[ \-]\d{4}\$/
 	                                        msg: "Ingrese un´valor valido!"
 	                                    }
 	                                },

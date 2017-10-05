@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
-    <script src="../../js/user.js"></script>
+    <script src="../../js/user/init.js"></script>
+    <script src="../../js/user/addAccounts.js"></script>
 </head>
 <body>
     <div class="menu-wraper">
@@ -20,46 +21,8 @@
                 eWallet
             </div>
         </div>
-        <div class="menu-items">    
-            <!-- <div class="user-data">
-                        
-            </div> -->
-            <div class="options-menu">
-                <ul class="list-items">
-                    <li class="item"><a href="../index.html"><i class="material-icons">home</i><span>Inicio</span></a></li>
-                    <li class="item active">
-                        <a href="#" class="item-menu"><i class="material-icons">monetization_on</i><span>Cuentas</span></a>
-                        <ul class="list-subitems active">
-                            <li class="sub-item"><a href="viewAccounts.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item active"><a href="addAccounts.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item">
-                        <a href="#" class="item-menu"><i class="material-icons">attach_money</i><span>Ingresos</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="viewEarnings.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="addEarnings.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item">
-                        <a href="#" class="item-menu"><i class="material-icons">money_off</i><span>Gastos</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="viewExpenses.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="addExpenses.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item">
-                        <a href="#" class="item-menu"><i class="material-icons">credit_card</i><span>Tarjetas</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="viewCard.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="addCard.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item"><a href="statistics.html"><i class="material-icons">graphic_eq</i><span>Estadísticas</span></a></li>
-                    <li class="item"><a href="setting.html"><i class="material-icons">settings</i><span>Configuración</span></a></li>
-                    <li class="item" id="btnUnLog"><a href="#"><i class="material-icons">cancel</i><span>Cerrar Sesión</span></a></li>
-                </ul>
-            </div>
+        <div class="menu-items">
+            
         </div>
     </div>
     <div class="content-wraper">
@@ -76,18 +39,18 @@
         <br>
         <main>
             <div class="container row"> <!-- Agregar Cuenta -->
-                <form class="frmAddCount">
-                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="txtCount">N° Cuenta</label>
-                        <input type="text" name="" id="txtCount">
-                    </div>
+                <form class="frmAddCount" name="frmAdd">
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="txtBank">Banco</label>
-                        <input type="text" name="" id="txtBank">
+                        <input type="text" name="txtBank" id="txtBank">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="txtCurrent">Saldo actual($)</label>
-                        <input type="text" name=""  id="txtCurrent">
+                        <label for="txtAccountNumber">N° Cuenta</label>
+                        <input type="text" name="txtAccountNumber" id="txtAccountNumber">
+                    </div>
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="txtBankBalance">Saldo actual($)</label>
+                        <input type="number" name="txtBankBalance"  id="txtBankBalance">
                     </div>
                     <!-- <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="cmb" class="select-label">Tarjeta de Débito</label>
@@ -100,7 +63,7 @@
                 </form>
                 <div class="row">
                     <div class="col l4 m8 s6 offset-l4 offset-m2 offset-s3">
-                        <div class="button left-right">
+                        <div class="button left-right btnAdd">
                             Registrar
                         </div>
                     </div>

@@ -77,6 +77,7 @@ class Modal {
 	}
 
 	close(callback = null){
+		console.log(':p');
 		this.back.eWallet.fadeOut(2);
 		this.element.classList.remove('open');
 		this.element.classList.add('closed');
@@ -220,6 +221,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	if (typeof msg !== "string") return;
 	var toast = eWallet.create('div', msg, {class: "toast"});
 
+	style = style.trim();
 	if (style.split(' ').length > 1) {
 		let cls = style.split(' ');
 		cls.forEach(c => toast.classList.add(c));
@@ -623,6 +625,45 @@ eWallet.menu = function(selector){
 	return MenuObj;		
 };
 
+eWallet.setMenu = function(dataset, container, handler){
+	var menuUl = eWallet.create('ul', '', {class: 'list-items'}),
+		menuCont = eWallet.create('div', '', {class: 'options-menu'}),
+		hrefAux = location.pathname === "/user/" ? "views/" : "";
+	for (let i = 0; i < dataset.length; i++) {
+		let listElement = "",
+			locationFlag;
+		if (dataset[i].subList === undefined) {
+			let item = dataset[i];
+			locationFlag = (location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === item.href);
+			listElement = eWallet.create('li', 
+				`<a href="${item.href === '../' ? item.href : (hrefAux + item.href + ".html")}"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a>`, 
+				{class: `item ${locationFlag ? 'active' : ''}`})
+
+		}else{
+			let listCont = eWallet.create('li', `<a class="item-menu"><i class="material-icons">${dataset[i].icon}</i><span>${dataset[i].name}</span></a>`, {class: 'item'}),
+				ulCont = eWallet.create('ul', '', {class: 'list-subitems'});
+			for (let j = 0; j < dataset[i].subList.length; j++) {
+				let item = dataset[i].subList[j];
+				locationFlag = (location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === item.href);
+				ulCont.eWallet.append(`<li class="sub-item ${locationFlag ? 'active' : ''}"><a href="${hrefAux + item.href}.html"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a></li>`);
+			
+				if (locationFlag) {
+					listCont.classList.add('active');
+					ulCont.classList.add('active');
+				}
+			}
+			listCont.appendChild(ulCont);
+			listElement = listCont;
+		}
+
+		menuUl.appendChild(listElement);
+	}
+	menuCont.appendChild(menuUl);
+	container.appendChild(menuCont);
+
+	handler();
+};
+
 (function(){
 	//----------------------------------------------------------------------------------//
 	//																					//
@@ -697,13 +738,15 @@ eWallet.menu = function(selector){
 
 	eWallet_Methods.prototype.insertMsg = function(msg, toogle = 1){
 		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
-		if (this.element.nextElementSibling === null) {
-			if(this.element instanceof HTMLSelectElement){
+		if(this.element instanceof HTMLSelectElement){
+			if (this.element.parentNode.nextElementSibling === null) {
 				this.element.parentNode.parentNode.appendChild(eWallet.create('div', msg, {
 					class: `msg ${toogle ? 'error' : 'success'}`,
 					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
 				}))
-			}else{
+			}
+		}else{
+			if (this.element.nextElementSibling === null) {
 				this.element.parentNode.appendChild(eWallet.create('div', msg, {
 					class: `msg ${toogle ? 'error' : 'success'}`,
 					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
@@ -807,19 +850,8 @@ eWallet.menu = function(selector){
 	//																					//
 	//----------------------------------------------------------------------------------//
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
-	document.addEventListener('DOMContentLoaded', () => {
-		if(eWallet.checkSession()){
-			eWallet.setSessionData();
-			if ((location.pathname === "/eWallet/public/" && location.hostname !== "localhost") || (location.pathname === "/" && location.hostname === "localhost")) {
-				eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3')
-			}
-			setTimeout(function(){
-				eWallet.sessionLocation(true);
-			}, 2000)
-		}else{
-			eWallet.sessionLocation(false);
-		}
-
+	
+	eWallet.setInputs = function(){
 		input_selector.forEach(i => {
 			let jLabel;
 			eWallet.find(i).forEach(j => {
@@ -840,9 +872,23 @@ eWallet.menu = function(selector){
 				}
 			})
 		});
+	}
 
+	document.addEventListener('DOMContentLoaded', function() {
+		if(eWallet.checkSession()){
+			eWallet.setSessionData();
+			if ((location.pathname === "/eWallet/public/" && location.hostname !== "localhost" && location.protocol === "file:") || (location.pathname === "/" && (location.hostname === "localhost" || location.protocol !== "file:"))) {
+				eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3')
+			}
+			setTimeout(function(){
+				eWallet.sessionLocation(true);
+			}, 2000)
+		}else{
+			eWallet.sessionLocation(false);
+		}
+
+		eWallet.setInputs();
 		eWallet.updateTextFields();
-		eWallet.slider('.slider');
 	})
 	//							END Material Inputs Plugin								//
 	//----------------------------------------------------------------------------------//

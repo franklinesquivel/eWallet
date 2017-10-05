@@ -82,6 +82,8 @@
 			return false;
 		}
 
+		eWallet.slider('.slider');
+
 		eWallet.on(document, 'click', '#btnRegister', function(){
 			frmRegister.eWallet.validate({
 				"txtName": {
