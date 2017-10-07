@@ -20,6 +20,12 @@ $secondary_c: #C33764;
 	padding: 0
 	box-sizing: border-box
 
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow])
+    color: transparent
+
+
 .center
 	text-align: center
 
@@ -27,6 +33,10 @@ h1, h2, h3, h4, h5, h6
 	color: $primary-color
 	&.sub
 		color: $secondary-color
+	&.error
+		padding: 10px 10px
+		background: (color('red', 'base'))
+		color: (color('red', 'darken-4'))
 
 .button
 	flex: 1 1 auto

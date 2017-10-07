@@ -12,9 +12,10 @@
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
     <script src="../../js/user/init.js"></script>
+    <script src="../../js/user/vEarnings.js"></script>
 </head>
 <body>
-    <div class="menu-wraper">
+    <div class="menu-wraper" id="mainMenu">
         <div class="company-data">
             <div class="name">
                 eWallet
@@ -27,7 +28,7 @@
         <div class="header">
             <div class="header-content">
                 <div class="icon-menu">
-                    <i class="material-icons" id="slide-menu">menu</i>
+                   <i class="material-icons menu-trigger" id="slide-menu" menu="mainMenu">menu</i>
                 </div>
                 <div class="name-site">
                     Ver Ingresos
@@ -36,6 +37,18 @@
         </div>
         <br>
         <main>
+
+            <table class="tblEarnings">
+                <thead>
+                    <th>N°</th>
+                    <th>Motivo</th>
+                    <th>Almacenado en</th>
+                    <th>Monto</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
         </main>
     </div>
 </body>

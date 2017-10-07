@@ -12,9 +12,10 @@
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
     <script src="../../js/user/init.js"></script>
+    <script src="../../js/user/settings.js"></script>
 </head>
 <body>
-    <div class="menu-wraper">
+    <div class="menu-wraper" id="mainMenu">
         <div class="company-data">
             <div class="name">
                 eWallet
@@ -27,7 +28,7 @@
         <div class="header">
             <div class="header-content">
                 <div class="icon-menu">
-                    <i class="material-icons" id="slide-menu">menu</i>
+                   <i class="material-icons menu-trigger" id="slide-menu" menu="mainMenu">menu</i>
                 </div>
                 <div class="name-site">
                     Configuración
@@ -37,47 +38,36 @@
         <br>
         <main>
             <div class="container row"> <!-- Configuraciones Generales -->
-                <form class="frmConfiguration">
+                <form class="frmConfiguration" name="frmUser">
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="">Ingresos Minímos</label>
-                        <input type="text" name="" id="">
+                        <label for="txtMinBalance">Valor mínimo del balance</label>
+                        <input type="text" name="txtMinBalance" id="txtMinBalance">
+                    </div>
+                    <div class="input-field radio col s12 m8 l6 offset-l3 offset-m2">
+                        <label class="radio-label">Pago por defecto</label>
+                        <div>
+                            <input type="radio" id="rdbCash" name="rdbPayment" value="Efectivo">
+                            <label for="rdbCash">Efectivo</label><br>
+                            <input type="radio" id="rdbAccount" name="rdbPayment" value="Cuenta de Ahorros">
+                            <label for="rdbAccount">Cuenta de ahorro</label><br>
+                            <input type="radio" id="rdbCredit" name="rdbPayment" value="Tarjeta de Crédito">
+                            <label for="rdbCredit">Tarjeta de crédito</label>
+                        </div>
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="">Gastos Minímos</label>
-                        <input type="text" name="" id="">
-                    </div>
-
-                    <!-- <div class="container-rdb"> Forma de pago -->
-                        <!-- <h4>Tipo de pago por defecto </h4> -->
-                        <div class="input-field col s12 m8 l3 offset-l3 offset-m2">
-                            <input type="radio" id="option_1" name="rdbPaymentType">
-                            <label for="option_1">Efectivo</label>
-                        </div>
-                        <div class="input-field col s12 m8 l3 offset-m2">
-                            <input type="radio" id="option_2" name="rdbPaymentType">
-                            <label for="option_2">Cuenta de ahorro</label>
-                        </div>
-                        <div class="input-field col s12 m8 l7 offset-l5 offset-m2">
-                            <input type="radio" id="option_3" name="rdbPaymentType">
-                            <label for="option_3">Tarjeta de crédito</label>
-                        </div>
-                    <!-- </div> Fin forma de pago -->
-                    
-                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <br>
                         <label for="cmbPayment" class="select-label">Forma de pago</label>
                         <div class="slct-field">
                             <select id="cmbPayment" name="cmbPayment">
                                 <option selected disabled>Seleccione una opción</option>
                             </select>
                         </div>
-                        <br>
                     </div>
                 </form>
+                <div class="row"></div><div class="row"></div>
                 <div class="row">
 					<div class="col l4 m8 s8 offset-l4 offset-m2 offset-s2">
-						<div class="button left-right">
-							Registrar
+						<div class="button left-right" id="btnSave">
+							Guardar
 						</div>
 					</div>
 				</div>

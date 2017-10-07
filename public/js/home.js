@@ -212,7 +212,23 @@
 						nit: frmRegister.txtNit.value,
 						phone: frmRegister.txtTel.value,
 						birthdate: frmRegister.txtDate.value,
-						firstLogin: true
+						firstLogin: true,,
+						xtraReasons: [],
+						generalBalance: 0,
+						cash: 0,
+						accounts: [],
+						creditCards: [],
+						defaultPayment: {
+							type: "Efectivo",
+							relation: null
+						},
+						expenses: [],
+						earnings: [],
+						minBalance: {
+							value: 0,
+							status: this.generalBalance >= this.minBalance,
+							color: this.status
+						}
 					}, function(f){
 						let msg = (f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!');
 						eWallet.toast(msg, 2, `${f ? 'green' : 'red'} darken-1`);

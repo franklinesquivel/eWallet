@@ -18,7 +18,7 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
                     	*/
                         value: /^\d{4}[ \-]\d{4}[ \-]\d{4}[ \-]\d{4}$/,
                     	// value: /^d{4}[ \-]\d{4}\$/
-                        msg: "Ingrese un´valor valido!"
+                        msg: "Ingrese un valor válido!"
                     }
                 },
                 txtBankBalance: {
@@ -27,14 +27,14 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
                     },
                     pattern: {
                         value: /^(\$?\d{1,3}(,?\d{3})?(\.\d\d?)?|\(\$?\d{1,3}(,?\d{3})?(\.\d\d?)?\))$/,
-                        msg: "Ingrese un´valor valido!"
+                        msg: "Ingrese un valor válido!"
                     }
                 }
 			}, function(r){
 				if (r) {
 					eWallet.UserData.accounts.push({
 						bank: txtBank.value,
-						accountNumber: txtAccountNumber.value,
+						accountNumber: txtAccountNumber.value.trim().split(' ').join('-'),
 						balance: txtBankBalance.value
 					})
 

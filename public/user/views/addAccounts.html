@@ -15,7 +15,7 @@
     <script src="../../js/user/addAccounts.js"></script>
 </head>
 <body>
-    <div class="menu-wraper">
+    <div class="menu-wraper" id="mainMenu">
         <div class="company-data">
             <div class="name">
                 eWallet
@@ -29,7 +29,7 @@
         <div class="header">
             <div class="header-content">
                 <div class="icon-menu">
-                    <i class="material-icons" id="slide-menu">menu</i>
+                   <i class="material-icons menu-trigger" id="slide-menu" menu="mainMenu">menu</i>
                 </div>
                 <div class="name-site">
                     Agregar Cuenta
@@ -46,7 +46,7 @@
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="txtAccountNumber">N° Cuenta</label>
-                        <input type="text" name="txtAccountNumber" id="txtAccountNumber">
+                        <input type="text" name="txtAccountNumber" id="txtAccountNumber" placeholder="xxxx xxxx xxxx xxxx">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="txtBankBalance">Saldo actual($)</label>

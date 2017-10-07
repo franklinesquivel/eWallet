@@ -11,10 +11,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
-    <script src="../../js/user/init.js.js"></script>
+    <script src="../../js/user/init.js"></script>
+    <script src="../../js/user/addExpenses.js"></script>
 </head>
 <body>
-    <div class="menu-wraper">
+    <div class="menu-wraper" id="mainMenu">
         <div class="company-data">
             <div class="name">
                 eWallet
@@ -27,7 +28,7 @@
         <div class="header">
             <div class="header-content">
                 <div class="icon-menu">
-                    <i class="material-icons" id="slide-menu">menu</i>
+                   <i class="material-icons menu-trigger" id="slide-menu" menu="mainMenu">menu</i>
                 </div>
                 <div class="name-site">
                     Agregar Gastos
@@ -37,32 +38,46 @@
         <br>
         <main>
             <div class="container row"> <!-- Agregar Gastos -->
-                <form class="frmAddExpensive">
-                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="txtCount">N° de cuenta</label>
-                        <input type="text" name="" id="txtCount">
-                    </div>
-                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label for="txtAmount">Monto ($)</label>
-                        <input type="text" name="" id="txtAmount">
-                    </div>
+                <form class="frmAdd" name="frmAdd">
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="txtDate">Fecha</label>
-                        <input type="date" name="" id="txtDate">
+                        <input type="date" name="txtDate" id="txtDate">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
                         <label for="cmbReason" class="select-label">Motivo</label>
                         <div class="slct-field">
-                            <select id="cmbReason" name="cmbReason">
+                            <select id="cmbReasons" name="cmbReasons">
                             </select>
                         </div>
+                    </div>
+                    <div class="input-field radio col s12 m8 l6 offset-l3 offset-m2">
+                        <label class="radio-label">Almacenar en</label>
+                        <div>
+                            <input type="radio" id="rdbCash" name="rdbType" value="Efectivo">
+                            <label for="rdbCash">Efectivo</label><br>
+                            <input type="radio" id="rdbAccount" name="rdbType" value="Cuenta de Ahorros">
+                            <label for="rdbAccount">Cuenta de ahorros</label><br>
+                            <input type="radio" id="rdbCredit" name="rdbType" value="Tarjeta de Crédito">
+                            <label for="rdbCredit">Tarjeta de crédito</label>
+                        </div>
+                    </div>
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="cmbReason" class="select-label">Seleccionar cuenta/tarjeta</label>
+                        <div class="slct-field">
+                            <select id="cmbAddTo" name="cmbAddTo" disabled>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
+                        <label for="txtAmount">Monto ($)</label>
+                        <input type="text" name="txtAmount" id="txtAmount">
                     </div>
                 </form>
             </div> <!-- Fin agregar gatos -->
             <div class="row">
                 <div class="col l4 m8 s6 offset-l4 offset-m2 offset-s3">
-                    <div class="button left-right">
-                        Registrar
+                    <div class="button left-right" id="btnAdd">
+                        Registrar Gasto
                     </div>
                 </div>
             </div>

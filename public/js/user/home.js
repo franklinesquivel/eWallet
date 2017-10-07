@@ -72,7 +72,7 @@
 	                                </div>
 	                                <div class="input-field col s12 l4 m4">
 	                                    <label for="txtAccountNumber">Número de cuenta</label>
-	                                    <input type="text" name="txtAccountNumber" id="txtAccountNumber">
+	                                    <input type="text" name="txtAccountNumber" id="txtAccountNumber" placeholder="xxxx xxxx xxxx xxxx">
 	                                </div>
 	                                <div class="input-field col s12 l4 m4">
 	                                    <label for="txtBankBalance">Saldo actual</label>
@@ -108,7 +108,7 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 	                                    	*/
 	                                        value: /^\d{4}[ \-]\d{4}[ \-]\d{4}[ \-]\d{4}$/,
 	                                    	// value: /^d{4}[ \-]\d{4}\$/
-	                                        msg: "Ingrese un´valor valido!"
+	                                        msg: "Ingrese un valor valido!"
 	                                    }
 	                                },
 	                                txtBankBalance: {
@@ -117,15 +117,15 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 	                                    },
 	                                    pattern: {
 	                                        value: /^(\$?\d{1,3}(,?\d{3})?(\.\d\d?)?|\(\$?\d{1,3}(,?\d{3})?(\.\d\d?)?\))$/,
-	                                        msg: "Ingrese un´valor valido!"
+	                                        msg: "Ingrese un valor valido!"
 	                                    }
 	                                }
 	                            }, function(r){
 	                                if (r) {
 	                                    dataAux[i] = {
 	                                        bank: forms[i].txtBank.value,
-	                                        accountNumber: forms[i].txtAccountNumber.value,
-	                                        balance: forms[i].txtBankBalance.value,
+	                                        accountNumber: forms[i].txtAccountNumber.value.trim().split(' ').join('-'),
+	                                        balance: Number(forms[i].txtBankBalance.value),
 	                                    }
 	                                }
 	                            })
@@ -133,8 +133,9 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 	                        }
 	                        if (formsFlag) {
 	                            eWallet.UserData.accounts = dataAux;
-	                            eWallet.UserData.generalBalance = auxBalance;
+	                            eWallet.UserData.cash = Number(auxBalance);
 	                            eWallet.UserData.firstLogin = false;
+	                            eWallet.UserData.calcBalance();
 	                            eWallet.updateUserData(eWallet.UserData.email, eWallet.UserData);
 	                            mdlBalance.close();
 	                            eWallet.toast('Los datos han sido guardados con éxito!', 2, 'green darken-1');
@@ -155,7 +156,7 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 	        mdlBalance.open();
 	    }else{
 	        if (eWallet.find('.balance').length > 0) {
-	            eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance}`;
+	            eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance.toFixed(2)}`;
 	        }
 	    }
 	})
