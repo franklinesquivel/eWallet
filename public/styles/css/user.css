@@ -2549,7 +2549,8 @@ textarea {
     border: 1px solid #1D2671;
     transition: border .2s ease-out; }
     .slct-field select:focus {
-      outline: none; }
+      outline: none;
+      border: 2px solid #1D2671; }
     .slct-field select:disabled {
       color: #ccc;
       border: 1px solid #ccc; }
@@ -2961,13 +2962,14 @@ table {
     text-align: center;
     vertical-align: middle; }
     table td.error-cell, table th.error-cell {
-      padding: 0px;
-      background: red; }
+      padding: 0px; }
   table th {
     background: #C33764;
     color: #fff;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold; }
+  table td {
+    font-size: 14px; }
 
 @font-face {
   font-family: Lato;
@@ -2992,9 +2994,8 @@ h1, h2, h3, h4, h5, h6 {
   h1.sub, h2.sub, h3.sub, h4.sub, h5.sub, h6.sub {
     color: #1D2671; }
   h1.error, h2.error, h3.error, h4.error, h5.error, h6.error {
-    padding: 10px 10px;
-    background: #F44336;
-    color: #B71C1C; }
+    padding: 20px 10px;
+    color: #D32F2F; }
 
 .button {
   flex: 1 1 auto;
@@ -3056,6 +3057,30 @@ body {
   background: #F5F5F5;
   width: 100%;
   font-size: 18px; }
+
+#tblBalance {
+  margin-top: 5%; }
+  #tblBalance tr {
+    border: none; }
+  #tblBalance th.sub, #tblBalance td.sub {
+    background: #1D2671; }
+
+.btnAddReason {
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #ccc;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  transition: background .3s ease-out, color .3s ease-in; }
+  .btnAddReason:hover {
+    color: #000;
+    background: rgba(0, 0, 0, 0.2); }
+  .btnAddReason:active {
+    background: rgba(0, 0, 0, 0.5); }
 
 .button {
   color: #1D2671;

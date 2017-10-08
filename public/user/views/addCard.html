@@ -12,6 +12,7 @@
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
     <script src="../../js/user/init.js"></script>
+    <script src="../../js/user/addCard.js"></script>
 </head>
 <body>
     <div class="menu-wraper" id="mainMenu">
@@ -37,31 +38,31 @@
         <br>
         <main>
             <div class="container row"> <!--Agregar tarjeta -->
-                <form class="frmAddTarget">
+                <form name="frmAdd">
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label>Banco</label>
-                        <input type="text" name="">
+                        <label for="txtBank">Banco</label>
+                        <input type="text" name="txtBank" id="txtBank">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label>N° de tarjeta</label>
-                        <input type="text" name="">
+                        <label for="txtCardNumber">N° de tarjeta</label>
+                        <input type="text" name="txtCardNumber" id="txtCardNumber" placeholder="xxxx xxxx xxxx xxxx">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label>Saldo actual($)</label>
-                        <input type="text" name="">
+                        <label for="txtBalance">Saldo actual ($)</label>
+                        <input type="number" name="txtBalance" id="txtBalance">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label>Interés anual (%)</label>
-                        <input type="text" name="">
+                        <label for="txtInterest">Interés anual (%)</label>
+                        <input type="number" name="txtInterest" id="txtInterest">
                     </div>
                     <div class="input-field col s12 m8 l6 offset-l3 offset-m2">
-                        <label>Vencimiento de pago mensual</label>
-                        <input type="text" name="">
+                        <label for="txtPayment">Vencimiento de pago mensual</label>
+                        <input type="date" name="txtPayment" id="txtPayment">
                     </div>
                 </form>
                 <div class="row">
 					<div class="col l4 m8 s6 offset-l4 offset-m2 offset-s3">
-						<div class="button left-right">
+						<div class="button left-right" id="btnAdd">
 							Registrar
 						</div>
 					</div>

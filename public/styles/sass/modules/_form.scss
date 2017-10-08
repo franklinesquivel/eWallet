@@ -401,6 +401,7 @@ textarea {
         transition: border .2s ease-out;
         &:focus{
             outline: none;
+            border: 2px solid $secondary-color;
         }
         &:disabled{
             color: #ccc;

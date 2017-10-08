@@ -23,6 +23,22 @@
             ]
         },
         {
+            name: "Tarjetas",
+            icon: "credit_card",
+            subList: [
+                {
+                    name: "Ver",
+                    icon: "visibility",
+                    href: "viewCard"
+                },
+                {
+                    name: "Agregar",
+                    icon: "add",
+                    href: "addCard"
+                }
+            ]
+        },
+        {
             name: "Ingresos",
             icon: "attach_money",
             subList: [
@@ -51,22 +67,6 @@
                     name: "Agregar",
                     icon: "add",
                     href: "addExpenses"
-                }
-            ]
-        },
-        {
-            name: "Tarjetas",
-            icon: "credit_card",
-            subList: [
-                {
-                    name: "Ver",
-                    icon: "visibility",
-                    href: "viewCard"
-                },
-                {
-                    name: "Agregar",
-                    icon: "add",
-                    href: "addCard"
                 }
             ]
         },

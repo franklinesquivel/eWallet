@@ -156,8 +156,24 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 	        mdlBalance.open();
 	    }else{
 	        if (eWallet.find('.balance').length > 0) {
+	        	eWallet.find('.balance', 1).classList.add(`${eWallet.UserData.minBalance.color}-text`);
 	            eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance.toFixed(2)}`;
 	        }
 	    }
+
+	    let tbl = eWallet.find('#tblBalance', 1), balanceAux = 0;
+		if (eWallet.UserData.creditCards.length > 0) {
+			for(let i = 0; i < eWallet.UserData.creditCards.length; i++)
+				balanceAux += eWallet.UserData.creditCards[i].balance;
+	    }
+	    balanceAux = 0;
+	    tbl.eWallet.prepend(`<tr><th>Tarjetas de Crédito</th><td>$${balanceAux.toFixed(2)}</td></tr>`);
+	    if (eWallet.UserData.accounts.length > 0) {
+	    	for(let i = 0; i < eWallet.UserData.accounts.length; i++)
+	    		balanceAux += eWallet.UserData.accounts[i].balance;
+	    }
+	    tbl.eWallet.prepend(`<tr><th>Cuentas de Ahorro</th><td>$${balanceAux.toFixed(2)}</td></tr>`);
+	    tbl.eWallet.prepend(`<tr><th>Efectivo</th><td>$${eWallet.UserData.cash.toFixed(2)}</td></tr>`);
+		eWallet.find('#tdTotal h2', 1).innerHTML = "$" + eWallet.UserData.generalBalance.toFixed(2);
 	})
 })();

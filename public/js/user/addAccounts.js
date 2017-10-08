@@ -39,8 +39,10 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 					})
 
 					eWallet.updateUserData(eWallet.UserData.email, eWallet.UserData);
+                    eWallet.UserData.calcBalance();
 					eWallet.toast('La cuenta se han guardado éxitosamente!', 2, 'green darken-1');
 					frmAdd.reset();
+                    eWallet.updateTextFields();
 				}else{
 					eWallet.toast('Ingrese todos los datos solicitados!', 2, 'red darken-1');
 				}

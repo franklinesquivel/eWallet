@@ -1,5 +1,5 @@
 /*!
-  * eWallet App v1
+  * eWallet App v2.2
   *
   * Authors: [Frank Esquivel, Leo López]
   *
@@ -131,33 +131,71 @@ eWallet.updateTextFields = () => {
 	});
 };
 
-eWallet.defaultPayment = function(select, radios){
-		let accounts = eWallet.UserData.accounts.map(i => i),
-			creditCards = eWallet.UserData.creditCards.map(i => i);
-		select.innerHTML = "<option disabled selected value='none'>Seleccione una opción</option>";
-		if (eWallet.UserData.defaultPayment.type === "Cuenta de Ahorros") {
-			radios[1].setAttribute('checked', true);
-			select.removeAttribute('disabled');
-			if (accounts.length > 0) {
-				accounts.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.accountNumber}]</option>`));
-				select.value = eWallet.UserData.defaultPayment.relation !== null ? eWallet.UserData.defaultPayment.relation : 'none';
-			}else{
-				eWallet.toast('No ha existen cuentas de ahorro para seleccionar!', 2, 'red darken-1');
-			}
-		}else if(eWallet.UserData.defaultPayment.type === "Tarjeta de Crédito"){
-			radios[2].setAttribute('checked', true);
-			select.removeAttribute('disabled');
-			if (creditCards.length > 0) {
-				creditCards.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.cardNumber}]</option>`));
-				select.value = eWallet.UserData.defaultPayment.relation !== null ? eWallet.UserData.defaultPayment.relation : 'none';
-			}else{
-				eWallet.toast('No ha existen tarjetas de crédito para seleccionar!', 2, 'red darken-1');
-			}
-		}else{
-			radios[0].setAttribute('checked', true);
-			select.setAttribute('disabled', true);
+eWallet.setPayment = function(select, radios){
+	let accounts = eWallet.UserData.accounts.map(i => i),
+		creditCards = eWallet.UserData.creditCards.map(i => i);
+
+	radios.value = eWallet.UserData.defaultPayment.type;
+
+	if (eWallet.UserData.defaultPayment.type === "Cuenta de Ahorros") {
+		select.removeAttribute('disabled');
+		if (accounts.length > 0) {
+			accounts.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.accountNumber}]</option>`));
 		}
-	};
+	}else if(eWallet.UserData.defaultPayment.type === "Tarjeta de Crédito") {
+		select.removeAttribute('disabled');
+		if (creditCards.length > 0) {
+			creditCards.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.cardNumber}]</option>`));
+		}
+	}else if(eWallet.UserData.defaultPayment.type === "Efectivo") {
+		select.setAttribute('disabled', true);
+		select.innerHTML = `<option value="none" disabled selected>Seleccione una opción</option>`;
+	}
+
+	select.selectedIndex = eWallet.UserData.defaultPayment.relation + 1;
+}
+
+eWallet.defaultPayment = function(select, radios){
+	let accounts = eWallet.UserData.accounts.map(i => i),
+		creditCards = eWallet.UserData.creditCards.map(i => i),
+		radioFlag = radios.value === "";
+	select.innerHTML = "<option disabled selected value='none'>Seleccione una opción</option>";
+	if ((radios.value !== "" && radios.value === "Cuenta de Ahorros") || (radioFlag && eWallet.UserData.defaultPayment.type === "Cuenta de Ahorros")) {
+		radios[1].setAttribute('checked', true);
+		select.removeAttribute('disabled');
+		if (accounts.length > 0) {
+			accounts.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.accountNumber}]</option>`));
+			select.value = eWallet.UserData.defaultPayment.relation !== null ? eWallet.UserData.defaultPayment.relation : 'none';
+		}else{
+			eWallet.toast('No ha existen cuentas de ahorro para seleccionar!', 2, 'red darken-1');
+		}
+	}else if((radios.value !== "" && radios.value === "Tarjeta de Crédito") || (radioFlag && eWallet.UserData.defaultPayment.type === "Tarjeta de Crédito")) {
+		radios[2].setAttribute('checked', true);
+		select.removeAttribute('disabled');
+		if (creditCards.length > 0) {
+			creditCards.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.cardNumber}]</option>`));
+			select.value = eWallet.UserData.defaultPayment.relation !== null ? eWallet.UserData.defaultPayment.relation : 'none';
+		}else{
+			eWallet.toast('No ha existen tarjetas de crédito para seleccionar!', 2, 'red darken-1');
+		}
+	}else if((radios.value !== "" && radios.value === "Efectivo") || (radioFlag && eWallet.UserData.defaultPayment.type === "Efectivo")) {
+		radios[0].setAttribute('checked', true);
+		select.setAttribute('disabled', true);
+	}
+};
+
+eWallet.setReasons = function(select){
+		select.innerHTML = (`<option value="none" disabled selected>Selecciona un motivo</option>`);
+		eWallet.reasons.split('|').forEach((el, i) => {
+			select.eWallet.append(`<option value="${el}">${el}</option>`);
+		})
+		if (eWallet.UserData.xtraReasons.length > 0) {
+			select.eWallet.append("<option disabled>Motivos personalizados</option>")
+			eWallet.UserData.xtraReasons.forEach((el, i) => {
+				select.eWallet.append(`<option value="${el}">${el}</option>`);
+			})
+		}
+};
 
 eWallet.on = function(el, evt, sel, handler) {
 	el.addEventListener(evt, function(event) {
@@ -522,6 +560,33 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 					}
 					aux += Number(this.cash);
 					this.generalBalance = aux;
+				};
+
+				eWallet.UserData.setMinBalance = function(){
+					let auxEarn = 0, auxExp = 0, minResult = 0;
+					// if (this.earnings.length > 0) {
+					// 	for (let i = 0; i < this.earnings.length; i++) {
+					// 		auxEarn += Number(this.earnings[i].amount);
+					// 	}
+					// }
+					// if (this.expenses.length > 0) {
+					// 	for (let i = 0; i < this.expenses.length; i++) {
+					// 		auxExp += Number(this.expenses[i].amount);
+					// 	}
+					// }
+
+					minResult = auxEarn - auxExp;
+					console.log(minResult);
+					if (this.minBalance.value > (minResult * .5)) {
+						console.log('.5');
+						this.minBalance.color = "green";
+					}else if(this.minBalance.value > (minResult * .25) && this.minBalance.value <= (minResult * .5)){
+						console.log('.25');
+						this.minBalance.color = "yellow";
+					}else if(this.minBalance.value > (minResult * .05) && this.minBalance.value <= (minResult * .25)){
+						console.log('.05');
+						this.minBalance.color = "red";
+					}
 				}
 			}
 		}

@@ -4,6 +4,31 @@ body
     background: #F5F5F5
     width: 100%
     font-size: 18px
+
+#tblBalance
+    margin-top: 5%
+    tr
+        border: none
+    th, td
+        &.sub
+            background: $secondary-color
+
+.btnAddReason
+    font-size: 0.8rem
+    cursor: pointer
+    color: #ccc
+    display: inline-block
+    position: absolute
+    top: 0
+    left: 50%
+    transform: translateX(-50%)
+    padding: 5px 10px
+    transition: background .3s ease-out, color .3s ease-in
+    &:hover
+        color: #000
+        background: rgba(#000, 0.2)
+    &:active
+        background: rgba(#000, 0.5)
 .button
     color: #1D2671
     border: 1px solid #1D2671

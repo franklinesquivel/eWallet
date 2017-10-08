@@ -50,6 +50,9 @@
                             </select>
                         </div>
                     </div>
+                    <div class="input-field col s12 m12 l12">
+                        <span class="center btnAddReason modal-trigger" modal="mdlReasons">Añadir Motivos</span>
+                    </div>
                     <div class="input-field radio col s12 m8 l6 offset-l3 offset-m2">
                         <label class="radio-label">Almacenar en</label>
                         <div>
@@ -82,6 +85,28 @@
                 </div>
             </div>
         </main>
+
+        <div class="modal" id="mdlReasons">
+            <div class="content">
+                <form name="frmReasons" class="row">
+                    <div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+                        <label for="txtReason">Motivo</label>
+                        <input type="text" id="txtReason">
+                    </div>
+                    <div class="row"></div>
+                    <div class="row">
+                        <div class="col l4 m8 s6 offset-l4 offset-m2 offset-s3">
+                            <div class="button left-right" id="btnReason">
+                                Añadir Motivo
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="footer fixed-foo">
+                <a class="modal-btn close" mdl-action="close">Cerrar</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

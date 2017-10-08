@@ -14,7 +14,7 @@
 
 		document.querySelectorAll('[name=rdbPayment]').forEach(el => {
 			el.addEventListener('change', function(){
-				eWallet.UserData.defaultPayment.type = el.value;
+				// eWallet.UserData.defaultPayment.relation = "none";
 				eWallet.defaultPayment(frmUser.cmbPayment, frmUser.rdbPayment);
 			});
 		})
@@ -39,10 +39,11 @@
 			}, function(r){
 				if (r) {
 					eWallet.UserData.defaultPayment = {
-						type: eWallet.UserData.defaultPayment.type,
-						relation: frmUser.cmbPayment.selectedIndex - 1 === -1 ? null : frmUser.cmbPayment.selectedIndex - 1
+						type: frmUser.rdbPayment.value,
+						relation: frmUser.rdbPayment.value === "Efectivo" ? "none" : frmUser.cmbPayment.selectedIndex - 1
 					}
 					eWallet.UserData.minBalance.value = Number(frmUser.txtMinBalance.value);
+					eWallet.UserData.setMinBalance();
 					eWallet.updateUserData(eWallet.UserData.email, eWallet.UserData);
 					eWallet.toast('Configuración General de Usuario ACTUALIZADA!', 2, 'green darken-1');
 					setFormData();
@@ -57,7 +58,8 @@
 			accounts = eWallet.UserData.accounts.map(i => i);
 			creditCards = eWallet.UserData.creditCards.map(i => i);
 			type.push(accounts, creditCards);
-			eWallet.defaultPayment(frmUser.cmbPayment, frmUser.rdbPayment);
+			eWallet.setPayment(frmUser.cmbPayment, frmUser.rdbPayment);
+			// eWallet.defaultPayment(frmUser.cmbPayment, frmUser.rdbPayment);
 			eWallet.updateTextFields();
 		}
 	})
