@@ -18,7 +18,7 @@
 	                                <input type="text" name="txtBalance" id="txtBalance">
 	                            </div>
 	                            <div class="input-field col s12 l4 m4">
-	                                <label for="txtAccounts">¿Cuántas cuentas de banco desea registrar?</label>
+	                                <label for="txtAccounts">¿Cuántas cuentas de ahorro desea registrar?</label>
 	                                <input type="number" name="txtAccounts" id="txtAccounts">
 	                            </div>
 	                            
@@ -34,10 +34,17 @@
 	            </div>`);
 
 	        var mdlBalance = eWallet.modal('#mdlBalance');
+
+	        document.querySelector('#mdlBalance .close').addEventListener('click', function(){
+				mdlBalance.close();
+			});
+
 	        frmBalance.onsubmit = function(){
 	            return false;
 	        }
-	        eWallet.updateTextFields();
+
+	        eWallet.setInputs();
+			eWallet.updateTextFields();
 
 	        eWallet.find('#btnBalance', 1).addEventListener('click', function(){
 	            frmBalance.eWallet.validate({
@@ -65,7 +72,7 @@
 	                                </div>
 	                                <div class="input-field col s12 l4 m4">
 	                                    <label for="txtAccountNumber">Número de cuenta</label>
-	                                    <input type="text" name="txtAccountNumber" id="txtAccountNumber">
+	                                    <input type="text" name="txtAccountNumber" id="txtAccountNumber" placeholder="xxxx xxxx xxxx xxxx">
 	                                </div>
 	                                <div class="input-field col s12 l4 m4">
 	                                    <label for="txtBankBalance">Saldo actual</label>
@@ -79,7 +86,8 @@
 	                            </div>`;
 	                    eWallet.toast('Ingresa los datos de las cuentas bancarias', 2, 'yellow darken-4');
 	                    eWallet.find('#mdlBalance .content .forms', 1).innerHTML = (accountsForm);
-	                    eWallet.updateTextFields();
+	                    eWallet.setInputs();
+						eWallet.updateTextFields();
 
 	                    eWallet.find('#btnSaveAccounts', 1).addEventListener('click', function(){
 	                        let forms = eWallet.find('.frmAccounts'), formsFlag = 0, dataAux = [];
@@ -95,8 +103,12 @@
 	                                        msg: "Ingrese un valor"
 	                                    },
 	                                    pattern: {
+	                                    	/*
+OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° de cuenta bancaria
+	                                    	*/
 	                                        value: /^\d{4}[ \-]\d{4}[ \-]\d{4}[ \-]\d{4}$/,
-	                                        msg: "Ingrese un´valor valido!"
+	                                    	// value: /^d{4}[ \-]\d{4}\$/
+	                                        msg: "Ingrese un valor valido!"
 	                                    }
 	                                },
 	                                txtBankBalance: {
@@ -105,15 +117,15 @@
 	                                    },
 	                                    pattern: {
 	                                        value: /^(\$?\d{1,3}(,?\d{3})?(\.\d\d?)?|\(\$?\d{1,3}(,?\d{3})?(\.\d\d?)?\))$/,
-	                                        msg: "Ingrese un´valor valido!"
+	                                        msg: "Ingrese un valor valido!"
 	                                    }
 	                                }
 	                            }, function(r){
 	                                if (r) {
 	                                    dataAux[i] = {
 	                                        bank: forms[i].txtBank.value,
-	                                        accountNumber: forms[i].txtAccountNumber.value,
-	                                        balance: forms[i].txtBankBalance.value,
+	                                        accountNumber: forms[i].txtAccountNumber.value.trim().split(' ').join('-'),
+	                                        balance: Number(forms[i].txtBankBalance.value),
 	                                    }
 	                                }
 	                            })
@@ -121,8 +133,9 @@
 	                        }
 	                        if (formsFlag) {
 	                            eWallet.UserData.accounts = dataAux;
-	                            eWallet.UserData.generalBalance = auxBalance;
+	                            eWallet.UserData.cash = Number(auxBalance);
 	                            eWallet.UserData.firstLogin = false;
+	                            eWallet.UserData.calcBalance();
 	                            eWallet.updateUserData(eWallet.UserData.email, eWallet.UserData);
 	                            mdlBalance.close();
 	                            eWallet.toast('Los datos han sido guardados con éxito!', 2, 'green darken-1');
@@ -143,8 +156,24 @@
 	        mdlBalance.open();
 	    }else{
 	        if (eWallet.find('.balance').length > 0) {
-	            eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance}`;
+	        	eWallet.find('.balance', 1).classList.add(`${eWallet.UserData.minBalance.color}-text`);
+	            eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance.toFixed(2)}`;
 	        }
 	    }
+
+	    let tbl = eWallet.find('#tblBalance', 1), balanceAux = 0;
+		if (eWallet.UserData.creditCards.length > 0) {
+			for(let i = 0; i < eWallet.UserData.creditCards.length; i++)
+				balanceAux += eWallet.UserData.creditCards[i].balance;
+	    }
+	    balanceAux = 0;
+	    tbl.eWallet.prepend(`<tr><th>Tarjetas de Crédito</th><td>$${balanceAux.toFixed(2)}</td></tr>`);
+	    if (eWallet.UserData.accounts.length > 0) {
+	    	for(let i = 0; i < eWallet.UserData.accounts.length; i++)
+	    		balanceAux += eWallet.UserData.accounts[i].balance;
+	    }
+	    tbl.eWallet.prepend(`<tr><th>Cuentas de Ahorro</th><td>$${balanceAux.toFixed(2)}</td></tr>`);
+	    tbl.eWallet.prepend(`<tr><th>Efectivo</th><td>$${eWallet.UserData.cash.toFixed(2)}</td></tr>`);
+		eWallet.find('#tdTotal h2', 1).innerHTML = "$" + eWallet.UserData.generalBalance.toFixed(2);
 	})
 })();

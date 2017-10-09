@@ -1,5 +1,5 @@
 /*!
-  * eWallet App v1
+  * eWallet App v2.2
   *
   * Authors: [Frank Esquivel, Leo López]
   *
@@ -16,6 +16,8 @@
 		//Directorio general del proyecto
 		eWallet.dir = 'public';
 
+		//Razones de pago para GASTOS
+		eWallet.reasons = "Pago de celular|Pago de luz eléctrica|Pago de agua|Pago de casa/alquiler|Pago de cable|Pago de internet|Pago de educación|Supermercado|Cine|Discoteca|Teatro|Ropa|Restaurante|Tecnología|Mascota|Gasolina|Reparaciones";
 	}
 })(window);
 
@@ -113,15 +115,87 @@ eWallet.updateTextFields = () => {
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
 	input_selector.forEach(i => {
 		eWallet.find(i).forEach(j => {
-			if (j.length !== 0) {
-				let jLabel = j.nextElementSibling === undefined || j.nextElementSibling === null ? j.previousElementSibling : j.nextElementSibling;
-				if (j.value.length !== 0 || j.getAttribute('placeholder') !== null) {
-					jLabel.classList.add("active");
+			let jLabel = j.nextElementSibling === undefined || j.nextElementSibling === null ? j.previousElementSibling : j.nextElementSibling;
+			if (i === input_selector[6]) {
+				jLabel.classList.add("active");
+			}else{
+				if (j.length !== 0) {
+					if (j.value.trim().length !== 0 || j.getAttribute('placeholder') !== null) {
+						jLabel.classList.add("active");
+					}else{
+						jLabel.classList.remove("active");
+					}
 				}
 			}
 		})
 	});
+};
+
+eWallet.setPayment = function(select, radios){
+	let accounts = eWallet.UserData.accounts.map(i => i),
+		creditCards = eWallet.UserData.creditCards.map(i => i);
+
+	radios.value = eWallet.UserData.defaultPayment.type;
+
+	if (eWallet.UserData.defaultPayment.type === "Cuenta de Ahorros") {
+		select.removeAttribute('disabled');
+		if (accounts.length > 0) {
+			accounts.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.accountNumber}]</option>`));
+		}
+	}else if(eWallet.UserData.defaultPayment.type === "Tarjeta de Crédito") {
+		select.removeAttribute('disabled');
+		if (creditCards.length > 0) {
+			creditCards.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.cardNumber}]</option>`));
+		}
+	}else if(eWallet.UserData.defaultPayment.type === "Efectivo") {
+		select.setAttribute('disabled', true);
+		select.innerHTML = `<option value="none" disabled selected>Seleccione una opción</option>`;
+	}
+
+	select.selectedIndex = eWallet.UserData.defaultPayment.relation + 1;
 }
+
+eWallet.defaultPayment = function(select, radios){
+	let accounts = eWallet.UserData.accounts.map(i => i),
+		creditCards = eWallet.UserData.creditCards.map(i => i),
+		radioFlag = radios.value === "";
+	select.innerHTML = "<option disabled selected value='none'>Seleccione una opción</option>";
+	if ((radios.value !== "" && radios.value === "Cuenta de Ahorros") || (radioFlag && eWallet.UserData.defaultPayment.type === "Cuenta de Ahorros")) {
+		radios[1].setAttribute('checked', true);
+		select.removeAttribute('disabled');
+		if (accounts.length > 0) {
+			accounts.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.accountNumber}]</option>`));
+			select.value = eWallet.UserData.defaultPayment.relation !== null ? eWallet.UserData.defaultPayment.relation : 'none';
+		}else{
+			eWallet.toast('No ha existen cuentas de ahorro para seleccionar!', 2, 'red darken-1');
+		}
+	}else if((radios.value !== "" && radios.value === "Tarjeta de Crédito") || (radioFlag && eWallet.UserData.defaultPayment.type === "Tarjeta de Crédito")) {
+		radios[2].setAttribute('checked', true);
+		select.removeAttribute('disabled');
+		if (creditCards.length > 0) {
+			creditCards.forEach((el, i) => select.eWallet.append(`<option value="${i}">${el.bank} [${el.cardNumber}]</option>`));
+			select.value = eWallet.UserData.defaultPayment.relation !== null ? eWallet.UserData.defaultPayment.relation : 'none';
+		}else{
+			eWallet.toast('No ha existen tarjetas de crédito para seleccionar!', 2, 'red darken-1');
+		}
+	}else if((radios.value !== "" && radios.value === "Efectivo") || (radioFlag && eWallet.UserData.defaultPayment.type === "Efectivo")) {
+		radios[0].setAttribute('checked', true);
+		select.setAttribute('disabled', true);
+	}
+};
+
+eWallet.setReasons = function(select){
+		select.innerHTML = (`<option value="none" disabled selected>Selecciona un motivo</option>`);
+		eWallet.reasons.split('|').forEach((el, i) => {
+			select.eWallet.append(`<option value="${el}">${el}</option>`);
+		})
+		if (eWallet.UserData.xtraReasons.length > 0) {
+			select.eWallet.append("<option disabled>Motivos personalizados</option>")
+			eWallet.UserData.xtraReasons.forEach((el, i) => {
+				select.eWallet.append(`<option value="${el}">${el}</option>`);
+			})
+		}
+};
 
 eWallet.on = function(el, evt, sel, handler) {
 	el.addEventListener(evt, function(event) {
@@ -202,16 +276,18 @@ eWallet.find = function(selector, index = false){
 eWallet.destroy = function(selector){
 	if (typeof selector !== "string" && !eWallet.isElement(selector)) return;
 
-	if (typeof selector === "string") {
-		let elements = eWallet.find(selector);
+	if (selector !== null) {
+		if (typeof selector === "string") {
+			let elements = eWallet.find(selector);
 
-		if (elements.length > 0) {
-			for (var i = 0; i < elements.length; i++) {
-				elements[i].parentNode.removeChild(elements[i]);
+			if (elements.length > 0) {
+				for (var i = 0; i < elements.length; i++) {
+					elements[i].parentNode.removeChild(elements[i]);
+				}
 			}
+		}else if(selector.parentNode !== null){
+			selector.parentNode.removeChild(selector);
 		}
-	}else{
-		selector.parentNode.removeChild(selector);
 	}
 };
 
@@ -220,6 +296,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	if (typeof msg !== "string") return;
 	var toast = eWallet.create('div', msg, {class: "toast"});
 
+	style = style.trim();
 	if (style.split(' ').length > 1) {
 		let cls = style.split(' ');
 		cls.forEach(c => toast.classList.add(c));
@@ -278,6 +355,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 		    }
 		    return -1;
 		}
+
 		VerifyLetter(char){
 		    for (let i = 0; i < this.letters.length; i++) {
 		        if (char == this.letters[i]) {
@@ -438,9 +516,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 			for (var i = 0; i < locationAux.length; i++) {
 				if (locationAux[i] !== "eWallet") newLocation += `${locationAux[i]}${locationAux[i + 1] === "eWallet" ? "" : "/"}`; else break;
 			}
-			// console.log(newLocation);
 			newLocation += hostFlag ? `eWallet/${eWallet.dir}/${appRoot}` : `${appRoot}/`;
-			// console.log(newLocation);
 			location.href = actualEnvironment === "server" ? appRoot : newLocation;
 		}else if (actualEnvironment === "server" && location.pathname === appRoot) {
 			if (hostFlag) {
@@ -470,6 +546,48 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 				eWallet.UserData = undefined;
 			}else{
 				eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true)), DecryptKey));
+				eWallet.UserData.calcBalance = function(){
+					let aux = 0;
+					if (this.accounts.length > 0) {
+						for (let i = 0; i < this.accounts.length; i++) {
+							aux += Number(this.accounts[i].balance);
+						}
+					}
+					if (this.creditCards.length > 0) {
+						for (let i = 0; i < this.creditCards.length; i++) {
+							aux += Number(this.creditCards[i].balance);
+						}
+					}
+					aux += Number(this.cash);
+					this.generalBalance = aux;
+				};
+
+				eWallet.UserData.setMinBalance = function(){
+					let auxEarn = 0, auxExp = 0, minResult = 0;
+					// if (this.earnings.length > 0) {
+					// 	for (let i = 0; i < this.earnings.length; i++) {
+					// 		auxEarn += Number(this.earnings[i].amount);
+					// 	}
+					// }
+					// if (this.expenses.length > 0) {
+					// 	for (let i = 0; i < this.expenses.length; i++) {
+					// 		auxExp += Number(this.expenses[i].amount);
+					// 	}
+					// }
+
+					minResult = auxEarn - auxExp;
+					console.log(minResult);
+					if (this.minBalance.value > (minResult * .5)) {
+						console.log('.5');
+						this.minBalance.color = "green";
+					}else if(this.minBalance.value > (minResult * .25) && this.minBalance.value <= (minResult * .5)){
+						console.log('.25');
+						this.minBalance.color = "yellow";
+					}else if(this.minBalance.value > (minResult * .05) && this.minBalance.value <= (minResult * .25)){
+						console.log('.05');
+						this.minBalance.color = "red";
+					}
+				}
 			}
 		}
 	}
@@ -491,6 +609,8 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 					sessionStorage.setItem(i, auxData[i]);
 				}
 			}
+
+			eWallet.setSessionData();
 		}
 	}
 })();
@@ -623,6 +743,48 @@ eWallet.menu = function(selector){
 	return MenuObj;		
 };
 
+eWallet.setMenu = function(dataset, container, handler){
+	var menuUl = eWallet.create('ul', '', {class: 'list-items'}),
+		rootFlag = location.protocol === "file:" ? location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === "index" ? 1 : 0 : location.pathname === "/user/";
+		rootAux = location.protocol === "file:" ? rootFlag ? "./index.html" : "../index.html" : "/user/",
+		menuCont = eWallet.create('div', '', {class: 'options-menu'}),
+		hrefAux = location.protocol === "file:" ? rootFlag ? "views/" : "./" : rootFlag ? "views/" : "";
+	for (let i = 0; i < dataset.length; i++) {
+		let listElement = "",
+			locationFlag;
+		if (dataset[i].subList === undefined) {
+			let item = dataset[i];
+			locationFlag = (location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === item.href);
+			listElement = eWallet.create('li', 
+				`<a href="${item.href === '../' ? i == 0 ? rootAux : "" : (`${hrefAux}${item.href}.html`)}"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a>`, 
+				{class: `item ${locationFlag ? 'active' : ''}`})
+
+		}else{
+			let listCont = eWallet.create('li', `<a class="item-menu"><i class="material-icons">${dataset[i].icon}</i><span>${dataset[i].name}</span></a>`, {class: 'item'}),
+				ulCont = eWallet.create('ul', '', {class: 'list-subitems'});
+			for (let j = 0; j < dataset[i].subList.length; j++) {
+				let item = dataset[i].subList[j];
+				locationFlag = (location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === item.href);
+				ulCont.eWallet.append(`<li class="sub-item ${locationFlag ? 'active' : ''}"><a href="${hrefAux + item.href}.html"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a></li>`);
+			
+				if (locationFlag) {
+					listCont.classList.add('active');
+					ulCont.classList.add('active');
+				}
+			}
+			listCont.appendChild(ulCont);
+			listElement = listCont;
+		}
+
+		menuUl.appendChild(listElement);
+	}
+	menuUl.eWallet.append(eWallet.create('li', '<a><i class="material-icons">close</i><span>Cerrar Sesión</span></a>', {id: 'btnUnLog', class: 'item'}))
+	menuCont.appendChild(menuUl);
+	container.appendChild(menuCont);
+
+	typeof handler === "function" ? handler() : "" ;
+};
+
 (function(){
 	//----------------------------------------------------------------------------------//
 	//																					//
@@ -643,7 +805,7 @@ eWallet.menu = function(selector){
 			for(el in options){
 				if (this.element[el] !== undefined) {
 					let condition, msg;
-					if (this.element[el] instanceof HTMLInputElement) {
+					if (this.element[el] instanceof HTMLInputElement || this.element[el][this.element[el].length - 1] instanceof HTMLInputElement) {
 						for(rule in options[el]){
 							msg = options[el][rule].msg;
 							let pattern = msg !== undefined ? options[el][rule].value : undefined;
@@ -668,8 +830,15 @@ eWallet.menu = function(selector){
 						}
 					}
 
-					condition ? f++ : "";
-					this.element[el].eWallet.validateInput(condition, msg);
+					if (this.element[el] instanceof RadioNodeList){
+						this.element[el].forEach((rdbEl, i) => {
+							rdbEl.getAttribute('disabled') === null && condition ? f++ : "";
+							rdbEl.getAttribute('disabled') === null ? rdbEl.eWallet.validateInput(condition, msg) : "";
+						});
+					}else{
+						this.element[el].getAttribute('disabled') === null && condition ? f++ : "";
+						this.element[el].eWallet.validateInput(condition, msg);
+					}
 				}else{
 					console.warn(`eValidate Warning: El elemento ${el} no existe en el DOM!`);
 				}
@@ -686,28 +855,96 @@ eWallet.menu = function(selector){
 
 	eWallet_Methods.prototype.validateInput = function(toogle, msg = undefined){
 		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
+		if (this.element.getAttribute('disabled') !== null) {
+			this.element.parentNode.classList.remove('invalid');
+			this.deleteMsg();
+			this.element.classList.remove('invalid');
+			return false;
+		}
 		if (this.element instanceof HTMLInputElement) {
 			toogle ? this.element.classList.add('invalid') : this.element.classList.remove('invalid');
 		}else if(this.element instanceof HTMLSelectElement){
 			toogle ? this.element.parentNode.classList.add('invalid') : this.element.parentNode.classList.remove('invalid');
 		}
 		// !toogle ? this.element.classList.add('valid') : this.element.classList.remove('valid');
-		msg !== undefined && toogle ? this.insertMsg(msg) : "";
+		// msg !== undefined ? (toogle ? (this.insertMsg(msg) : this.deleteMsg())) : (!toogle ? this.deleteMsg() : "");
+		msg !== undefined ? (toogle ? this.insertMsg(msg) : this.deleteMsg()) : (!toogle ? this.deleteMsg() : "");
 	};
+
+	eWallet_Methods.prototype.deleteMsg = function(){
+		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
+		let container = this.element.parentNode, msgEl = null;
+		if(this.element instanceof HTMLSelectElement){
+			container = this.element.parentNode.parentNode;
+		}else if(this.element instanceof HTMLInputElement){
+			switch(this.element.getAttribute('type')){
+				case "radio":
+					container = this.element.parentNode.parentNode;
+					break;
+				default:
+					container = this.element.parentNode;
+					break;
+			}
+		}
+
+		let childrens = container.children;
+		for (let i = 0; i < childrens.length; i++) {
+			if (childrens[i].getAttribute('validate_msg') !== null) {
+				msgEl = childrens[i]; break;
+			}
+		}
+		if (msgEl !== null) {
+			msgEl.eWallet.fadeOut(1, function(){
+				eWallet.destroy(msgEl);
+			})
+		}
+	}
 
 	eWallet_Methods.prototype.insertMsg = function(msg, toogle = 1){
 		if (!this.element instanceof HTMLInputElement || !this.element instanceof HTMLSelectElement) return false;
-		if (this.element.nextElementSibling === null) {
-			if(this.element instanceof HTMLSelectElement){
+		if(this.element instanceof HTMLSelectElement){
+			if (this.element.parentNode.nextElementSibling === null) {
 				this.element.parentNode.parentNode.appendChild(eWallet.create('div', msg, {
 					class: `msg ${toogle ? 'error' : 'success'}`,
-					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
+					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`,
+					validate_msg: true
 				}))
-			}else{
-				this.element.parentNode.appendChild(eWallet.create('div', msg, {
+			}
+		}else if(this.element instanceof HTMLInputElement){
+			let msgFlag = false, container = this.element.parentNode, 
+				msgEl = eWallet.create('div', msg, {
 					class: `msg ${toogle ? 'error' : 'success'}`,
-					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`
-				}))
+					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`,
+					validate_msg: true
+				});
+
+			switch(this.element.getAttribute('type')){
+				case "radio":
+					container = this.element.parentNode.parentNode;
+					break;
+				default:
+					container = this.element.parentNode;
+					break;
+			}
+			
+			let childrens = container.children;
+
+			for (let i = 0; i < childrens.length; i++) {
+				if (childrens[i].getAttribute('validate_msg') !== null) {
+					msgFlag = true; break;
+				}
+			}
+
+			if (!msgFlag) {
+				switch(this.element.getAttribute('type')){
+					case "radio":
+						toogle ? container.children[1].classList.add('invalid') : container.children[1].classList.remove('invalid');
+						container.eWallet.append(msgEl);
+						break;
+					default:
+						container.eWallet.append(msgEl);
+						break;
+				}
 			}
 		}
 	};
@@ -749,7 +986,7 @@ eWallet.menu = function(selector){
 		}
 	};
 
-	eWallet_Methods.prototype.fadeIn = function(time = 1){
+	eWallet_Methods.prototype.fadeIn = function(time = 1, handler){
 		if (this.element instanceof Element) {
 			let el = this.element, op = 0.1, timer;
 
@@ -762,10 +999,13 @@ eWallet.menu = function(selector){
 				el.style.filter = `alpha(opacity=${op * 100})`;
 				op += op * 0.1;
 			}, time);
+			setTimeout(function(){
+				typeof handler === "function" ? handler() : "";
+			}, time * 1000);
 		}
 	};
 
-	eWallet_Methods.prototype.fadeOut = function(time = 1){
+	eWallet_Methods.prototype.fadeOut = function(time = 1, handler){
 		if (this.element instanceof Element) {
 			let el = this.element, op = 1, timer;
 
@@ -778,6 +1018,9 @@ eWallet.menu = function(selector){
 				el.style.filter = `alpha(opacity=${op * 100})`;
 				op -= op * 0.1;
 			}, time);
+			setTimeout(function(){
+				typeof handler === "function" ? handler() : "";
+			}, time * 1000);
 		}
 	};
 
@@ -806,31 +1049,20 @@ eWallet.menu = function(selector){
 	//								Material Inputs Plugin								//
 	//																					//
 	//----------------------------------------------------------------------------------//
-	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=date], input[type=search], textarea'.split(',');
-	document.addEventListener('DOMContentLoaded', () => {
-		if(eWallet.checkSession()){
-			eWallet.setSessionData();
-			if ((location.pathname === "/eWallet/public/" && location.hostname !== "localhost") || (location.pathname === "/" && location.hostname === "localhost")) {
-				eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3')
-			}
-			setTimeout(function(){
-				eWallet.sessionLocation(true);
-			}, 2000)
-		}else{
-			eWallet.sessionLocation(false);
-		}
-
+	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea'.split(',');
+	
+	eWallet.setInputs = function(){
 		input_selector.forEach(i => {
 			let jLabel;
 			eWallet.find(i).forEach(j => {
 				if (j.length !== 0) {
-					eWallet.on(document, 'focusin', j.tagName, function(e){
+					eWallet.on(document, 'focusin', i, function(e){
 						let input = e.target, label = input.previousElementSibling;
 						// label = label !== null || !label instanceof HTMLLabelElement ? label : input.previousElementSibling;
 						label.classList.add("active");
 					})
 
-					eWallet.on(document, 'focusout', j.tagName, function(e){
+					eWallet.on(document, 'focusout', i, function(e){
 						let input = e.target, label = input.previousElementSibling;
 						// label = label === null || label instanceof HTMLLabelElement ? input.previousElementSibling : label;
 						if (input.value.length === 0 && input.getAttribute('placeholder') === null) {
@@ -840,9 +1072,23 @@ eWallet.menu = function(selector){
 				}
 			})
 		});
+	}
 
+	document.addEventListener('DOMContentLoaded', function() {
+		if(eWallet.checkSession()){
+			eWallet.setSessionData();
+			if ((location.pathname === "/eWallet/public/" && location.hostname !== "localhost" && location.protocol === "file:") || (location.pathname === "/" && (location.hostname === "localhost" || location.protocol !== "file:"))) {
+				eWallet.toast('Ya existe una sesión activa.<br><center>REDIRIGIENDO!</center>', 2, 'yellow darken-3')
+			}
+			setTimeout(function(){
+				eWallet.sessionLocation(true);
+			}, 2000)
+		}else{
+			eWallet.sessionLocation(false);
+		}
+
+		eWallet.setInputs();
 		eWallet.updateTextFields();
-		eWallet.slider('.slider');
 	})
 	//							END Material Inputs Plugin								//
 	//----------------------------------------------------------------------------------//

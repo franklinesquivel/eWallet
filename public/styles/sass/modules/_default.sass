@@ -5,6 +5,7 @@
 @import "./_slider.sass"
 @import "./_modal.sass"
 @import "./_toast.sass"
+@import "./_table.sass"
 
 @font-face 
     font-family: Lato;
@@ -19,6 +20,12 @@ $secondary_c: #C33764;
 	padding: 0
 	box-sizing: border-box
 
+::-webkit-datetime-edit-year-field:not([aria-valuenow]),
+::-webkit-datetime-edit-month-field:not([aria-valuenow]),
+::-webkit-datetime-edit-day-field:not([aria-valuenow])
+    color: transparent
+
+
 .center
 	text-align: center
 
@@ -26,6 +33,9 @@ h1, h2, h3, h4, h5, h6
 	color: $primary-color
 	&.sub
 		color: $secondary-color
+	&.error
+		padding: 20px 10px
+		color: color('red', 'darken-2')
 
 .button
 	flex: 1 1 auto

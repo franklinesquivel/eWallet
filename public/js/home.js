@@ -1,5 +1,22 @@
 (function(){
 	document.addEventListener('DOMContentLoaded', function(){
+		var valDate = function(date){
+			let today = new Date(),
+				valDate = new Date(date);
+
+			today.setMinutes(new Date().getMinutes() - new Date().getTimezoneOffset());
+			valDate.setMinutes(new Date(date).getMinutes() - new Date(date).getTimezoneOffset());
+
+			return valDate > today;
+		};
+
+		function getAge(date) {
+			let birthday = new Date(date),
+				ageDifMs = Date.now() - birthday.getTime(),
+				ageDate = new Date(ageDifMs);
+
+		    return Math.abs(ageDate.getUTCFullYear() - 1970);
+		};
 
 		var departments = [
 			{
@@ -81,6 +98,8 @@
 		frmLogin.onsubmit = function() {
 			return false;
 		}
+
+		eWallet.slider('.slider');
 
 		eWallet.on(document, 'click', '#btnRegister', function(){
 			frmRegister.eWallet.validate({
@@ -186,6 +205,14 @@
 				"txtDate": {
 					"required": {
 						"msg": "Ingrese un valor!"
+					},
+					"condition": {
+						"value": valDate(frmRegister.txtDate.value),
+						"msg": "Ingrese una fecha que no sea mayor a la actual!"
+					},
+					condition: {
+						value: getAge(frmRegister.txtDate.value) >= 18,
+						msg: "Debes ser mayor de edad para utilizar nuestra plataforma"
 					}
 				}
 			}, function(r){
@@ -210,7 +237,23 @@
 						nit: frmRegister.txtNit.value,
 						phone: frmRegister.txtTel.value,
 						birthdate: frmRegister.txtDate.value,
-						firstLogin: true
+						firstLogin: true,
+						xtraReasons: [],
+						generalBalance: 0,
+						cash: 0,
+						accounts: [],
+						creditCards: [],
+						defaultPayment: {
+							type: "Efectivo",
+							relation: "none"
+						},
+						expenses: [],
+						earnings: [],
+						minBalance: {
+							value: 0,
+							status: null,
+							color: null
+						}
 					}, function(f){
 						let msg = (f ? 'El usuario ha sido registrado éxitosamente!' : 'Ha ocurrido un error!');
 						eWallet.toast(msg, 2, `${f ? 'green' : 'red'} darken-1`);
@@ -223,7 +266,7 @@
 					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
 				}
 			})
-		})
+		});
 
 		eWallet.on(document, 'click', '#btnLog', function(){
 			frmLogin.eWallet.validate({
@@ -258,7 +301,7 @@
 					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
 				}
 			})
-		})
+		});
 
 		var bodyFlag = 0, mdl = eWallet.modal('.modal');
 		window.addEventListener("scroll", function(){viewMenu();});
@@ -278,7 +321,7 @@
 			`;
 
 			frmPassword.onsubmit = function(){return false};
-		})
+		});
 
 		eWallet.on(document, 'click', '#btnRecoverPassword', function(){
 			frmPassword.eWallet.validate({
@@ -354,7 +397,8 @@
 					eWallet.toast('Ingrese los datos solicitados!', 2, 'red darken-1');
 				}
 			})
-		})
+		});
+
 		function viewMenu(){
 			if(!bodyFlag){
 				if(window.pageYOffset > 0){
@@ -366,7 +410,7 @@
 					}
 				}
 			}
-		}
+		};
 
 		document.querySelector('main').appendChild(document.querySelector('.container-bodys'));//Carga Inicial
 		
@@ -394,7 +438,7 @@
 				bodyFlag = 0;
 				viewMenu();
 			}
-		}
+		};
 
 		document.querySelector('#mdlLogin .close').addEventListener('click', function(){
 			mdl.close();
@@ -404,5 +448,5 @@
 			document.querySelector('.container-arrow').classList.add("active");	
 			switchForms(1);
 		});
-	})
-})()
+	});
+})();

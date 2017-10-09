@@ -1,6 +1,6 @@
 {
 	"name": "eWallet",
-	"version": "2.0.0",
+	"version": "2.2.0",
 	"description": "Aplicación Front-End que ayudará a diferentes usuarios a llevar un récord histórico de sus ingresos y sus gastos.",
 	"main": "app.js",
 	"scripts": {

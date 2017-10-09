@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
     rel="stylesheet">
     <script src="../js/eWallet.js"></script>
-    <script src="../js/userInit.js"></script>
-    <script src="../js/userHome.js"></script>
+    <script src="../js/user/init.js"></script>
+    <script src="../js/user/home.js"></script>
 </head>
 <body>
     <div class="menu-wraper" id="mainMenu">
@@ -21,46 +21,7 @@
                 eWallet
             </div>
         </div>
-        <div class="menu-items">    
-            <!-- <div class="user-data">
-                
-            </div> -->
-            <div class="options-menu">
-                <ul class="list-items">
-                    <li class="item active"><a><i class="material-icons">home</i><span>Inicio</span></a></li>
-                    <li class="item">
-                        <a class="item-menu"><i class="material-icons">monetization_on</i><span>Cuentas</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="views/viewAccounts.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="views/addAccounts.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item">
-                        <a class="item-menu"><i class="material-icons">attach_money</i><span>Ingresos</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="views/viewEarnings.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="views/addEarnings.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item">
-                        <a class="item-menu"><i class="material-icons">money_off</i><span>Gastos</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="views/viewExpenses.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="views/addExpenses.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item">
-                        <a class="item-menu"><i class="material-icons">credit_card</i><span>Tarjetas</span></a>
-                        <ul class="list-subitems">
-                            <li class="sub-item"><a href="views/viewCard.html"><i class="material-icons">visibility</i><span>Ver</span></a></li>
-                            <li class="sub-item"><a href="views/addCard.html"><i class="material-icons">add</i><span>Agregar</span></a></li>
-                        </ul>
-                    </li>
-                    <li class="item"><a href="views/statistics.html"><i class="material-icons">graphic_eq</i><span>Estadísticas</span></a></li>
-                    <li class="item"><a href="views/setting.html"><i class="material-icons">settings</i><span>Configuración</span></a></li>
-                    <li class="item" id="btnUnLog"><a><i class="material-icons">cancel</i><span>Cerrar Sesión</span></a></li>
-               </ul>
-            </div>
+        <div class="menu-items">
         </div>
     </div>
     <div class="content-wraper">
@@ -76,8 +37,19 @@
         </div>
         <main>
             <br>
-            <h1 class="center">Tu balance general es</h1><br>
-            <h2 class="center sub balance">$0.00</h2>
+            <div class="gnrlBalance">
+                <h1 class="center">Tu balance general es</h1><br>
+                <h2 class="center sub balance">$0.00</h2>
+            </div>
+            
+            <div class="row">
+                <table class="col s10 m8 l8 offset-l2 offset-m2 offset-s1" id="tblBalance">
+                    <tr>
+                        <th class="sub">Total</th>
+                        <td id="tdTotal"><h2>$0.00</h2></td>
+                    </tr>
+                </table>
+            </div>
         </main>
     </div>
 </body>
