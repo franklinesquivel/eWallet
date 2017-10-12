@@ -3191,6 +3191,8 @@ body {
       width: 90%; }
   .content-wraper main {
     width: 100%; }
+  .content-wraper canvas {
+    transform: translate(0%, -10%); }
 
 @media only screen and (max-width: 993px) {
   .menu-wraper {

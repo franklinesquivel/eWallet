@@ -12,6 +12,8 @@
     rel="stylesheet">
     <script src="../../js/eWallet.js"></script>
     <script src="../../js/user/init.js"></script>
+    <script src="../../js/user/chart.js"></script>
+    <script src="../../js/user/stadistics.js"></script>
 </head>
 <body>
     <div class="menu-wraper" id="mainMenu">
@@ -36,6 +38,54 @@
         </div>
             
         <main>
+            <div class="row">
+                <form name="frmData">
+                    <div class="input-field radio col s10 m10 l10 offset-s1 offset-m1 offset-l1">
+                        <center>
+                            <label class="radio-label">Selecciona el tipo de estadística</label>
+                            <div>
+                                <input type="radio" id="rdbEarnVSExp" name="rdbType" value="1">
+                                <label for="rdbEarnVSExp">Ingresos  VS Gastos</label>
+                                <input type="radio" id="rdbEarnings" name="rdbType" value="2">
+                                <label for="rdbEarnings">Ingresos</label>
+                                <input type="radio" id="rdbExpenses" name="rdbType" value="3">
+                                <label for="rdbExpenses">Gastos</label>
+                            </div>
+                        </center> 
+                    </div>
+                    <div class="input-field radio col s10 m5 l5 offset-s1 offset-m1 offset-l1">
+                        <label class="radio-label">Selecciona el período de tiempo</label>
+                        <div>
+                            <input type="radio" id="rdbMonth" name="rdbPeriod" value="M">
+                            <label for="rdbMonth">Mensual</label><br>
+                            <input type="radio" id="rdbYear" name="rdbPeriod" value="Y">
+                            <label for="rdbYear">Anual</label><br>
+                            <input type="radio" id="rdbCustom" name="rdbPeriod" value="P">
+                            <label for="rdbCustom">Período personalizado</label>
+                        </div>
+                    </div>
+                    <div class="input-field col s10 m5 l5 offset-s1" id="data-field">
+                        <div class="div" id="dates">
+                            <div class="input-field">
+                                <label for="txtPeriod_1">Fecha Inicial</label>
+                                <input type="date" id="txtPeriod_1" name="txtPeriod_1" class="txtPeriod">
+                            </div>
+                            <div class="input-field">
+                                <label for="txtPeriod_2">Fecha Final</label>
+                                <input type="date" id="txtPeriod_2" name="txtPeriod_2" class="txtPeriod">
+                            </div>
+                        </div>
+                        <div class="input-field col s12" id="combo">
+                            <label for="cmbPeriod" class="select-label">Valor del período</label>
+                            <div class="slct-field">
+                                <select id="cmbPeriod" name="cmbPeriod" disabled>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <canvas></canvas>
         </main>
     </div>
     

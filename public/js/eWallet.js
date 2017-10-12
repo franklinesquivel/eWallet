@@ -1,5 +1,5 @@
 /*!
-  * eWallet App v2.2
+  * eWallet App v3.0
   *
   * Authors: [Frank Esquivel, Leo López]
   *
@@ -547,7 +547,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 			}else{
 				eWallet.UserData = JSON.parse(eWallet.encryptation.Decrypt(eWallet.getLocalData(eWallet.checkSession(null, true)), DecryptKey));
 				eWallet.UserData.calcBalance = function(){
-					let aux = 0;
+					let aux = 0, auxEarn = 0, auxExp = 0;
 					if (this.accounts.length > 0) {
 						for (let i = 0; i < this.accounts.length; i++) {
 							aux += Number(this.accounts[i].balance);
@@ -558,34 +558,33 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 							aux += Number(this.creditCards[i].balance);
 						}
 					}
+					if (this.earnings.length > 0) {
+						for (let i = 0; i < this.earnings.length; i++) {
+							auxEarn += Number(this.earnings[i].amount);
+						}
+					}
+					if (this.expenses.length > 0) {
+						for (let i = 0; i < this.expenses.length; i++) {
+							auxExp += Number(this.expenses[i].amount);
+						}
+					}
+
 					aux += Number(this.cash);
 					this.generalBalance = aux;
+					this.totalEarnings = auxEarn;
+					this.totalExpenses = auxExp;
 				};
 
 				eWallet.UserData.setMinBalance = function(){
-					let auxEarn = 0, auxExp = 0, minResult = 0;
-					// if (this.earnings.length > 0) {
-					// 	for (let i = 0; i < this.earnings.length; i++) {
-					// 		auxEarn += Number(this.earnings[i].amount);
-					// 	}
-					// }
-					// if (this.expenses.length > 0) {
-					// 	for (let i = 0; i < this.expenses.length; i++) {
-					// 		auxExp += Number(this.expenses[i].amount);
-					// 	}
-					// }
 
-					minResult = auxEarn - auxExp;
-					console.log(minResult);
-					if (this.minBalance.value > (minResult * .5)) {
-						console.log('.5');
-						this.minBalance.color = "green";
-					}else if(this.minBalance.value > (minResult * .25) && this.minBalance.value <= (minResult * .5)){
-						console.log('.25');
-						this.minBalance.color = "yellow";
-					}else if(this.minBalance.value > (minResult * .05) && this.minBalance.value <= (minResult * .25)){
-						console.log('.05');
-						this.minBalance.color = "red";
+					if (this.generalBalance > (this.minBalance.value * .5)) {
+						this.minBalance.color = "green-text";
+					}else if(this.generalBalance > (this.minBalance.value * .25) && this.generalBalance <= (this.minBalance.value * .5)){
+						this.minBalance.color = "yellow-text text-darken-3";
+					}else if(this.generalBalance > (this.minBalance.value * .05) && this.generalBalance <= (this.minBalance.value * .25)){
+						this.minBalance.color = "red-text";
+					}else{
+						this.minBalance.color = null;
 					}
 				}
 			}
@@ -1073,6 +1072,8 @@ eWallet.setMenu = function(dataset, container, handler){
 			})
 		});
 	}
+	//							END Material Inputs Plugin								//
+	//----------------------------------------------------------------------------------//
 
 	document.addEventListener('DOMContentLoaded', function() {
 		if(eWallet.checkSession()){
@@ -1090,6 +1091,4 @@ eWallet.setMenu = function(dataset, container, handler){
 		eWallet.setInputs();
 		eWallet.updateTextFields();
 	})
-	//							END Material Inputs Plugin								//
-	//----------------------------------------------------------------------------------//
 })();

@@ -155,8 +155,9 @@ OBSERVACIÓN: La validación actual es para tarjetas de crédito y no para N° d
 
 	        mdlBalance.open();
 	    }else{
+	    	eWallet.UserData.calcBalance();
 	        if (eWallet.find('.balance').length > 0) {
-	        	eWallet.find('.balance', 1).classList.add(`${eWallet.UserData.minBalance.color}-text`);
+	        	eWallet.find('.balance', 1).className += (` ${eWallet.UserData.minBalance.color !== null ? eWallet.UserData.minBalance.color : ''}`);
 	            eWallet.find('.balance', 1).innerHTML = `$${eWallet.UserData.generalBalance.toFixed(2)}`;
 	        }
 	    }

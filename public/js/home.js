@@ -248,7 +248,9 @@
 							relation: "none"
 						},
 						expenses: [],
+						totalExpenses: 0,
 						earnings: [],
+						totalEarnings: 0,
 						minBalance: {
 							value: 0,
 							status: null,
