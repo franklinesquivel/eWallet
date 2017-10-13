@@ -744,7 +744,7 @@ eWallet.menu = function(selector){
 
 eWallet.setMenu = function(dataset, container, handler){
 	var menuUl = eWallet.create('ul', '', {class: 'list-items'}),
-		rootFlag = location.protocol === "file:" ? location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === "index" ? 1 : 0 : location.pathname === "/user/" || location.pathname === "eWallet/public/user/";
+		rootFlag = location.protocol === "file:" ? location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === "index" ? 1 : 0 : location.pathname === "/user/" || location.pathname === "/eWallet/public/user/";
 		rootAux = location.protocol === "file:" ? rootFlag ? "./index.html" : "../index.html" : "/user/",
 		menuCont = eWallet.create('div', '', {class: 'options-menu'}),
 		hrefAux = location.protocol === "file:" ? rootFlag ? "views/" : "./" : rootFlag ? "views/" : "";
