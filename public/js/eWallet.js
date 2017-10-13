@@ -441,6 +441,32 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 		localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset), DecryptKey));
 	};
 
+	eWallet.retrieveForm = function(email, mdl){
+		let user = eWallet.encryptation.Decrypt(eWallet.getLocalData(email), DecryptKey);
+		user = JSON.parse(user);
+
+		mdl.innerHTML = `
+		<h3 class="center">Responde la siguiente pregunta para recuperar tu contraseña</h3>
+		<h4 class="center sub">${user.securityQuestion.question}</h4>
+		<br/>
+		<form name="frmPassword" class="row">
+			<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
+				<label for="txtAnswer">Respuesta</label>
+				<input type="text" id="txtAnswer">
+			</div>
+			<div class="row col l3 offset-l5 m6 offset-m3 s8 offset-s2">
+				<button id="btnShowPassword" class="button skew-fill">recuperar contraseña</button>
+			</div>
+		</form>`;
+	}
+
+	eWallet.retrievePassword = function(email, answer){
+		let user = eWallet.encryptation.Decrypt(eWallet.getLocalData(email), DecryptKey);
+		user = JSON.parse(user);
+
+		return user.securityQuestion.answer === answer ? user.password : false;
+	}
+
 	eWallet.getLocalData = function(key){
 		if (typeof key !== "string" || !eWallet.dataFlag) return false;
 		if (localStorage.length > 0){

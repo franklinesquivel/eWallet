@@ -336,22 +336,9 @@
 			}, function(r){
 				if (r) {
 					if (eWallet.getLocalData(frmPassword.txtEmail.value) !== false) {
-						let userData = eWallet.encryptation.Decrypt(eWallet.getLocalData(frmPassword.txtEmail.value));
-						userData = JSON.parse(userData);
+						let auxEmail = frmPassword.txtEmail.value
 
-						eWallet.find('.modal .content', 1).innerHTML = `
-						<h3 class="center">Responde la siguiente pregunta para recuperar tu contraseña</h3>
-						<h4 class="center sub">${userData.securityQuestion.question}</h4>
-						<br/>
-						<form name="frmPassword" class="row">
-							<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
-								<label for="txtAnswer">Respuesta</label>
-								<input type="text" id="txtAnswer">
-							</div>
-							<div class="row col l3 offset-l5 m6 offset-m3 s8 offset-s2">
-								<button id="btnShowPassword" class="button skew-fill">recuperar contraseña</button>
-							</div>
-						</form>`;
+						eWallet.retrieveForm(auxEmail, eWallet.find('.modal .content', 1));
 						frmPassword.onsubmit = function(){return false};
 
 						eWallet.on(document, 'click', '#btnShowPassword', function(){
@@ -361,16 +348,16 @@
 										msg: "Ingresa un valor válido!"
 									}
 								}
-							}, function(r){
-								if (r) {
-									if (frmPassword.txtAnswer.value === userData.securityQuestion.answer) {
-										eWallet.toast(userData.password, 10, 'green darken-1');
+							}, function(f){
+								if (f) {
+									if (eWallet.retrievePassword(auxEmail, frmPassword.txtAnswer.value) !== false) {
+										eWallet.toast(eWallet.retrievePassword(auxEmail, frmPassword.txtAnswer.value), 10, 'green darken-1');
 
 										eWallet.find('.modal .content', 1).innerHTML = `
 										<form name="frmLogin" class="row">
 											<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
 												<label for="txtEmail">Correo Electrónico</label>
-												<input type="text" id="txtEmail" value="${userData.email}">
+												<input type="text" id="txtEmail" value="${auxEmail}">
 											</div>
 											<div class="input-field col s12 l6 m6 offset-l3 offset-m3">
 												<label for="txtPassword">Contraseña</label>
