@@ -1,5 +1,5 @@
 function genChart(canvas, dataset){
-
+	// console.log(dataset);
 	const c = canvas.getContext('2d');
 
 	var cWidth = eWallet.find("main", 1).offsetWidth - 20,
@@ -13,7 +13,7 @@ function genChart(canvas, dataset){
 	dataset.length = dataset.values.length;
 	dataset.max = Math.max(...dataset.values);
 
-	if (dataset.max === 0) {
+	if ((dataset.max === 0 && dataset.length > 1) || (dataset.length === 0)) {
 		c.font = "20px sans-serif";
 		c.fillStyle = "#e74c3c";
 		c.textAlign = "center";

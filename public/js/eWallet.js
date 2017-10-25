@@ -469,6 +469,10 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 
 	eWallet.getLocalData = function(key){
 		if (typeof key !== "string" || !eWallet.dataFlag) return false;
+		if(localStorage.length === 0) {
+			console.warn(`eWallet Error: No hay registros en el LocalStorage`);
+			return false
+		};
 		if (localStorage.length > 0){
 			return localStorage.getItem(key) !== null ? localStorage.getItem(key) : false;
 		}
@@ -476,6 +480,10 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 
 	eWallet.getSessionData = function(key){
 		if (typeof key !== "string" || !eWallet.dataFlag) return false;
+		if(sessionStorage.length === 0) {
+			console.warn(`eWallet Error: No hay registros en el SessionStorage`);
+			return false
+		};
 		if (sessionStorage.length > 0){
 			return sessionStorage.getItem(key) !== null ? sessionStorage.getItem(key) : false;
 		}
