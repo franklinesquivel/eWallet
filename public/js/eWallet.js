@@ -303,7 +303,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	}else if (style.trim() !== ""){
 		toast.classList.add(style);
 	}
-	
+
 	toast.style.animation = `toast-animation ${time}s ease-in`;
 	document.querySelector('body').appendChild(toast);
 
@@ -326,7 +326,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	//----------------------------------------------------------------------------------//
 	//																					//
 	//						**** eWallet Encryptation ****								//
-	//																					//			
+	//																					//
 	//	 					- Version: 1.1												//
 	//	 					- author: Leo López											//
 	//	 					- adaptation: Frank Esquivel								//
@@ -436,7 +436,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 			console.error("eWallet Error: Parámetro inválido en el registro de usuario!");
 			return;
 		}
-		
+
 		handler(true);
 		localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset), DecryptKey));
 	};
@@ -521,7 +521,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 
 	eWallet.checkSession = function(user = null, keyFlag = false){
 		let emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-		
+
 		if (user === null) {
 			for(i in sessionStorage){
 				if (emailPattern.test(i) && sessionStorage[i] === "true") {
@@ -628,7 +628,7 @@ eWallet.toast = function(msg, time = 2, style = 'grey darken-3'){
 	eWallet.updateUserData = function(previousId, dataset){
 		if (eWallet.checkSession(previousId)) {
 			localStorage.setItem(dataset.email, eWallet.encryptation.Encrypt(JSON.stringify(dataset), DecryptKey));
-			
+
 			if (previousId !== dataset.email) {
 				let auxData;
 
@@ -698,7 +698,7 @@ eWallet.newSlider = function(element, time = 3000){
 
 eWallet.modal = function(selector){
 	let element = eWallet.find(selector);
-	
+
 	if (element.length > 1){
 		console.error('eWallet Error: Se quiere instaciar más de un elemento como modal, favor hacerlo individual');
 		return;
@@ -739,7 +739,7 @@ eWallet.modal = function(selector){
 
 eWallet.menu = function(selector){
 	let element = eWallet.find(selector);
-	
+
 	if (element.length > 1){
 		console.error('eWallet Error: Se quiere instaciar más de un elemento como menu, favor hacerlo individual');
 		return;
@@ -755,7 +755,7 @@ eWallet.menu = function(selector){
 		console.error('eWallet Error: El parámetro no es un elemento válido para instaciar un menu!');
 		return;
 	}
-	
+
 	const MenuObj = new Menu(element);
 	if (_id !== null && triggers.length !== 0){
 		triggers.forEach(trigger => trigger.addEventListener('click', function(){MenuObj.open()}));
@@ -773,7 +773,7 @@ eWallet.menu = function(selector){
 		}
 	})
 
-	return MenuObj;		
+	return MenuObj;
 };
 
 eWallet.setMenu = function(dataset, container, handler){
@@ -788,8 +788,8 @@ eWallet.setMenu = function(dataset, container, handler){
 		if (dataset[i].subList === undefined) {
 			let item = dataset[i];
 			locationFlag = (location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === item.href);
-			listElement = eWallet.create('li', 
-				`<a href="${item.href === '../' ? i == 0 ? rootAux : "" : (`${hrefAux}${item.href}.html`)}"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a>`, 
+			listElement = eWallet.create('li',
+				`<a href="${item.href === '../' ? i == 0 ? rootAux : "" : (`${hrefAux}${item.href}.html`)}"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a>`,
 				{class: `item ${locationFlag ? 'active' : ''}`})
 
 		}else{
@@ -799,7 +799,7 @@ eWallet.setMenu = function(dataset, container, handler){
 				let item = dataset[i].subList[j];
 				locationFlag = (location.pathname.split('/')[location.pathname.split('/').length - 1].split('.')[0] === item.href);
 				ulCont.eWallet.append(`<li class="sub-item ${locationFlag ? 'active' : ''}"><a href="${hrefAux + item.href}.html"><i class="material-icons">${item.icon}</i><span>${item.name}</span></a></li>`);
-			
+
 				if (locationFlag) {
 					listCont.classList.add('active');
 					ulCont.classList.add('active');
@@ -822,7 +822,7 @@ eWallet.setMenu = function(dataset, container, handler){
 	//----------------------------------------------------------------------------------//
 	//																					//
 	//						**** eWallet DOM Methods ****								//
-	//																					//			
+	//																					//
 	//	 					- Version: 1.1												//
 	//	 					- author: Franklin Esquivel									//
 	//																					//
@@ -832,7 +832,7 @@ eWallet.setMenu = function(dataset, container, handler){
 	};
 
 	eWallet_Methods.prototype.validate = function(dataset, handler = null) {
-		if (!this.element instanceof HTMLFormElement) return false; 
+		if (!this.element instanceof HTMLFormElement) return false;
 		if (typeof dataset === "object") {
 			let f = 0, options = dataset;
 			for(el in options){
@@ -944,7 +944,7 @@ eWallet.setMenu = function(dataset, container, handler){
 				}))
 			}
 		}else if(this.element instanceof HTMLInputElement){
-			let msgFlag = false, container = this.element.parentNode, 
+			let msgFlag = false, container = this.element.parentNode,
 				msgEl = eWallet.create('div', msg, {
 					class: `msg ${toogle ? 'error' : 'success'}`,
 					id: `${this.element.getAttribute('name')}-${toogle ? 'error' : 'success'}`,
@@ -959,7 +959,7 @@ eWallet.setMenu = function(dataset, container, handler){
 					container = this.element.parentNode;
 					break;
 			}
-			
+
 			let childrens = container.children;
 
 			for (let i = 0; i < childrens.length; i++) {
@@ -1067,7 +1067,7 @@ eWallet.setMenu = function(dataset, container, handler){
 			Object.defineProperty(this, "eWallet", {
 				value: new eWallet_Methods(this)
 			});
-			
+
 			return this.eWallet;
 		},
 		configurable: true,
@@ -1075,7 +1075,7 @@ eWallet.setMenu = function(dataset, container, handler){
 	});
 	//							END eWallet DOM Methods									//
 	//----------------------------------------------------------------------------------//
-	
+
 
 	//----------------------------------------------------------------------------------//
 	//																					//
@@ -1083,7 +1083,7 @@ eWallet.setMenu = function(dataset, container, handler){
 	//																					//
 	//----------------------------------------------------------------------------------//
 	const input_selector = 'input[type=text], input[type=password], input[type=email], input[type=url], input[type=tel], input[type=number], input[type=search], textarea'.split(',');
-	
+
 	eWallet.setInputs = function(){
 		input_selector.forEach(i => {
 			let jLabel;
